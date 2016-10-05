@@ -17,20 +17,18 @@
     <div class="container">
       <!-- left list of button in the navigation bar -->
       <div class="nav navbar-nav navbar-left">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn navbar-btn btn-default">
-            <span class="glyphicon glyphicon-home"></span>
-            Home
-          </button>
-          <button type="button" class="btn navbar-btn btn-default">
-            <span class="glyphicon glyphicon-book"></span>
-            Academic
-          </button>
-          <button type="button" class="btn navbar-btn btn-default">
-            <span class="glyphicon glyphicon-tags"></span>
-            Servers
-          </button>
-        </div>
+        <ul class="nav nav-pills">
+            <li class="active">
+              <a href="#"><span class="glyphicon glyphicon-book"></span>
+                Academic
+              </a>
+            </li>
+            <li>
+              <a href="#"><span class="glyphicon glyphicon-tags"></span>
+                Servers
+              </a>
+            </li>
+          </ul>
       </div>
       <!-- container that contains list of right algin elements -->
       <div class="nav navbar-nav navbar-right">
@@ -52,6 +50,7 @@
             <button type="button" class="btn navbar-btn btn-default">
               <span class="glyphicon glyphicon-envelope"></span>
               Notifications
+              <span class="badge">2</span>
             </button>
             <button type="button" class="btn navbar-btn btn-default">
                 <span class="glyphicon glyphicon-edit"></span>
@@ -82,10 +81,203 @@
   <div class="container">
   <div class="row">
     <!-- left whiteSpace -->
-    <div class="col-md-3">Column Left</div>
-    <!-- main feed -->
-    <div class="col-md-6">Main feed</div>
-    <div class="col-md-3">Column Right</div>
+    <div class="col-md-9">
+      <!-- row contains cross button -->
+      <div class="row">
+        <div class="col-md-12">
+          <span class="glyphicon glyphicon-th-list"></span>
+          Newest Requests
+        </div>
+      </div>
+      <hr>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <!-- the row contains user and post description -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="media">
+                <div class="media-left media-top">
+                  <img class="media-object img-rounded" src="img/jucong_back.jpg" width="64" height="64">
+                </div>
+                <div class="media-body">
+                  Form Category: Computer Science
+                  <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                  <br> <a href="#">Oh god! CS311 homework is too hard! PlZZZ help</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- the row contains help request -->
+          <div class="row">
+            <div class="col-md-12">
+              You are consulting for a trucking company that does a large amount
+               of business shipping packages between New York and Boston.
+               The volume is high enough that they have to send a number of trucks
+               each day between the two locations. Trucks have a fixed limit W on
+               the maximum amount of weight they are allowed to carry. Boxes arrive
+               at the New York station one by one, and each package i has a weight
+               wi. The trucking station is quite small, so at most one truck can be
+               at the station at any time. Company policy requires that boxes are ...
+              <a href="#">Show more</a>
+            </div>
+          </div>
+          <hr>
+          <!-- the row contains status icons -->
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-inline">
+                <li>
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <a href="#">25 Views</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                  <a href="#">Share</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-heart-empty"></span>
+                  <a href="#">Save</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                  <a href="#">Like</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="media">
+                <div class="media-left media-top">
+                  <img class="media-object img-rounded" src="img/jucong_profile.jpeg" width="64" height="64">
+                </div>
+                <div class="media-body">
+                  Form Category: Computer Science
+                  <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                  <br> <a href="#">Urgen help for CS 250</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row feed_with_img">
+            <div class="col-md-4">
+              <img class="img-rounded" src="img/cat.jpeg" width="100%" height="112"/>
+            </div>
+            <div class="col-md-8">
+              Each of A, B, C is either a knight (always tells the truth) or a
+              knave (always lies). Suppose that A says, “I am the only knight
+              or the only knave,” B says, “There is exactly one knave,” and C
+              says “Exactly one of A and B is a knight.” Use truth tables to
+              determine who is who.
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-inline">
+                <li>
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <a href="#">25 Views</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                  <a href="#">Share</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-heart-empty"></span>
+                  <a href="#">Save</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                  <a href="#">Like</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="media">
+                <div class="media-left media-top">
+                  <img class="media-object img-rounded" src="img/jucong_profile.jpeg" width="64" height="64">
+                </div>
+                <div class="media-body">
+                  Form Category: Language
+                  <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                  <br> <a href="#">Can any Chinese native speaker help me translate it ?! I can help you with your English</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row feed_with_img">
+            <div class="col-md-4">
+              <img class="img-rounded" src="img/question_img.jpeg" width="100%" height="112"/>
+            </div>
+            <div class="col-md-8">
+              长歌行
+              <br>青青园中葵，朝露待日晞。
+              <br>阳春布德泽，万物生光辉。
+              <br>常恐秋节至，焜黄华叶衰。
+              <br>百川东到海，何时复西归?
+              <br>少壮不努力，老大徒伤悲
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-inline">
+                <li>
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <a href="#">25 Views</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                  <a href="#">Share</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-heart-empty"></span>
+                  <a href="#">Save</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                  <a href="#">Like</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="media">
+                    <div class="media-left">
+                      <span class="glyphicon glyphicon-sunglasses"></span>
+                    </div>
+                    <div class="media-body">
+                      Recommendation
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
