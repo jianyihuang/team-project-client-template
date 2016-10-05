@@ -9,6 +9,7 @@
     <title>ExSer</title>
     <!-- Bootstrap's CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/detail_page.css" rel="stylesheet">
 </head>
 <body>
   <!-- navigation bar -->
@@ -16,20 +17,20 @@
     <div class="container">
       <!-- left list of button in the navigation bar -->
       <div class="nav navbar-nav navbar-left">
-        <ul class="navbar-brand list-inline">
-          <li>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn navbar-btn btn-default">
             <span class="glyphicon glyphicon-home"></span>
             Home
-          </li>
-          <li>
+          </button>
+          <button type="button" class="btn navbar-btn btn-default">
             <span class="glyphicon glyphicon-book"></span>
             Academic
-          </li>
-          <li>
+          </button>
+          <button type="button" class="btn navbar-btn btn-default">
             <span class="glyphicon glyphicon-tags"></span>
             Servers
-          </li>
-        </ul>
+          </button>
+        </div>
       </div>
       <!-- container that contains list of right algin elements -->
       <div class="nav navbar-nav navbar-right">
@@ -54,10 +55,22 @@
             </button>
             <button type="button" class="btn navbar-btn btn-default">
                 <span class="glyphicon glyphicon-edit"></span>
-                Tweet
+                Write a Request
+            </button>
+            <button type="button" class="btn navbar-btn btn-default dropdown-toggle "
+                  data-toggle="dropdown">
+                  User
+            <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-              <li><a href="#"><span class="glyphicon glyphicon-user">User</span></a>
+              <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>
+                  My Request</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-cog"></span>
+                  Settings</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-off"></span>
+                  Log off</a>
               </li>
             </ul>
           </div>
@@ -65,7 +78,16 @@
       </div>
     </div>
   </nav>
-  <!-- tweet area -->
+  <!-- feed area -->
+  <div class="container">
+  <div class="row">
+    <!-- left whiteSpace -->
+    <div class="col-md-3">Column Left</div>
+    <!-- main feed -->
+    <div class="col-md-6">Main feed</div>
+    <div class="col-md-3">Column Right</div>
+  </div>
+  </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below),
