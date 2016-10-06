@@ -10,45 +10,77 @@
 	<title>Message</title>
 </head>
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">				
-				<a href="#" class="navbar-brand">ExServ</a>
-			</div>
-			<ul class="nav navbar-nav nav-left">
-				<li><a href="#">Academic</a></li>
-				<li><a href="#">Service</a></li>
-			</ul>			
-			<form class="navbar-form navbar-right">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search for service">
-					<span class="input-group-btn">
-						<button type="submit" class="btn btn-default">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>
-					</span>
-				</div>
-				<div class="btn-group">
-					<button class="btn btn-default">
-						<span class="glyphicon glyphicon-user"></span>
-						User
-					</button>
-					<button class="btn btn-default">
-						<span class="glyphicon glyphicon glyphicon-comment"></span>
-						Messages
-					</button>
-					<button class="btn btn-default">
-						<span class="glyphicon glyphicon glyphicon-list-alt"></span>
-						Schedules
-					</button>					
-				</div>				
-				<button class="btn btn-default">
-					<span class="glyphicon glyphicon glyphicon-cog"></span>
-					Settings
-				</button>		
-			</form>
-		</div>
-	</nav>
+	<nav class="navbar navbar-fixed-top navbar-default">
+    <a class="navbar-brand" href="#"> ExServ</a>
+    <div class="container">
+      <!-- left list of button in the navigation bar -->
+      <div class="nav navbar-nav navbar-left">
+        <ul class="nav nav-pills">
+            <li class="active">
+              <a href="#"><span class="glyphicon glyphicon-book"></span>
+                Academic
+              </a>
+            </li>
+            <li>
+              <a href="#"><span class="glyphicon glyphicon-tags"></span>
+                Service
+              </a>
+            </li>
+          </ul>
+      </div>
+      <!-- container that contains list of right algin elements -->
+      <div class="nav navbar-nav navbar-right">
+        <!-- Search areas in the navigation bar -->
+        <form class="navbar-form navbar-left" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control exSer-search" placeholder="Search for service">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+        <!-- two buttons -->
+        <div class="nav navbar-nav">
+          <!-- picture button -->
+          <div class="btn-group" role="group">
+            <button type="button" class="btn navbar-btn btn-default">
+              <span class="glyphicon glyphicon-envelope"></span>
+              Notifications
+              <span class="badge">2</span>
+            </button>
+            <button type="button" class="btn navbar-btn btn-default">
+                <span class="glyphicon glyphicon-edit"></span>
+                Write a Request
+            </button>
+            <button type="button" class="btn navbar-btn btn-default dropdown-toggle "
+                  data-toggle="dropdown">
+                  User
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#"><span class="glyphicon glyphicon-user"></span>
+                  Profile</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>
+                  My Request</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-calendar"></span>
+                  My schedule</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-cog"></span>
+                  Settings</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-off"></span>
+                  Log off</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 	<div class="container content">
 		<div class="row">
 			<div class="col-xs-2">
@@ -65,22 +97,22 @@
 				<div class="row">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h4><span class="glyphicon glyphicon-book"></span>Recent contacts</h4>
+							<h4><span class="glyphicon glyphicon-book"></span> Recent contacts</h4>
 						</div>
 						<div class="panel-body">
 							<ul class="media-list recent-contact">
 								<li class="media">
 									<div class="media-left">
-										<img class="media-object" src="img/pug.jpg">
+										<img class="media-object img-rounded" src="img/pug.jpg">
 									</div>
 									<div class="media-body">
-										<h4 class="media-heading">JianYi</h4>										
+										<h4 class="media-heading">JianYi</h4>
 									</div>
 								</li>
 								<hr>
 								<li class="media">
 									<div class="media-left">
-										<img class="media-object" src="img/pug.jpg">
+										<img class="media-object img-rounded" src="img/pug.jpg">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Xin</h4>
@@ -89,7 +121,7 @@
 								<hr>
 								<li class="media">
 									<div class="media-left">
-										<img class="media-object" src="img/cat.jpeg">
+										<img class="media-object img-rounded" src="img/cat.jpeg">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Timurphy</h4>
@@ -98,7 +130,7 @@
 								<hr>
 								<li class="media">
 									<div class="media-left">
-										<img class="media-object" src="img/pug.jpg">
+										<img class="media-object img-rounded" src="img/pug.jpg">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Thien</h4>
@@ -107,7 +139,7 @@
 								<hr>
 								<li class="media">
 									<div class="media-left">
-										<img class="media-object" src="img/cat.jpeg">
+										<img class="media-object img-rounded" src="img/cat.jpeg">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Jucong</h4>
@@ -116,7 +148,7 @@
 								<hr>
 								<li class="media">
 									<div class="media-left">
-										<img class="media-object" src="img/cat.jpeg">
+										<img class="media-object img-rounded" src="img/cat.jpeg">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Karen</h4>
@@ -135,7 +167,7 @@
 						<ul class="media-list chat-box">
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/cat.jpeg"></img>
+									<img class="media-object img-rounded" src="img/cat.jpeg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Karen</h4>
@@ -147,7 +179,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/pug.jpg"></img>
+									<img class="media-object img-rounded" src="img/pug.jpg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Timurphy</h4>
@@ -159,7 +191,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/cat.jpeg"></img>
+									<img class="media-object img-rounded" src="img/cat.jpeg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Jucong</h4>
@@ -174,7 +206,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/cat.jpeg"></img>
+									<img class="media-object img-rounded" src="img/cat.jpeg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Thien</h4>
@@ -186,7 +218,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/cat.jpeg"></img>
+									<img class="media-object img-rounded" src="img/cat.jpeg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Jucong</h4>
@@ -200,7 +232,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/pug.jpg"></img>
+									<img class="media-object img-rounded" src="img/pug.jpg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Thien</h4>
@@ -212,7 +244,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/pug.jpg"></img>
+									<img class="media-object img-rounded" src="img/pug.jpg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Jucong</h4>
@@ -227,7 +259,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/cat.jpeg"></img>
+									<img class="media-object img-rounded" src="img/cat.jpeg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">JianYi</h4>
@@ -242,7 +274,7 @@
 							</li>
 							<li class="media">
 								<div class="media-left">
-									<img class="media-object" src="img/cat.jpeg"></img>
+									<img class="media-object img-rounded" src="img/cat.jpeg"></img>
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Xin</h4>
@@ -255,28 +287,31 @@
 									<p>4:03pm</p>
 								</div>
 							</li>
-						</ul>							
-					</div>	
+						</ul>
+					</div>
 					<div class="panel-footer">
 						<textarea placeholder="Enter text to reply"></textarea>
 						<div>
 							<div class="btn-toolbar">
 								<div class="input-group">
-									<button class="form-control btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>Send</button>
+									<button class="form-control btn btn-primary">
+										<span class="glyphicon glyphicon-pencil"></span>
+										Send
+									</button>
 									<span class="input-group-addon">
 										<input type="checkbox" name="enter_send">
 										Press Enter to send.
 									</span>
-									<div class="btn-group pull-right">
+									<div class="btn-group pull-right footer-btn">
 										<button class="btn btn-default"><span class="glyphicon glyphicon-file"></span>Add File</button>
-										<button class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span>Add Appointment</button>		
+										<button class="btn btn-default"><span class="glyphicon glyphicon-calendar"></span>Add Appointment</button>
 									</div>
 								</div>
 
 							</div>
 						</div>
-					</div>								
-				</div>				
+					</div>
+				</div>
 			</div>
 
 			<div class="col-xs-2">
