@@ -1,5 +1,5 @@
 body {
-  padding: 60px;
+  padding-top: 80px;
   background-color:#EEEEEE;
 }
 
@@ -95,4 +95,10 @@ body {
 .btn-space {
   padding-right: 200px;
   padding-left: 20px;
+}
+
+.panel {
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
 }
