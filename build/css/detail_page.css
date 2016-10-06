@@ -23,6 +23,8 @@ body {
 
 .navbar {
   background-color: #90CAF9;
+  border-bottom: none;
+  box-shadow: 0px 2px 5px #90A4AE;
 }
 
 .navbar button {
@@ -56,6 +58,17 @@ body {
 .navbar-default .navbar-brand{
   color: #BBDEFB;
 }
+
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+  color: black;
+  background-color: azure;
+}
+
+.nav-pills>li.active>a {
+  background-color: #BBDEFB;
+}
+
 .catergory_status {
   font-weight: bolder;
   margin-bottom: 10px;
@@ -89,14 +102,10 @@ body {
 
 .panel-body {
   padding-bottom: 0px;
+  box-shadow: 0px 2px 5px #90A4AE;
 }
 
-
-.nav-pills>li.active>a:focus,
-.nav-pills>li.active>a:hover {
-  color: black;
-  background-color: azure;
-}
-.nav-pills>li.active>a {
-  background-color: #BBDEFB;
+.list-group {
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px #90A4AE;
 }
