@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head;
+         any other head content must come *after* these tags -->
+    <title>ExServ</title>
+    <!-- Bootstrap's CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/service_detail_page.css" rel="stylesheet">
+</head>
+<body>
+  <!-- navigation bar -->
+  <nav class="navbar navbar-fixed-top navbar-default">
+    <a class="navbar-brand"href="#"> ExServ</a>
+    <div class="container">
+      <!-- left list of button in the navigation bar -->
+      <div class="nav navbar-nav navbar-left">
+        <ul class="nav nav-pills">
+            <li>
+              <a href="#"><span class="glyphicon glyphicon-book"></span>
+                Academic
+              </a>
+            </li>
+            <li class="active">
+              <a href="#"><span class="glyphicon glyphicon-tags"></span>
+                Service
+              </a>
+            </li>
+          </ul>
+      </div>
+      <!-- container that contains list of right algin elements -->
+      <div class="nav navbar-nav navbar-right">
+        <!-- Search areas in the navigation bar -->
+        <form class="navbar-form navbar-left" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control exSer-search" placeholder="Search for service">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+        <!-- two buttons -->
+        <div class="nav navbar-nav">
+          <!-- picture button -->
+          <div class="btn-group" role="group">
+            <button type="button" class="btn navbar-btn btn-default">
+              <span class="glyphicon glyphicon-envelope"></span>
+              Notifications
+              <span class="badge">10</span>
+            </button>
+            <button type="button" class="btn navbar-btn btn-default">
+                <span class="glyphicon glyphicon-edit"></span>
+                Write a Request
+            </button>
+            <button type="button" class="btn navbar-btn btn-default dropdown-toggle "
+                  data-toggle="dropdown">
+                  User
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>
+                  My Request</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-cog"></span>
+                  Settings</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-off"></span>
+                  Log off</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- feed area -->
+  <div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <!-- row contains cross button -->
+      <div class="row">
+        <div class="col-md-12 catergory_status">
+          <span class="glyphicon glyphicon-th-list"></span>
+          Newest Requests
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <!-- the row contains user and post description -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="media">
+                <div class="media-left media-top">
+                  <img class="media-object img-rounded" src="img/jucong_back.jpg" width="64" height="64">
+                </div>
+                <div class="media-body">
+                  Form Category: Travel Related
+                  <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                  <br> <a href="#">Any one at New York City now?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- the row contains help request -->
+          <div class="row">
+            <div class="col-md-12 text-feed">
+              If any one Going back from New York City today, can you help me buy
+              a Yankee Cap? I can help you grap something from New Hampshire that you
+              want or pay the resonable price.
+            </div>
+          </div>
+          <hr>
+          <!-- the row contains status icons -->
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-inline icon-status">
+                <li>
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <a href="#">25 Views</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                  <a href="#">Share</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-heart-empty"></span>
+                  <a href="#">Save</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                  <a href="#">Like</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="media">
+                <div class="media-left media-top">
+                  <img class="media-object img-rounded" src="img/jucong_profile.jpeg" width="64" height="64">
+                </div>
+                <div class="media-body">
+                  Form Category: Home Service
+                  <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                  <br> <a href="#">OMG! my toilet just stuck! Any plumber around here? I can cook you a meal</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row feed_with_img">
+            <div class="col-md-4">
+              <img class="img-rounded" src="img/toilet_stuck.jpg" width="100%" height="112"/>
+            </div>
+            <div class="col-md-8 text-feed">
+              As a highly skilled Executive Chef, I read your posting for a new
+              Executive Chef with interest. My experience aligns well with the
+              qualifications you are seeking at Matthieu's Famille Restaurant,
+              in particular my role as an Executive Chef at Chez Friso, and I
+              am certain I would make a valuable addition to your organization.
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-inline icon-status">
+                <li>
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <a href="#">25 Views</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                  <a href="#">Share</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-heart-empty"></span>
+                  <a href="#">Save</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                  <a href="#">Like</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="media">
+                <div class="media-left media-top">
+                  <img class="media-object img-rounded" src="img/jucong_profile.jpeg" width="64" height="64">
+                </div>
+                <div class="media-body">
+                  Form Category: Pet related
+                  <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                  <br> <a href="#">Any one have time to help me take care of my dog a day?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row feed_with_img">
+            <div class="col-md-4">
+              <img class="img-rounded" src="img/dog.jpg" width="100%" height="112"/>
+            </div>
+            <div class="col-md-8 text-feed">
+              I am out of town today. I can pay you for the time you help me take
+              care of my dog or I can help you take care of your pet next time.
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-inline icon-status">
+                <li>
+                  <span class="glyphicon glyphicon-eye-open"></span>
+                  <a href="#">25 Views</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-share-alt"></span>
+                  <a href="#">Share</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-heart-empty"></span>
+                  <a href="#">Save</a>
+                </li>
+                <li>
+                  <span class="glyphicon glyphicon-thumbs-up"></span>
+                  <a href="#">Like</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- recommendation-->
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-12 catergory_status">
+                  <span class="glyphicon glyphicon-sunglasses"></span>
+                  Recommendation
+                </div>
+              </div>
+            </div>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                <h5 class="list-group-item-heading">Need Someone take care of my yard</h5>
+                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <h5 class="list-group-item-heading">Slove snow for Thanksgiving meal?</h5>
+                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <h5 class="list-group-item-heading">Dozen of beer for a bottle of wine?</h5>
+                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <h5 class="list-group-item-heading">Need someone to walke my dog</h5>
+                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+              </a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below),
+         or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
