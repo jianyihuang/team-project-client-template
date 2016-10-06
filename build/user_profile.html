@@ -9,36 +9,39 @@
     <title>User Profile</title>
 
     <!-- Bootstrap's CSS -->
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/user-profile.css"  rel="stylesheet">
+
+
   </head>
   <body>
     <!-- All of your HTML will go between here.... -->
 
     <nav class="navbar navbar-fixed-top navbar-default">
+      <a class="navbar-brand" href="#"> ExServ</a>
       <div class="container">
         <!-- left list of button in the navigation bar -->
         <div class="nav navbar-nav navbar-left">
-          <ul class="navbar-brand list-inline">
-            <li>
-              <span class="glyphicon glyphicon-home"></span>
-              Home
-            </li>
-            <li>
-              <span class="glyphicon glyphicon-book"></span>
-              Academic
-            </li>
-            <li>
-              <span class="glyphicon glyphicon-tags"></span>
-              Service
-            </li>
-          </ul>
+          <ul class="nav nav-pills">
+              <li>
+                <a href="#"><span class="glyphicon glyphicon-book"></span>
+                  Academic
+                </a>
+              </li>
+              <li>
+                <a href="#"><span class="glyphicon glyphicon-tags"></span>
+                  Service
+                </a>
+              </li>
+            </ul>
         </div>
         <!-- container that contains list of right algin elements -->
         <div class="nav navbar-nav navbar-right">
           <!-- Search areas in the navigation bar -->
           <form class="navbar-form navbar-left" role="search">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for service">
+              <input type="text" class="form-control exSer-search" placeholder="Search for service">
               <span class="input-group-btn">
                 <button type="submit" class="btn btn-default">
                   <span class="glyphicon glyphicon-search"></span>
@@ -51,20 +54,31 @@
             <!-- picture button -->
             <div class="btn-group" role="group">
               <button type="button" class="btn navbar-btn btn-default">
-                <span class="glyphicon glyphicon-user"></span>
-                  User
-                </button>
-              <button type="button" class="btn navbar-btn btn-default">
                 <span class="glyphicon glyphicon-envelope"></span>
                 Notifications
+                <span class="badge">2</span>
               </button>
               <button type="button" class="btn navbar-btn btn-default">
                   <span class="glyphicon glyphicon-edit"></span>
-                  Tweet
+                  Write a Request
               </button>
-              <!-- add hamburger dropdown menu -->
+              <button type="button" class="btn navbar-btn btn-default dropdown-toggle "
+                    data-toggle="dropdown">
+                    User
+              <span class="caret"></span>
+              </button>
               <ul class="dropdown-menu">
-                <li><a href="#"><span class="glyphicon glyphicon-user">User</span></a>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span>
+                    My profile</a>
+                </li>
+                <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>
+                    My Request</a>
+                </li>
+                <li><a href="#"><span class="glyphicon glyphicon-cog"></span>
+                    Settings</a>
+                </li>
+                <li><a href="#"><span class="glyphicon glyphicon-off"></span>
+                    Log off</a>
                 </li>
               </ul>
             </div>
@@ -74,23 +88,126 @@
     </nav>
 
 
-<div class="container">
-  <div class="row">
+    <div class="container content">
+    		<div class="row">
+          <!-- left whitespace -->
+    			<div class="col-md-3">
+    			</div>
 
-    <!-- whitespace on left-->
-    <div class="col-md-3">
+    			<div class="col-md-6">
+            <div class="panel panel-default">
+              <div class="panel-body">
+
+
+            <div class="row">
+              <div class="col-md-3">
+              </div>
+              <!-- profile picture -->
+              <div class="col-md-6">
+                <div class="additionalPadding">
+                  <div class="profile-pic">
+                <img src="img/student.jpg" alt="profile-pic" class="img-thumbnail img-responsive profile-pic-size"/>
+                <span class="glyphicon glyphicon-camera"></span>
+                </div>
+              </div>
+              </div>
+            <div class="col-md-3">
+            </div>
+          </div>
+
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Nickname</label>
+              <div class="col-md-7">
+                <input class="form-control" id="nameInput" type="text" placeholder="What would you like to be called?">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Academic Level</label>
+              <div class="col-md-5">
+                <input class="form-control" id="yearInput" type="text" placeholder="What level are you?">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Academic Institution</label>
+              <div class="col-md-7">
+                <input class="form-control" id="schoolInput" type="text" placeholder="What school do you go to?">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Favorite Quote</label>
+              <div class="col-md-7">
+                <input class="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Interested Subjects</label>
+              <div class="col-md-7">
+
+<!--
+                <form class="form-inline">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" value="">Math
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" value="">Music
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" value="">Biology
+                    </label>
+                    <button type="button" class="btn btn-default btn-sm">More
+                      <span class="glyphicon glyphicon-option-horizontal"></span>
+                    </button>
+                  </form>
+-->
+
+
+                <form class="form-horizontal">
+                  <div class="form-group">
+                  <form class="form-inline">
+                      <label class="checkbox-inline">
+                        <input type="checkbox" value="">Math
+                      </label>
+                      <label class="checkbox-inline">
+                        <input type="checkbox" value="">Music
+                      </label>
+                      <label class="checkbox-inline">
+                        <input type="checkbox" value="">Biology
+                      </label>
+                    </form>
+                  </div>
+                    <div class="form-group">
+                    <button type="button" class="btn btn-default btn-sm">More
+                      <span class="glyphicon glyphicon-option-horizontal"></span>
+                    </button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-primary">
+              Save
+            <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <button type="button" class="btn btn-primary">
+              Cancel
+            <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            </div>
+
+
+          </form>
+      </div>
     </div>
-
-    <!-- Profile content in here -->
-    <div class="col-md-6">
-    </div>
-
-    <!-- whitespace on right -->
-    <div class="col-md-3">
-    </div>
-
   </div>
-</div>
+
+          <!-- right whitespace -->
+    			<div class="col-md-3">
+    			</div>
+
+    		</div>
+    	</div>
 
     <!-- ...and here. -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
