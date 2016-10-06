@@ -56,7 +56,7 @@ body {
 }
 
 .navbar-default .navbar-brand{
-  color: #BBDEFB;
+  color: #EEEEEE;
 }
 
 .nav-pills>li.active>a:focus,
@@ -66,7 +66,7 @@ body {
 }
 
 .nav-pills>li.active>a {
-  background-color: #BBDEFB;
+  background-color: #EEEEEE;
 }
 
 .catergory_status {
@@ -102,10 +102,17 @@ body {
 
 .panel-body {
   padding-bottom: 0px;
-  box-shadow: 0px 2px 5px #90A4AE;
 }
 
+.panel {
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
+}
 .list-group {
   border-radius: 10px;
-  box-shadow: 0px 2px 5px #90A4AE;
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
+  border-radius: 10px;
 }

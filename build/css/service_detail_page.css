@@ -25,7 +25,7 @@ body {
 .navbar {
   background-color: #E0E0E0;
   border-bottom: none;
-  box-shadow: 0px 1px 5px #90A4AE;
+  box-shadow: 0px 0px 15px #90A4AE;
 }
 
 /*all buttons in the navigation bar*/
@@ -109,10 +109,18 @@ body {
 
 .panel-body {
   padding-bottom: 0px;
-  box-shadow: 0px 2px 5px #90A4AE;
+
+}
+
+.panel {
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
 }
 
 .list-group {
   border-radius: 10px;
-  box-shadow: 0px 2px 5px #90A4AE;
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
 }
