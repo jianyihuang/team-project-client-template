@@ -1,6 +1,6 @@
 body {
   padding-top: 80px;
-  background-color:#E3F2FD;
+  background-color:#EEEEEE;
 }
 
 .exSer-search {
@@ -21,41 +21,49 @@ body {
   color: #90A4AE;
 }
 
+/* navigation bar background color*/
 .navbar {
-  background-color: #90CAF9;
+  background-color: #E0E0E0;
 }
 
+/*all buttons in the navigation bar*/
 .navbar button {
   border-radius: 80px;
   border: none;
 }
 
+/*left most two pill in the navigation bar*/
 .nav .nav-pills {
   padding-top: 5px;
 }
 
+/*text inside the pills of navigation bar*/
 .nav .nav-pills > li > a {
   color: black;
 }
 
+/*badge of notification*/
 .navbar .badge {
   background-color: transparent;
   color: black;
 }
 
 
+/*when button click hover in navigtaion bar*/
 .navbar button:hover,
 .navbar button:focus,
 .nav-pills >li > a:hover,
 .nav-pills >li > a:focus,
 .list-group > a:hover,
-.dropdown-menu > li > a:hover {
-  background-color: azure;
+.list-group > a:hover{
+  background-color: #EFEBE9;
 }
 
+/*Name of the website*/
 .navbar-default .navbar-brand{
-  color: #BBDEFB;
+  color: #B0BEC5;
 }
+
 .catergory_status {
   font-weight: bolder;
   margin-bottom: 10px;
@@ -74,8 +82,8 @@ body {
 .media-body > a {
   font-weight: bold;
   font-family: Verdana, Geneva, sans-serif;
+  color: #039BE5;
   font-size: 14px;
-  color: #039BE5
 }
 
 .media-body > a > span {
@@ -95,8 +103,8 @@ body {
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover {
   color: black;
-  background-color: azure;
+  background-color: #EFEBE9;
 }
 .nav-pills>li.active>a {
-  background-color: #BBDEFB;
+  background-color: #EFEBE9;
 }
