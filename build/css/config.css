@@ -63,13 +63,16 @@ body {
 }
 
 .panel-color{
-  background-color: #E6E6FA;
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
 }
 
 .button-style{
-  background-color: cornflowerblue;
-  color:white;
-  border-radius: 12px;
+  background-color: #eee;
+  color: #555;
+  border-radius: 5px;
+  border: none;
 }
 
 .input-style{
