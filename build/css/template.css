@@ -1,3 +1,56 @@
-.content {
-	padding-top: 70px;
+body {
+  padding-top: 80px;
+  background-color:#E3F2FD;
+}
+
+.exSer-search {
+  border-radius: 50px;
+  border-right: none;
+}
+.navbar {
+  background-color: #90CAF9;
+  border-bottom: none;
+  box-shadow: 0px 2px 5px #90A4AE;
+}
+
+.navbar button {
+  border-radius: 80px;
+  border: none;
+}
+
+.nav .nav-pills {
+  padding-top: 5px;
+}
+
+.nav .nav-pills > li > a {
+  color: black;
+}
+
+.navbar .badge {
+  background-color: transparent;
+  color: black;
+}
+
+
+.navbar button:hover,
+.navbar button:focus,
+.nav-pills >li > a:hover,
+.nav-pills >li > a:focus,
+.list-group > a:hover,
+.dropdown-menu > li > a:hover {
+  background-color: azure;
+}
+
+.navbar-default .navbar-brand{
+  color: #EEEEEE;
+}
+
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+  color: black;
+  background-color: azure;
+}
+
+.nav-pills>li.active>a {
+  background-color: #EEEEEE;
 }
