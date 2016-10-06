@@ -1,7 +1,83 @@
 body {
   padding-top: 80px;
+  background-color:#E3F2FD;
 }
 
+.exSer-search {
+  border-radius: 50px;
+  border-right: none;
+}
 .feed_with_img {
   padding-top: 10px;
+}
+
+.list-group-item-heading {
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: bolder;
+}
+
+.list-group-item-text {
+  font-style: italic;
+  color: lightslategray
+}
+
+.navbar {
+  background-color: #90CAF9;
+}
+
+.navbar button {
+  border-radius: 80px;
+  border: none;
+}
+
+.nav .nav-pills {
+  padding-top: 5px;
+}
+
+.nav .nav-pills > li > a {
+  color: black;
+}
+
+.navbar .badge {
+  background-color: transparent;
+  color: black;
+}
+
+
+.navbar button:hover,
+.navbar button:focus,
+.nav-pills >li > a:hover,
+.nav-pills >li > a:focus,
+.list-group > a:hover{
+  background-color: azure;
+}
+
+.catergory_status {
+  font-weight: bolder;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.text-feed {
+  color: lightslategray
+}
+
+.media-body {
+  color: lightslategray;
+  font-size: 12px;
+}
+
+.media-body > a {
+  font-weight: bold;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 14px;
+}
+
+.icon-status > li > a,
+.icon-status > li > span{
+  color: lightslategray;
+}
+
+.panel-body {
+  padding-bottom: 0px;
 }
