@@ -1,6 +1,6 @@
 body {
   padding-top: 80px;
-  background-color:#E3F2FD;
+  background-color:#EEEEEE;
 }
 
 .exSer-search {
@@ -9,9 +9,9 @@ body {
 }
 /* navigation bar background color*/
 .navbar {
-  background-color: #90CAF9;
+  background-color: #E0E0E0;
   border-bottom: none;
-  box-shadow: 0px 2px 5px #90A4AE;
+  box-shadow: 0px 0px 15px #90A4AE;
 }
 
 /*all buttons in the navigation bar*/
@@ -43,25 +43,24 @@ body {
 .nav-pills >li > a:hover,
 .nav-pills >li > a:focus,
 .list-group > a:hover,
-.dropdown-menu > li > a:hover {
-  background-color: azure;
+.list-group > a:hover{
+  background-color: #EFEBE9;
 }
 
 /*Name of the website*/
 .navbar-default .navbar-brand{
-  color: #EEEEEE;
+  color: #B0BEC5;
 }
 
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover {
   color: black;
-  background-color: azure;
+  background-color: #EFEBE9;
 }
 
 .nav-pills>li.active>a {
-  background-color: azure;
+  background-color: #EFEBE9;
 }
-
 
 .panel-body >a > img:hover {
   -webkit-box-shadow: 0px 0px 30px 0px #757575;
