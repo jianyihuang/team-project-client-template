@@ -93,3 +93,10 @@ text-align: center;
 .nav-pills>li.active>a {
   background-color: #EFEBE9;
 }
+
+.panel {
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
+  border-radius: 10px;
+}
