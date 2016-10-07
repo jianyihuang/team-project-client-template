@@ -1,0 +1,32 @@
+.content {
+	padding-top: 70px;
+}
+
+.tab-title {
+font-weight: bold;
+font-size: 18px;
+color: #424242;
+text-align: center;
+}
+
+.tab-subject{
+  font-weight: bold;
+  font-size: 18px;
+  color: #424242;
+}
+
+.topTab{
+  background-color: #CFD8DC;
+}
+
+.taken-by{
+  font-weight: bold;
+  font-size: 16px;
+  color: #90A4AE;
+}
+
+
+.regular-text{
+  font-size: 14px;
+  color: #90A4AE;
+}
