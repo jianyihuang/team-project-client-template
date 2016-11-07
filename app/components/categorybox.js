@@ -1,4 +1,5 @@
 import React from 'react';
+
 export default class CategoryBox extends React.Component {
   render() {
     return(
