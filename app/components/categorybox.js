@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router';
 export default class CategoryBox extends React.Component {
   render() {
     return(
@@ -9,7 +9,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Computer Science</h5>
-                  <a href="#"><img src="img/cmpSci.jpeg"/></a>
+                  <Link to="/acedemicdetail"><img src="img/cmpSci.jpeg"/></Link>
               </div>
             </div>
           </div>
@@ -17,7 +17,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Math</h5>
-                <a href="#"><img src="img/math.jpg"/></a>
+                <Link to="/acedemicdetail"><img src="img/math.jpg"/></Link>
               </div>
             </div>
           </div>
@@ -25,7 +25,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Physics</h5>
-                <a href="#"><img src="img/physics.jpeg"/></a>
+                <Link to="/acedemicdetail"><img src="img/physics.jpeg"/></Link>
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Music</h5>
-                <a href="#"><img src="img/music.jpg"/></a>
+                <Link to="/acedemicdetail"><img src="img/music.jpg"/></Link>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Histroy</h5>
-                <a href="#"><img src="img/history.jpg"/></a>
+                <Link to="/acedemicdetail"><img src="img/history.jpg"/></Link>
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">English</h5>
-                <a href="#"><img src="img/english.jpg"/></a>
+                <Link to="/acedemicdetail"><img src="img/english.jpg"/></Link>
               </div>
             </div>
           </div>
