@@ -6,6 +6,185 @@ var startupName = "exSer";
 
 // Put your mock objects here, as in Workshop 4
 var initialData = {
+  "users":{
+    "1":{
+      "_id":1,
+      "first_name":[],
+      "last_name":[],
+      "username":[],
+      "password":[],
+      "email":[],
+      "favorite_quote":[],
+      "areas_of_interest":[],
+      "classes_taken":[],
+      "education_level":[],
+      //start of references
+      "feed":[],
+      "comments":[],
+      "likeLists":[],
+      "tasks":[],
+      "messages":[],
+      "messageboxes":[],
+      //start of embedded
+      "schedules":{
+        "_id":[],
+        "list_of_tasks":[]
+      },
+      "savedlists":{
+        "_id":[],
+        "list_of_feeditems":[]
+      }
+    }
+  },
+  "tasks":{
+    "1":{
+    "_id":[],
+    "timestamp_start":[],
+    "timestamp_end":[],
+    "content":[],
+    //start of references
+    "schedules":[]
+    }
+  },
+  "schedules":{
+    "1":{
+    "_id":[],
+    "list_of_tasks":[]
+    }
+  },
+  "messages":{
+    "1":{
+      "_id":[],
+      "time_stamp":[],
+      "content":[],
+      //start of embedded
+      "messageboxes":{
+        "_id":[],
+        "list_of_users":[],
+        "list_of_messages_by_users_in_box":[]
+      }
+    }
+  },
+  "messageboxes":{
+    "1":{
+      "_id":[],
+      "list_of_users":[],
+      "list_of_messages_by_users_in_box":[]
+    }
+  },
+  "feeds":{
+    "1":{
+      "_id":[],
+      "list_of_feeditems":[],
+      //start of embedding
+      "academicfeeds":{
+        "_id":[],
+        "list_of_feeditems":[]
+      },
+      "servicefeeds":{
+        "_id":[],
+        "list_of_feeditems":[]
+      }
+    }
+  },
+  "academicfeeds":{
+    "1":{
+      "_id":[],
+      "list_of_feeditems":[],
+      // start of references
+      "classes":[],
+      "feeditems":[]
+    }
+  },
+  "classes":{
+    "1":{
+      "_id":[],
+      "course_id":[],
+      "course_title":[]
+    }
+  },
+  "savedlists":{
+    "1":{
+      "_id":[],
+      "list_of_feeditems":[],
+      //start of references
+      "feeditems":[]
+    }
+
+  },
+  "feeditems":{
+    "1":{
+      "_id":[],
+      "content":[],
+      "timestamp":[],
+      "view_count":[],
+      "tag":[]
+    }
+  },
+  "servicefeeds":{
+    "1":{
+      "_id":[],
+      "list_of_feeditems":[],
+      //stat of reference
+      "servicetags":[],
+      "feeditems":[]
+    }
+  },
+  "servicetags":{
+    "1":{
+      "_id":[],
+      "type_of_service":[]
+    }
+  },
+  "comments":{
+    "1":{
+      "_id":[],
+      "timestamp":[],
+      //start of embedding
+      "posts":{
+        "_id":[],
+        "post_types":[],
+        "like_list":[],
+        "like_count":[],
+        "like_of_comments":[]
+      }
+    }
+  },
+  "likelists":{
+    "1":{
+      "_id":[],
+      "list_of_users":[],
+      //start of embedded
+      "posts":{
+        "1":{
+          "_id":[],
+          "post_types":[],
+          "like_list":[],
+          "like_count":[],
+          "like_of_comments":[]
+        }
+      }
+    }
+  },
+  "posts":{
+  "1":{
+    "_id":[],
+    "post_types":[],
+    "like_list":[],
+    "like_count":[],
+    "like_of_comments":[],
+    //start of embedding
+    "feeditems":{
+      "1":{
+        "_id":[],
+        "content":[],
+        "timestamp":[],
+        "view_count":[],
+        "tag":[]
+      }
+      }
+    }
+  }
 
 };
 

@@ -25,6 +25,21 @@ class AcademicDetailPage extends React.Component {
   }
 }
 
+class MessagePage extends React.Component {
+  render() {
+    return (
+      <div className="row">
+        <div class="col-xs-2">
+          <RecentContact/>
+        </div>
+        <div class="col-xs-8">
+          <MessageBox/>
+        </div>
+      </div>
+      );
+  }
+}
+
 
 ReactDOM.render((
   <Router history={browserHistory}>
