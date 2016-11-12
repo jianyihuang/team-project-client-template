@@ -2,13 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import CategoryBox from './components/categorybox';
 import AcademicDetail from './components/academicdetail';
+import Navbar from './components/navbar';
+import Message from './components/message';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 
 class App extends React.Component {
   render() {
     return (
-      <div>{this.props.children}</div>
+      <div>
+        <Navbar />
+        {this.props.children}</div>
     )
   }
 }
@@ -25,17 +29,11 @@ class AcademicDetailPage extends React.Component {
   }
 }
 
+
 class MessagePage extends React.Component {
   render() {
     return (
-      <div className="row">
-        <div class="col-xs-2">
-          <RecentContact/>
-        </div>
-        <div class="col-xs-8">
-          <MessageBox/>
-        </div>
-      </div>
+      <Message />
       );
   }
 }
@@ -45,8 +43,9 @@ ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={CategoryBoxPage} />
-      <Route path="acedemicdetail" component={AcademicDetailPage} />
+      <Route path="/acedemicdetail" component={AcademicDetailPage} />
+      <Route path="/message" component={MessagePage} />
     </Route>
-    </Router>
-  ),document.getElementById('container-area')
+  </Router>
+  ),document.getElementById('App')
 );
