@@ -48,17 +48,17 @@ export default class Navbar extends React.Component {
 								<span className="caret"></span>
 								</button>
 								<ul className="dropdown-menu">
-									<li><a href="#"><span className="glyphicon glyphicon-user"></span>
-											Profile</a>
+									<li><Link to="/profile"><span className="glyphicon glyphicon-user"></span>
+											Profile</Link>
 									</li>
 									<li><a href="#"><span className="glyphicon glyphicon-pencil"></span>
 											My Request</a>
 									</li>
-									<li><a href="#"><span className="glyphicon glyphicon-calendar"></span>
-											My schedule</a>
+									<li><Link to="/schedule"><span className="glyphicon glyphicon-calendar"></span>
+											My schedule</Link>
 									</li>
-									<li><a href="#"><span className="glyphicon glyphicon-cog"></span>
-											Settings</a>
+									<li><Link to="/config"><span className="glyphicon glyphicon-cog"></span>
+											Settings</Link>
 									</li>
 									<li><a href="#"><span className="glyphicon glyphicon-off"></span>
 											Log off</a>
