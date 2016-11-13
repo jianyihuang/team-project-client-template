@@ -4,6 +4,7 @@ import CategoryBox from './components/categorybox';
 import AcademicDetail from './components/academicdetail';
 import Navbar from './components/navbar';
 import Message from './components/message';
+import Profile from './components/profile';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 
@@ -53,7 +54,12 @@ class MessagePage extends React.Component {
 
 class ProfilePage extends React.Component {
   render() {
-    return (<p>This is a Profile Page</p>);
+    return (
+      <div>
+        <link href="css/user-profile.css" rel="stylesheet"/>
+        <Profile />
+      </div>
+    );
   }
 }
 
