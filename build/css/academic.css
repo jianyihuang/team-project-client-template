@@ -15,7 +15,8 @@ body {
 }
 
 /*all buttons in the navigation bar*/
-.navbar button {
+.navbar button,
+.navbar a {
   border-radius: 80px;
   border: none;
 }
@@ -40,6 +41,8 @@ body {
 /*when button click hover in navigtaion bar*/
 .navbar button:hover,
 .navbar button:focus,
+.navbar a:hover,
+.navbar a:focus,
 .nav-pills >li > a:hover,
 .nav-pills >li > a:focus,
 .list-group > a:hover,
