@@ -52,24 +52,16 @@ var initialData = {
     "list_of_tasks":[]
     }
   },
-  "messages":{
-    "1":{
-      "_id":[],
-      "time_stamp":[],
-      "content":[],
-      //start of embedded
-      "messageboxes":{
-        "_id":[],
-        "list_of_users":[],
-        "list_of_messages_by_users_in_box":[]
-      }
-    }
-  },
   "messageboxes":{
     "1":{
       "_id":[],
       "list_of_users":[],
-      "list_of_messages_by_users_in_box":[]
+      "list_of_messages_by_users_in_box":[
+      "1":{
+        "user_id":[],
+        "time_stamp":[],
+        "content":[]
+      }]
     }
   },
   "feeds":{
