@@ -26,9 +26,10 @@ export default class Profile extends React.Component{
               </div>
             <form className="form-horizontal">
               <div className="form-group">
-                <label className="col-md-3 control-label">Nickname</label>
+                <label className="col-md-3 control-label">Name</label>
                   <div className="col-md-7">
-                    <input className="form-control" id="nameInput" type="text" placeholder="What would you like to be called?"/>
+
+                    //<input className="form-control" id="nameInput" type="text" placeholder="What would you like to be called?"/>
                   </div>
                 </div>
               <div className="form-group">
