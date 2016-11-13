@@ -59,7 +59,6 @@ var initialData = {
     "list_of_tasks":[1, 2]
     }
   },
-<<<<<<< HEAD
   "messages":{
     "1":{
       "_id": 1,
@@ -69,12 +68,6 @@ var initialData = {
       "content": "how are you guys doing I am considering adding some material design concept in UI"
     }
   },
-  "messageboxes":{
-    "1":{
-      "_id": 1,
-      "list_of_users":[1, 2],
-      "list_of_messages_by_users_in_box":[1]
-=======
   "messageboxes":{
     "1":{
       "_id":[],
@@ -100,7 +93,6 @@ var initialData = {
         "_id":[],
         "list_of_feeditems":[]
       }
->>>>>>> ecab98cbf73990e8beb7e17de1f80f6db479a7c5
     }
   },
 
