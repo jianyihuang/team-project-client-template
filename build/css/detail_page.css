@@ -27,7 +27,8 @@ body {
   box-shadow: 0px 2px 5px #90A4AE;
 }
 
-.navbar button {
+.navbar button,
+.navbar a {
   border-radius: 80px;
   border: none;
 }
@@ -48,6 +49,8 @@ body {
 
 .navbar button:hover,
 .navbar button:focus,
+.navbar a:hover,
+.navbar a:focus,
 .nav-pills >li > a:hover,
 .nav-pills >li > a:focus,
 .list-group > a:hover,

@@ -4,6 +4,8 @@ import CategoryBox from './components/categorybox';
 import AcademicDetail from './components/academicdetail';
 import Navbar from './components/navbar';
 import Message from './components/message';
+import Schedule from './components/schedule';
+import Profile from './components/profile';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 
@@ -53,19 +55,35 @@ class MessagePage extends React.Component {
 
 class ProfilePage extends React.Component {
   render() {
-    return (<p>This is a Profile Page</p>);
+    return (
+      <div>
+        <link href="css/user-profile.css" rel="stylesheet"/>
+        <Profile />
+      </div>
+    );
   }
 }
 
 class SchedulePage extends React.Component {
   render() {
-    return (<p>This is a Schedule Page</p>)
+    return (
+      <div>
+        <link rel="stylesheet" type="text/css" href="css/schedule.css"/>
+        <Schedule />
+      </div>
+      );
   }
 }
 
 class ConfigPage extends React.Component {
   render() {
-    return (<p>This is a Config Page</p>)
+    return (<p>This is a Config Page</p>);
+  }
+}
+
+class PostPage extends React.Component {
+  render() {
+    return (<p>This is a Post Page</p>);
   }
 }
 ReactDOM.render((
@@ -77,6 +95,7 @@ ReactDOM.render((
       <Route path="/profile" component={ProfilePage} />
       <Route path="/schedule" component={SchedulePage} />
       <Route path="/config" component={ConfigPage} />
+      <Route path="/post" component={PostPage} />
     </Route>
   </Router>
   ),document.getElementById('App')
