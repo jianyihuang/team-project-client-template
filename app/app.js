@@ -4,6 +4,7 @@ import CategoryBox from './components/categorybox';
 import AcademicDetail from './components/academicdetail';
 import Navbar from './components/navbar';
 import Message from './components/message';
+import Schedule from './components/schedule';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 
@@ -59,7 +60,12 @@ class ProfilePage extends React.Component {
 
 class SchedulePage extends React.Component {
   render() {
-    return (<p>This is a Schedule Page</p>)
+    return (
+      <div>
+        <link rel="stylesheet" type="text/css" href="css/schedule.css"/>
+        <Schedule />
+      </div>
+      );
   }
 }
 
