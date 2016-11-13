@@ -10,6 +10,8 @@
     <!-- Bootstrap's CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/service_detail_page.css" rel="stylesheet">
+    <!--JS for modal box -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
   <!-- navigation bar -->
@@ -53,7 +55,7 @@
               Messages
               <span class="badge">2</span>
             </button>
-            <button type="button" class="btn navbar-btn btn-default">
+            <button type="button" class="btn navbar-btn btn-default" data-toggle="modal" data-target="#myModal">
                 <span class="glyphicon glyphicon-edit"></span>
                 Write a Request
             </button>
@@ -85,11 +87,13 @@
     </div>
   </nav>
   <div class="container">
-  	<div class="row">
+   <!-- Modal -->
+     <div class="modal fade" id="myModal" role="dialog">
+    <!-- <div class="row">
   		<h3>Post Request</h3>
-  	</div>
+  	</div> -->
 
-      <div class="row">
+      <!-- <div class="row"> -->
 
       <div class="col-md-6">
       						<div class="widget-area no-padding blank">
@@ -103,13 +107,16 @@
 
   										</ul>
   										<button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Post</button>
-  									</form>
+
+                    </form>
+
   								</div><!-- Status Upload  -->
   							</div><!-- Widget Area -->
   						</div>
 
-      </div>
+      <!-- </div> -->
   </div>
+</div>
   <!-- feed area -->
   <div class="container">
   <div class="row">
