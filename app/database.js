@@ -59,6 +59,7 @@ var initialData = {
     "list_of_tasks":[1, 2]
     }
   },
+<<<<<<< HEAD
   "messages":{
     "1":{
       "_id": 1,
@@ -73,6 +74,33 @@ var initialData = {
       "_id": 1,
       "list_of_users":[1, 2],
       "list_of_messages_by_users_in_box":[1]
+=======
+  "messageboxes":{
+    "1":{
+      "_id":[],
+      "list_of_users":[],
+      "list_of_messages_by_users_in_box":[
+      "1":{
+        "user_id":[],
+        "time_stamp":[],
+        "content":[]
+      }]
+    }
+  },
+  "feeds":{
+    "1":{
+      "_id":[],
+      "list_of_feeditems":[],
+      //start of embedding
+      "academicfeeds":{
+        "_id":[],
+        "list_of_feeditems":[]
+      },
+      "servicefeeds":{
+        "_id":[],
+        "list_of_feeditems":[]
+      }
+>>>>>>> ecab98cbf73990e8beb7e17de1f80f6db479a7c5
     }
   },
 
