@@ -65,13 +65,19 @@ class ProfilePage extends React.Component {
 
 class SchedulePage extends React.Component {
   render() {
-    return (<p>This is a Schedule Page</p>)
+    return (<p>This is a Schedule Page</p>);
   }
 }
 
 class ConfigPage extends React.Component {
   render() {
-    return (<p>This is a Config Page</p>)
+    return (<p>This is a Config Page</p>);
+  }
+}
+
+class PostPage extends React.Component {
+  render() {
+    return (<p>This is a Post Page</p>);
   }
 }
 ReactDOM.render((
@@ -83,6 +89,7 @@ ReactDOM.render((
       <Route path="/profile" component={ProfilePage} />
       <Route path="/schedule" component={SchedulePage} />
       <Route path="/config" component={ConfigPage} />
+      <Route path="/post" component={PostPage} />
     </Route>
   </Router>
   ),document.getElementById('App')

@@ -33,19 +33,19 @@ export default class Navbar extends React.Component {
 						</form>
 						<div className="nav navbar-nav">
 							<div className="btn-group" role="group">
-								<button type="button" className="btn navbar-btn btn-default">
+								<Link to="/message" type="button" className="btn navbar-btn btn-default">
 									<span className="glyphicon glyphicon-envelope"></span>
-										<Link to="/message"> Messages</Link>
+										Messages
 									<span className="badge">2</span>
-								</button>
-								<button type="button" className="btn navbar-btn btn-default">
+								</Link>
+								<Link to="/post" type="button" className="btn navbar-btn btn-default">
 										<span className="glyphicon glyphicon-edit"></span>
 										Write a Request
-								</button>
+								</Link>
 								<button type="button" className="btn navbar-btn btn-default dropdown-toggle "
 											data-toggle="dropdown">
 											User
-								<span className="caret"></span>
+											<span className="caret"></span>
 								</button>
 								<ul className="dropdown-menu">
 									<li><Link to="/profile"><span className="glyphicon glyphicon-user"></span>
