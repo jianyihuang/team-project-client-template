@@ -1,7 +1,7 @@
 import React from 'react';
 import {Message} from './message';
 
-export default MessageBox from React.Component {
+export default class MessageBox extends React.Component {
 	render() {
 		return (
 			<div class="col-xs-8">

@@ -1,4 +1,5 @@
 import React from 'react';
+import Contact from './contact';
 
 export default class RecentContacts extends React.Component {
 	render() {
@@ -11,7 +12,7 @@ export default class RecentContacts extends React.Component {
 						</div>
 						<div class="panel-body">
 							<ul class="media-list recent-contact">
-							{/*List of Recent Contacts*/}															
+								<Contact userName={'Xin'}/>															
 							</ul>
 						</div>
 					</div>

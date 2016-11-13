@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import CategoryBox from './components/categorybox';
 import AcademicDetail from './components/academicdetail';
 import Navbar from './components/navbar';
-import Message from './components/message';
+import MessagePanel from './components/message_panel';
 import Schedule from './components/schedule';
 import Profile from './components/profile';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
@@ -47,7 +47,7 @@ class MessagePage extends React.Component {
     return (
       <div>
         <link rel="stylesheet" type="text/css" href="css/message.css"/>
-        <Message />
+        <MessagePanel />
       </div>
       );
   }
