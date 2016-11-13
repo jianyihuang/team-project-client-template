@@ -9,7 +9,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Computer Science</h5>
-                  <Link to="/acedemicdetail"><img src="img/cmpSci.jpeg"/></Link>
+                <Link to="/acedemicdetail"><img src="img/cmpSci.jpeg"/></Link>
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@ export default class CategoryBox extends React.Component {
           <div className="col-md-4">
             <div className="panel panel-default">
               <div className="panel-body">
-                <h5 className="text-center">Histroy</h5>
+                <h5 className="text-center">History</h5>
                 <Link to="/acedemicdetail"><img src="img/history.jpg"/></Link>
               </div>
             </div>
