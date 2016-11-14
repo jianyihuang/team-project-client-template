@@ -77,19 +77,11 @@ var initialData = {
       "_id":[],
       "list_of_users":[],
       "list_of_messages_by_users_in_box":[
-      "1":{
+        "1":{
         "user_id":[],
         "time_stamp":[],
         "content":[]
       }]
-    }
-  },
-
-  "academicfeeds":{
-    // academic feed for karen
-    "1":{
-      "_id": 1,
-      "list_of_feeditems":[1]
     }
   },
 
@@ -125,19 +117,35 @@ var initialData = {
     }
   },
 
-  "feeditems":{
+  "feedItems":{
     "1":{
       "_id": 1,
       // references post item for content
       "view_count": 25,
-      "like_count": [1,2],
+      "likeCounter": [1],
       // Taggs are by course_id
-      "tag":[1],
+      "tag": 1,
       "list_of_comments":[1],
       "contents": {
         "author": 1,
         "timestamp": 1453668480000,
+        "request": "Oh god! CS311 homework is too hard! PlZZZ help",
         "contents": "sending hugs your way"
+      }
+    },
+    "2":{
+      "_id": 2,
+      // references post item for content
+      "view_count": 2,
+      "likeCounter": [1],
+      // Taggs are by course_id
+      "tag": 1,
+      "list_of_comments":[1],
+      "contents": {
+        "author": 1,
+        "timestamp": 1453668480000,
+        "request": "Oh god! Chinese homework is too hard! PlZZZ help",
+        "contents": "呵呵呵呵呵呵呵呵呵呵"
       }
     }
   },
@@ -152,24 +160,20 @@ var initialData = {
     }
   },
 
-  "feeds":{
-    "1":{
-      "_id":1,
-      "academicfeeds":{
-        "list_of_feeditems":[1]
-      },
-      "servicefeeds":{
-        "list_of_feeditems":[1]
-      }
-    }
-  },
-
   "servicefeeds":{
     // service feed for user 1, Karen
     "1":{
       "_id": 1,
       // references to the ids of the post(s) in feed 1
-      "list_of_posts":[1]
+      "list_of_feeditems":[1]
+    }
+  },
+
+  "academicfeeds":{
+    // academic feed for karen
+    "1":{
+      "_id": 1,
+      "list_of_feeditems":[1,2]
     }
   },
 
@@ -250,23 +254,3 @@ export function resetDatabase() {
   localStorage.setItem(startupName, JSON.stringify(initialData));
   data = JSONClone(initialData);
 }
-
-/**
- * Reset database button.
- */
-class ResetDatabase extends React.Component {
-  render() {
-    return (
-      <button className="btn btn-default" type="button" onClick={() => {
-        resetDatabase();
-        window.alert("Database reset! Refreshing the page now...");
-        document.location.reload(false);
-      }}>Reset Mock DB</button>
-    );
-  }
-}
-
-ReactDOM.render(
-  <ResetDatabase />,
-  document.getElementById('db-reset')
-);

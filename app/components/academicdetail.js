@@ -1,5 +1,5 @@
 import React from 'react';
-import FeedItem from './feeditem';
+import Feed from './feed';
 import Recommendation from './recommendation';
 
 export default class AcademicDetail extends React.Component {
@@ -14,9 +14,7 @@ export default class AcademicDetail extends React.Component {
                 Newest Requests
               </div>
             </div>
-            <FeedItem />
-            <FeedItem />
-            <FeedItem />
+            <Feed user={1}/>
           </div>
           <div className="col-md-3">
             <div className="row">
