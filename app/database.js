@@ -62,26 +62,39 @@ var initialData = {
     }
   },
 
-  "messages":{
-    "1":{
-      "_id": 1,
-      //id of user that sent this message
-      "sender": 2,
-      "time_stamp": "3:24 pm",
-      "content": "how are you guys doing I am considering adding some material design concept in UI"
-    }
-  },
-
   "messageboxes":{
     "1":{
-      "_id":[],
-      "list_of_users":[],
+      "_id": 1,
+      "list_of_users":[6, 3, 5, 4, 1, 2],
       "list_of_messages_by_users_in_box":[
-        "1":{
-        "user_id":[],
-        "time_stamp":[],
-        "content":[]
-      }]
+          {
+          user_id: 6, timestamp: 1479148390962, content: 'the current homepage we have wont count as a page. It would make sense that after the user logs in they are directed to the academic or academic subject page but someone is doing those pages already'
+          },
+          {
+          user_id: 3, timestamp: 1479148390962, content: 'is the academic page the one with the grids. I know but I gotta study for interview,so im trynna get basic in then improve upon it'
+          },
+          {
+          user_id: 5, timestamp: 1479148390962, content: 'how are you guys doing I am considering adding some material design concept in UI'
+          },
+          {
+          user_id: 4, timestamp: 1479148390962, content: 'good job, Jucong. You may create a writeup document for the team if you want.'
+          },
+          {
+          user_id: 5, timestamp: 1479148390962, content: 'I only have time after 5 tmr'
+          },
+          {
+          user_id: 4, timestamp: 1479148390962, content: 'ok ok ok guys, it\'s fine. We\'ll figure this out.'
+          },
+          {
+          user_id: 5, timestamp: 1479148390962, content: 'If possible, can you guys all implement the floating effect ? It\'s very straight forward'
+          },
+          {
+          user_id: 1, timestamp: 1479148390962, content: 'I changed the config if you are satisfied with that I will add the css'
+          },
+          {
+          user_id: 2, timestamp: 1479148390962, content: 'I thought someone else is doing that one. I can do that too.'
+          }
+        ]
     }
   },
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {unixTimeToString} from '../../util';
 
 export class Message extends React.Component {
 	render() {
@@ -9,10 +10,11 @@ export class Message extends React.Component {
 				</div>
 				<div className="media-body">
 					<h4 className="media-heading">{this.props.user.username}</h4>
-					{this.props.content}
+						<p>{this.props.content}</p>
 				</div>
 				<div className="media-right">
-					<p>{this.props.time_stamp}</p>
+					<p>{unixTimeToString(this.props.timestamp)}</p>
+					
 				</div>
 			</li>
 			);
