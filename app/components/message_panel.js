@@ -2,32 +2,36 @@ import React from 'react';
 import {Contact} from './message_components/contact';
 import {Message} from './message_components/message';
 import {MessageEditor} from './message_components/message_editor';
-import {sendMessageServer, getMessageBoxServer} from '../server';
+import {sendMessageServer, getMessageBoxServer, getParticipantProfiles} from '../server';
 import {resetDatabase} from '../database';
 // import server functions here.
-const contacts = [
-                    {username: 'Jianyi', profilepic: 'img/pug.jpg'},
-                    {username: 'Xin', profilepic: 'img/pug.jpg'},
-                    {username: 'Timurphy', profilepic: 'img/cat.jpeg'},
-                    {username: 'Thien', profilepic: 'img/pug.jpg'},
-                    {username: 'Jucong', profilepic: 'img/cat.jpeg'},
-                    {username: 'Karen', profilepic: 'img/cat.jpeg'},
-                ];
-var current_user = 4;
+
+var current_user = 1;
 const msg_box_id = 1;
 
 export default class MessagePanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {messages: []};
+        this.state = {messages: [], participant_profiles: []};
         this.sendMessage = this.sendMessage.bind(this);
     }
     componentDidMount() {        
         getMessageBoxServer(msg_box_id, (msg_box) => {
-            this.setState({
-                messages: msg_box.list_of_messages_by_users_in_box
+            getParticipantProfiles(msg_box_id, (profiles) => {
+                this.setState({
+                    messages: msg_box.list_of_messages_by_users_in_box,
+                    participant_profiles: profiles
+                });
+                // this.state.messages.map(function(m) {
+                //     console.log(JSON.stringify(m));
+                // })
+                // console.log(typeof(this.state.participant_profiles));
+                // this.state.participant_profiles.map(function(p) {
+                //     console.log(JSON.stringify(p));
+                // });
             });
-        });
+        }); 
+                
     }
     sendMessage(entered_text) {
         // Send the message to the server.
@@ -65,8 +69,8 @@ export default class MessagePanel extends React.Component {
     						<div className="panel-body">
     							<ul className="media-list recent-contact">
                                                                                 {
-                                                                                    contacts.map(function(aContact, i) {
-                                                                                        return <Contact key={i} imgUrl={aContact.profilepic} userName={aContact.username}/>;
+                                                                                    this.state.participant_profiles.map((profile, i) => {
+                                                                                        return <Contact key={i} imgUrl={profile.profilepic} userName={profile.username}/>;
                                                                                     })
                                                                                 }
     							</ul>
@@ -81,9 +85,11 @@ export default class MessagePanel extends React.Component {
     						<ul className="media-list chat-box">
                                                                         {
                                                                             this.state.messages.map((message, i) => {
-                                                                                var user = contacts[message.user_id - 1];
+                                                                                var profile = this.state.participant_profiles.filter(function(profile) {
+                                                                                    return profile.user_id === message.user_id;
+                                                                                })[0];
                                                                                 return (
-                                                                                    <Message key={i} user={user} {...message}/>
+                                                                                    <Message key={i} profile={profile} {...message}/>
                                                                                     );
                                                                             })
                                                                         }
@@ -96,11 +102,11 @@ export default class MessagePanel extends React.Component {
     			</div>
     			<div className="col-xs-2">
                                         {
-                                            contacts.map(function(aContact, i) {
-                                                return <p key={i}>{aContact.username}-id:{i+1}</p>;
+                                            this.state.participant_profiles.map(function(profile, i) {
+                                                return <p key={i}>{profile.username}-id:{profile.user_id}</p>;
                                             })
                                         }
-    				<p>UserID: <input type='text' size='3' maxLength='1' onChange={this.changeUser}/> </p>
+    				<p>UserID: <input type='text' size='3' maxLength='1' value={current_user} onChange={this.changeUser}/></p>
                                         <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
     			</div>
     		</div>
