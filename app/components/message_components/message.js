@@ -6,10 +6,10 @@ export class Message extends React.Component {
 		return (
 			<li className="media">
 				<div className="media-left">
-					<img className="media-object img-rounded" src={this.props.user.profilepic}></img>
+					<img className="media-object img-rounded" src={this.props.profile.profilepic}></img>
 				</div>
 				<div className="media-body">
-					<h4 className="media-heading">{this.props.user.username}</h4>
+					<h4 className="media-heading">{this.props.profile.username}</h4>
 						<p>{this.props.content}</p>
 				</div>
 				<div className="media-right">

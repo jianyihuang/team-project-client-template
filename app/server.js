@@ -69,6 +69,28 @@ function joinMessageBox(box_msg_id, userId, cb) {
 	emulateServerReturn(messageBox, cb);
 }
 
+// Get the user's short profile.
+function getShortProfile(userId) {
+	var user = readDocument('users', userId);
+	var profile = {
+		user_id: userId,
+		username: user.username,
+		profilepic: user.profilepic
+	};
+	return profile;
+}
+
+// Get a list of user's short profiles.
+export function getParticipantProfiles(box_msg_id, cb) {
+	var messageBox = readDocument('messageboxes', box_msg_id);
+	var participantList = messageBox.list_of_users;
+	var participantProfiles = participantList.map(function(user_id, i) {
+		return getShortProfile(user_id);
+	});
+	emulateServerReturn(participantProfiles, cb);
+}
+
+// Get the message box by its id.
 export function getMessageBoxServer(box_msg_id, cb) {
 	emulateServerReturn(readDocument('messageboxes', box_msg_id), cb);
 }
@@ -79,7 +101,7 @@ export function sendMessageServer(box_msg_id, user_id, content, cb) {
 	var time = new Date().getTime();
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	// Check if the user is already in the conversation.
-	if(messageBox.list_of_users.indexOf(user_id) !== 1) {
+	if(messageBox.list_of_users.indexOf(user_id) === -1) {
 		messageBox.list_of_users.push(user_id);
 	}
 	// Push the message into the conversation box.
