@@ -63,7 +63,7 @@ function createMessageBox(userId, cb) {
 	emulateServerReturn(messageBox, cb);
 }
 
-function joinMessageBox(box_msg_id, userId, cb) {	
+function joinMessageBox(box_msg_id, userId, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	messageBox.list_of_Users.push(userId);
 	emulateServerReturn(messageBox, cb);
@@ -115,4 +115,3 @@ export function sendMessageServer(box_msg_id, user_id, content, cb) {
 	// Return the udpated version of messageBox.
 	emulateServerReturn(messageBox, cb);
 }
-
