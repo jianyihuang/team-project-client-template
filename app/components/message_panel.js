@@ -6,14 +6,14 @@ import {sendMessageServer, getMessageBoxServer, getParticipantProfiles} from '..
 import {resetDatabase} from '../database';
 // import server functions here.
 
-var current_user = 1;
 const msg_box_id = 1;
 
 export default class MessagePanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {messages: [], participant_profiles: []};
+        this.state = {current_user: 1, messages: [], participant_profiles: []};
         this.sendMessage = this.sendMessage.bind(this);
+        this.changeUser = this.changeUser.bind(this);
     }
     componentDidMount() {        
         getMessageBoxServer(msg_box_id, (msg_box) => {
@@ -35,7 +35,7 @@ export default class MessagePanel extends React.Component {
     }
     sendMessage(entered_text) {
         // Send the message to the server.
-        sendMessageServer(msg_box_id, current_user, entered_text, (newMessageBox) => {
+        sendMessageServer(msg_box_id, this.state.current_user, entered_text, (newMessageBox) => {
             // Refresh the message box.
             this.setState({
                 messages: newMessageBox.list_of_messages_by_users_in_box
@@ -44,7 +44,9 @@ export default class MessagePanel extends React.Component {
     }
     changeUser(event){
         var user = event.target.value;
-        current_user = Number(user);
+        this.setState({
+            current_user: Number(user)
+        });
     }
   render() {
     return(
@@ -106,7 +108,7 @@ export default class MessagePanel extends React.Component {
                                                 return <p key={i}>{profile.username}-id:{profile.user_id}</p>;
                                             })
                                         }
-    				<p>UserID: <input type='text' size='3' maxLength='1' value={current_user} onChange={this.changeUser}/></p>
+    				<p>UserID: <input type='text' size='3' maxLength='1' value={this.state.current_user} onChange={this.changeUser}/></p>
                                         <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
     			</div>
     		</div>
