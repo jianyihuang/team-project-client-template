@@ -1,8 +1,9 @@
 import React from 'react';
+// import FeedItem from './feeditem';
 import Feed from './feed';
 import Recommendation from './recommendation';
 
-export default class AcademicDetail extends React.Component {
+export default class ServiceDetail extends React.Component{
   constructor(props){
   super(props);
   this.state ={
@@ -22,9 +23,9 @@ export default class AcademicDetail extends React.Component {
 }
 
 
-  render() {
-    return (
-      <div className = "container">
+render(){
+    return(
+      <div className="container">
         <div className="col-md-9">
 
           <div className="widget-area no-padding blank" id ="myModal">
@@ -55,6 +56,7 @@ export default class AcademicDetail extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-9">
+
             <div className="row">
               <div className="col-md-12 catergory_status">
                 <span className="glyphicon glyphicon-th-list"></span>
@@ -77,14 +79,15 @@ export default class AcademicDetail extends React.Component {
                 <div className="list-group">
                   <Recommendation />
                   <Recommendation />
-                  <Recommendation />
-                  <Recommendation />
+
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+  );
+}
+
+
 }

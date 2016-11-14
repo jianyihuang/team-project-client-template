@@ -49,3 +49,27 @@ export function getFeedData(user,type, cb) {
     // invokes (calls) the "cb" function some time in the future.
     emulateServerReturn(feedData, cb);
 }
+
+export function postRequest(user,location,contents,cb){
+
+var time = new Date().getTime();
+
+var newRequest ={
+"likeCounter":[],
+"contents":{
+"author":user,
+"postDate":time,
+"location":location,
+"contents":contents
+}
+};
+//add to db
+newRequest = addDocument('feedItem',newRequest);
+var userData = readDocument('users',user);
+var feedData = readDocument('feeds',userData.feed);
+feedData.contents.unshift(newRequest._id);
+
+writeDocument('feeds',feedData);
+
+emulateServerReturn(newRequest,cb);
+}
