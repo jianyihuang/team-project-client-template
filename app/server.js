@@ -50,26 +50,68 @@ export function getFeedData(user,type, cb) {
     emulateServerReturn(feedData, cb);
 }
 
-export function postRequest(user,location,contents,cb){
-
-var time = new Date().getTime();
-
-var newRequest ={
-"likeCounter":[],
-"contents":{
-"author":user,
-"postDate":time,
-"location":location,
-"contents":contents
+function createMessageBox(userId, cb) {
+	// Get the current time.
+	var time = new Date().getTime();
+	// Create a message box.
+	var messageBox = {
+		'creation_timestamp': time,
+		'list_of_users': [],
+		'list_of_messages_by_users_in_box': []
+	}
+	messageBox = addDocument('messageboxes', messageBox);
+	emulateServerReturn(messageBox, cb);
 }
-};
-//add to db
-newRequest = addDocument('feedItem',newRequest);
-var userData = readDocument('users',user);
-var feedData = readDocument('feeds',userData.feed);
-feedData.contents.unshift(newRequest._id);
 
-writeDocument('feeds',feedData);
+function joinMessageBox(box_msg_id, userId, cb) {
+	var messageBox = readDocument('messageboxes', box_msg_id);
+	messageBox.list_of_Users.push(userId);
+	emulateServerReturn(messageBox, cb);
+}
 
-emulateServerReturn(newRequest,cb);
+// Get the user's short profile.
+function getShortProfile(userId) {
+	var user = readDocument('users', userId);
+	var profile = {
+		user_id: userId,
+		username: user.username,
+		profilepic: user.profilepic
+	};
+	return profile;
+}
+
+// Get a list of user's short profiles.
+export function getParticipantProfiles(box_msg_id, cb) {
+	var messageBox = readDocument('messageboxes', box_msg_id);
+	var participantList = messageBox.list_of_users;
+	var participantProfiles = participantList.map(function(user_id, i) {
+		return getShortProfile(user_id);
+	});
+	emulateServerReturn(participantProfiles, cb);
+}
+
+// Get the message box by its id.
+export function getMessageBoxServer(box_msg_id, cb) {
+	emulateServerReturn(readDocument('messageboxes', box_msg_id), cb);
+}
+
+// Client send message to the message box.
+export function sendMessageServer(box_msg_id, user_id, content, cb) {
+	// Get the current time.
+	var time = new Date().getTime();
+	var messageBox = readDocument('messageboxes', box_msg_id);
+	// Check if the user is already in the conversation.
+	if(messageBox.list_of_users.indexOf(user_id) === -1) {
+		messageBox.list_of_users.push(user_id);
+	}
+	// Push the message into the conversation box.
+	messageBox.list_of_messages_by_users_in_box.push({
+		'user_id': user_id,
+		'timestamp': time,
+		'content': content
+	});
+	// Update in the database.
+	writeDocument('messageboxes', messageBox);
+	// Return the udpated version of messageBox.
+	emulateServerReturn(messageBox, cb);
 }
