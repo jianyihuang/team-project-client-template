@@ -27,6 +27,7 @@ var initialData = {
       "Service_savedlists": 1
     }
   },
+
   "tasks":{
     "1":{
     "_id": 1,
@@ -53,12 +54,14 @@ var initialData = {
       }
     }
   },
+
   "schedules":{
     "1":{
     "_id": 1,
     "list_of_tasks":[1, 2]
     }
   },
+
   "messages":{
     "1":{
       "_id": 1,
@@ -68,6 +71,7 @@ var initialData = {
       "content": "how are you guys doing I am considering adding some material design concept in UI"
     }
   },
+
   "messageboxes":{
     "1":{
       "_id":[],
@@ -80,21 +84,6 @@ var initialData = {
       }]
     }
   },
-  "feeds":{
-    "1":{
-      "_id":[],
-      "list_of_feeditems":[],
-      //start of embedding
-      "academicfeeds":{
-        "_id":[],
-        "list_of_feeditems":[]
-      },
-      "servicefeeds":{
-        "_id":[],
-        "list_of_feeditems":[]
-      }
-    }
-  },
 
   "academicfeeds":{
     // academic feed for karen
@@ -103,6 +92,7 @@ var initialData = {
       "list_of_feeditems":[1]
     }
   },
+
   "classes":{
     "1":{
       "_id": 1,
@@ -120,6 +110,7 @@ var initialData = {
       "course_id": "Calculus 2"
     }
   },
+
   "Academic_savedlists":{
     "1":{
       "_id": 1,
@@ -138,13 +129,41 @@ var initialData = {
     "1":{
       "_id": 1,
       // references post item for content
-      "content":[1],
-      "timestamp": "",
       "view_count": 25,
+      "like_count": [1,2],
       // Taggs are by course_id
-      "tag":[1]
+      "tag":[1],
+      "list_of_comments":[1],
+      "contents": {
+        "author": 1,
+        "timestamp": 1453668480000,
+        "contents": "sending hugs your way"
+      }
     }
   },
+
+  "comments":{
+    "1":{
+      "_id": 1,
+      "author": 1,
+      "timestamp": 1453668480000,
+      "contents": "I can help!",
+      "like_count": [2]
+    }
+  },
+
+  "feeds":{
+    "1":{
+      "_id":1,
+      "academicfeeds":{
+        "list_of_feeditems":[1]
+      },
+      "servicefeeds":{
+        "list_of_feeditems":[1]
+      }
+    }
+  },
+
   "servicefeeds":{
     // service feed for user 1, Karen
     "1":{
@@ -153,6 +172,7 @@ var initialData = {
       "list_of_posts":[1]
     }
   },
+
   "servicetags":{
     "1":{
       "_id": 1,
@@ -163,33 +183,14 @@ var initialData = {
       "type_of_service": "Home Improvement"
     }
   },
-  "comments":{
-    "1":{
-      "_id": 1,
-      "author": 1,
-      "timestamp": 1453668480000,
-      "contents": "I can help!",
-      "like_count": [2]
-    }
-  },
+
+
   "likelists":{
     "1":{
       "_id": 1,
       "list_of_users":[1, 2],
     }
   },
-  "posts":{
-  "1":{
-    "_id": 1,
-    // reference to servicetags
-    "service_type": [1],
-    //
-    "like_list" 1,
-    // refers to user id
-    "like_count": [1, 2],
-    "list_of_comments":[1],
-    }
-  }
 
 };
 
