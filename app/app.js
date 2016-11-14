@@ -6,7 +6,6 @@ import Navbar from './components/navbar';
 import MessagePanel from './components/message_panel';
 import Schedule from './components/schedule';
 import Profile from './components/profile';
-import Post from './components/postpage';
 import ServiceDetail from './components/servicedetail.js'
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
@@ -104,7 +103,7 @@ ReactDOM.render((
       <Route path="/schedule" component={SchedulePage} />
       <Route path="/config" component={ConfigPage} />
       <Route path="/service_detail" component={ServiceDetailPage} />
-      
+
     </Route>
   </Router>
   ),document.getElementById('App')
