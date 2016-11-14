@@ -38,6 +38,10 @@ export default class MessagePanel extends React.Component {
             });
         });
     }
+    changeUser(event){
+        var user = event.target.value;
+        current_user = Number(user);
+    }
   render() {
     return(
       <div className="container content">
@@ -91,7 +95,12 @@ export default class MessagePanel extends React.Component {
     				</div>
     			</div>
     			<div className="col-xs-2">
-    				<p>UserId </p>
+                                        {
+                                            contacts.map(function(aContact, i) {
+                                                return <p key={i}>{aContact.username}-id:{i+1}</p>;
+                                            })
+                                        }
+    				<p>UserID: <input type='text' size='3' maxLength='1' onChange={this.changeUser}/> </p>
                                         <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
     			</div>
     		</div>
