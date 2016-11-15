@@ -30,7 +30,7 @@ export default class Schedule extends React.Component {
          return(
            <Schedulebox key = {i} firstName={scheduleItem._id.first_name} postDate={scheduleItem.contents.date}
              serviceContent={scheduleItem.contents.serviceContents} startTime={scheduleItem.contents.timestamp_start}
-            endTime={scheduleItem.contents.timestamp_end} party={scheduleItem.contents.serviceContents}
+            endTime={scheduleItem.contents.timestamp_end} party={scheduleItem.contents.party}
             completed={scheduleItem.completed}   />
         );
       })

@@ -246,8 +246,8 @@ export function saveUserData(newUserProfile, cb) {
 function getScheduleItemSync(scheduleItem) {
 //  console.log(scheduleItem);
   scheduleItem._id = readDocument('users',scheduleItem._id);
-  scheduleItem.contents.party =
-      readDocument('users', scheduleItem.contents.party);
+  var userData = readDocument('users', scheduleItem.contents.party);
+  scheduleItem.contents.party = userData.first_name;
     return scheduleItem;
 }
 
