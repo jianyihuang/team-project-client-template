@@ -109,6 +109,7 @@ export function deleteFeed(userId,feedItemId,type,cb) {
   emulateServerReturn(feedData, cb);
 }
 
+
 export function likeFeedItem(feedItemId, userId, cb) {
   var feedItem = readDocument('feedItems', feedItemId);
     // Normally, we would check if the user already
@@ -211,6 +212,25 @@ export function saveUserData(userId, school, year, quote, cb) {
   writeDocument('users', user);
   emulateServerReturn(user, cb);
 }
+
+
+function getScheduleItemSync(scheduleId) {
+  var scheduleItem = readDocument('schedules', scheduleId);
+  scheduleItem._id = readDocument('users',scheduleItem._id );
+  scheduleItem.contents.party =
+      readDocument('users', scheduleItem.contents.party);
+    return scheduleItem;
+}
+
+export function getScheduleData(user,type, cb) {
+    // Get the User object with the id "user".
+    var userData = readDocument('users', user);
+    var scheduleData = readDocument('academicfeeds', userData.schedules);
+    scheduleData = scheduleData.map(getScheduleItemSync);
+    emulateServerReturn(scheduleData, cb);
+}
+
+
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
