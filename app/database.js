@@ -17,7 +17,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
-      "school": "Umass Amherst",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -29,8 +29,8 @@ var initialData = {
 
     "2":{
       "_id":2,
-      "first_name": "Karen",
-      "last_name":"Zheung",
+      "first_name": "Thien",
+      "last_name":"Dinh",
       "profilepic": 'img/pug.jpg',
       "username": "Thien",
       "password": "123abc",
@@ -39,6 +39,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -50,8 +51,8 @@ var initialData = {
 
     "3":{
       "_id":3,
-      "first_name": "Karen",
-      "last_name":"Zheung",
+      "first_name": "Timothy",
+      "last_name":"Addai",
       "profilepic": 'img/cat.jpeg',
       "username": "Tim",
       "password": "123abc",
@@ -60,6 +61,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -72,7 +74,7 @@ var initialData = {
     "4":{
       "_id":4,
       "first_name": "Jucong",
-      "last_name":"Zheung",
+      "last_name":"He",
       "profilepic": 'img/pug.jpg',
       "username": "Jucong",
       "password": "123abc",
@@ -81,6 +83,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -93,7 +96,7 @@ var initialData = {
     "5":{
       "_id":5,
       "first_name": "Xin",
-      "last_name":"Zheung",
+      "last_name":"Liu",
       "profilepic": 'img/cat.jpeg',
       "username": "Xin",
       "password": "123abc",
@@ -102,6 +105,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -113,8 +117,8 @@ var initialData = {
 
     "6":{
       "_id":6,
-      "first_name": "JianYi",
-      "last_name":"Zheung",
+      "first_name": "Jianyi",
+      "last_name":"Huang",
       "profilepic": 'img/pug.jpg',
       "username": "JianYi",
       "password": "123abc",
@@ -123,6 +127,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,

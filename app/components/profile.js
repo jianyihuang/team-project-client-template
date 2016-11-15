@@ -45,7 +45,11 @@ export default class Profile extends React.Component{
             education_level: user_data.education_level,
             academic_institution: user_data.academic_institution,
           });
+<<<<<<< HEAD
         });
+=======
+        });        
+>>>>>>> 6265f0887b308ffe25249845fd734a8cd98f0596
       }
       componentDidMount() {
         console.log('Mounted: ' + this.state.user_id);
