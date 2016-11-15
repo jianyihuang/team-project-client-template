@@ -206,6 +206,22 @@ function getShortProfile(userId) {
 	return profile;
 }
 
+function getScheduleItem(scheduleId) {
+	var schedules = readDocument('schedules', scheduleId);
+	var scheduleData = {
+     _id: scheduleId,
+     completed: schedules.completed,
+     contents: {
+      // ID of the user that the appointment is with
+      party : schedules.contents.party,
+      date : schedules.contents.date,
+      timestamp_start: schedules.contents.timestamp_start,
+      timestamp_end: schedules.contents.timestamp_end,
+      serviceContents: schedules.contents.serviceContents
+    }
+	};
+	return scheduleData;
+}
 // Get all information about the user.
 export function getUserData(userId, cb) {
   var user = readDocument('users', userId);
@@ -227,9 +243,9 @@ export function saveUserData(newUserProfile, cb) {
 }
 
 
-function getScheduleItemSync(scheduleId) {
-  var scheduleItem = readDocument('schedules', scheduleId);
-  scheduleItem._id = readDocument('users',scheduleItem._id );
+function getScheduleItemSync(scheduleItem) {
+//  console.log(scheduleItem);
+  scheduleItem._id = readDocument('users',scheduleItem._id);
   scheduleItem.contents.party =
       readDocument('users', scheduleItem.contents.party);
     return scheduleItem;
@@ -238,8 +254,10 @@ function getScheduleItemSync(scheduleId) {
 export function getScheduleData(userId,cb) {
     // Get the User object with the id "user".
     var userData = readDocument('users', userId);
-    var scheduleData = userData.schedules.map((id) => readDocument('schedules', id));
-    scheduleData = scheduleData.map(getScheduleItemSync);
+    var scheduleData = userData.schedules.map(function(scheduleId){
+      return getScheduleItem(scheduleId);
+    });
+    scheduleData = scheduleData.map(getScheduleItemSync)
     emulateServerReturn(scheduleData, cb);
 }
 

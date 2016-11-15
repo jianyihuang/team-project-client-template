@@ -167,7 +167,7 @@ var initialData = {
 
   "schedules":{
     "1":{
-      "_id": 2,
+      "_id": 1,
       "completed": "COMPLETED",
       "contents": {
         // ID of the user that the appointment is with
