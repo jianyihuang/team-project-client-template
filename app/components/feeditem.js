@@ -1,10 +1,11 @@
 import React from 'react';
-import {deleteFeed,unlikeFeedItem,likeFeedItem} from '../server';
+import {deleteFeed,unlikeFeedItem,likeFeedItem,increaseViewCount} from '../server';
 import Contents from './contents';
 export default class FeedItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = props.data;
+    this.increaseFeedItemViewCount();
   }
 
   handleLikeClick(clickEvent) {
@@ -44,6 +45,12 @@ export default class FeedItem extends React.Component {
         this.props.refresh();
       });
     }
+  }
+
+  increaseFeedItemViewCount() {
+    increaseViewCount(this.state._id,(newViewCount)=>{
+      this.setState({view_count:newViewCount})
+    })
   }
   render() {
     var likeButtonText = "Like";
