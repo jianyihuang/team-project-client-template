@@ -6,10 +6,10 @@ import Navbar from './components/navbar';
 import MessagePanel from './components/message_panel';
 import Schedule from './components/schedule';
 import Profile from './components/profile';
-// import ServiceDetail from './components/servicedetail';
+import LoginPage from './components/login';
 import Config from './components/config';
-import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
+import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 class App extends React.Component {
   render() {
@@ -43,16 +43,16 @@ class AcademicDetailPage extends React.Component {
   }
 }
 
-// class ServiceDetailPage extends React.Component {
-//   render() {
-//     return(
-//       <div>
-//         <link href="css/service_detail_page.css" rel="stylesheet"/>
-//         <AcademicDetail/>
-//       </div>
-//     );
-//   }
-// }
+class WelcomePage extends React.Component {
+  render() {
+    return(
+      <div>
+        <link href="css/login.css" rel="stylesheet"/>
+        <LoginPage/>
+      </div>
+    );
+  }
+}
 
 class MessagePage extends React.Component {
   render() {
@@ -103,6 +103,7 @@ ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={CategoryBoxPage} />
+      <Route path='/login' component={WelcomePage} /> */}
       <Route path="/acedemicdetail" component={AcademicDetailPage} />
       <Route path="/message" component={MessagePage} />
       <Route path="/profile" component={ProfilePage} />

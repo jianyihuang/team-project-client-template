@@ -64,8 +64,8 @@ render() {
 											<li><Link to="/config"><span className="glyphicon glyphicon-cog"></span>
 											Settings</Link>
 											</li>
-											<li><a href="#"><span className="glyphicon glyphicon-off"></span>
-											Log off</a>
+											<li><Link to= "/login"><span className="glyphicon glyphicon-off"></span>
+											Log off</Link>
 											</li>
 										</ul>
 									</div>
