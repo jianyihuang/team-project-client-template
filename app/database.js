@@ -21,7 +21,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": 1,
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -42,7 +42,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": 1,
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -63,7 +63,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": 1,
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -84,7 +84,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": 1,
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -105,7 +105,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": 1,
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -126,13 +126,16 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": 1,
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
       }
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 58c92b42b8a930557d04643c2aa6d671d7095730
 
   "tasks":{
     "1":{
@@ -163,8 +166,16 @@ var initialData = {
 
   "schedules":{
     "1":{
-    "_id": 1,
-    "list_of_tasks":[1, 2]
+      "_id": 2,
+      "completed": false,
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "contents": "CS 250"
+      }
     }
   },
 
@@ -315,16 +326,6 @@ var initialData = {
       "_id": 1,
       "list_of_users":[1, 2]
     }
-  },
-
-  "schedule":{
-    "1":{
-      "_id": 1,
-      "list_of_users":[1, 5],
-      "completed":true,
-      "collaborator":[1],
-      "time": 1453668480000
-        }
   }
 
 };

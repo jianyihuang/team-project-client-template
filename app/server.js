@@ -109,6 +109,7 @@ export function deleteFeed(userId,feedItemId,type,cb) {
   emulateServerReturn(feedData, cb);
 }
 
+
 export function likeFeedItem(feedItemId, userId, cb) {
   var feedItem = readDocument('feedItems', feedItemId);
     // Normally, we would check if the user already
@@ -143,6 +144,7 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
                         readDocument('users', userId)), cb);
 }
 
+// Create a new message box.
 function createMessageBox(userId, cb) {
 	// Get the current time.
 	var time = new Date().getTime();
@@ -156,10 +158,32 @@ function createMessageBox(userId, cb) {
 	emulateServerReturn(messageBox, cb);
 }
 
+// Add a user into a message box.
 function joinMessageBox(box_msg_id, userId, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	messageBox.list_of_Users.push(userId);
 	emulateServerReturn(messageBox, cb);
+}
+
+// Get user's setting.
+export function getUserSetting(userId, cb) {
+  var user = readDocument('users', userId);
+  var setting = {
+    username: user.username,
+    email: user.email,
+    password: user.password
+  };
+  emulateServerReturn(setting, cb);
+}
+
+// Update user's setting.
+export function updateUserSetting(newSetting, cb) {
+  var user = readDocument('users', newSetting.user_id);
+  user.username = newSetting.username;
+  user.email = newSetting.email;
+  user.password = newSetting.password;
+  writeDocument('users', user);
+  emulateServerReturn(user, cb);
 }
 
 // Get the user's short profile.
@@ -188,6 +212,25 @@ export function saveUserData(userId, school, year, quote, cb) {
   writeDocument('users', user);
   emulateServerReturn(user, cb);
 }
+
+
+function getScheduleItemSync(scheduleId) {
+  var scheduleItem = readDocument('schedules', scheduleId);
+  scheduleItem._id = readDocument('users',scheduleItem._id );
+  scheduleItem.contents.party =
+      readDocument('users', scheduleItem.contents.party);
+    return scheduleItem;
+}
+
+export function getScheduleData(user,type, cb) {
+    // Get the User object with the id "user".
+    var userData = readDocument('users', user);
+    var scheduleData = readDocument('academicfeeds', userData.schedules);
+    scheduleData = scheduleData.map(getScheduleItemSync);
+    emulateServerReturn(scheduleData, cb);
+}
+
+
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);

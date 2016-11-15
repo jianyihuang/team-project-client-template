@@ -6,6 +6,8 @@ import Navbar from './components/navbar';
 import MessagePanel from './components/message_panel';
 import Schedule from './components/schedule';
 import Profile from './components/profile';
+// import ServiceDetail from './components/servicedetail';
+import Config from './components/config';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 
@@ -41,16 +43,16 @@ class AcademicDetailPage extends React.Component {
   }
 }
 
-class ServiceDetailPage extends React.Component {
-  render() {
-    return(
-      <div>
-        <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <AcademicDetail/>
-      </div>
-    );
-  }
-}
+// class ServiceDetailPage extends React.Component {
+//   render() {
+//     return(
+//       <div>
+//         <link href="css/service_detail_page.css" rel="stylesheet"/>
+//         <AcademicDetail/>
+//       </div>
+//     );
+//   }
+// }
 
 class MessagePage extends React.Component {
   render() {
@@ -87,7 +89,7 @@ class SchedulePage extends React.Component {
 
 class ConfigPage extends React.Component {
   render() {
-    return (<p>This is a Config Page</p>);
+    return (<Config/>);
   }
 }
 
@@ -101,7 +103,7 @@ ReactDOM.render((
       <Route path="/profile" component={ProfilePage} />
       <Route path="/schedule" component={SchedulePage} />
       <Route path="/config" component={ConfigPage} />
-      <Route path="/service_detail" component={ServiceDetailPage} />
+      <Route path="/service_detail" component={AcademicDetailPage} />
 
     </Route>
   </Router>
