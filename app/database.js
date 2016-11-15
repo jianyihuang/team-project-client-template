@@ -21,7 +21,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedules": [1],
+      "schedules": [1,2],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -172,6 +172,18 @@ var initialData = {
       "contents": {
         // ID of the user that the appointment is with
         "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 250"
+      }
+    },
+    "2":{
+      "_id": 2,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 3,
         "date" : "10/6/2016",
         "timestamp_start": "8:00 am",
         "timestamp_end": "12:00 pm",

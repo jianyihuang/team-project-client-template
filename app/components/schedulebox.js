@@ -1,7 +1,10 @@
 import React from 'react';
-import {unixTimeToString} from '../../util';
 
-export class scheduleBox extends React.Component {
+export class Schedulebox extends React.Component {
+	constructor(props){
+		super(props);
+		console.log("we see schedule Box");
+	}
 	render() {
 		return (
 			<div className="row">

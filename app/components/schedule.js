@@ -1,13 +1,14 @@
 import React from 'react';
-import {scheduleBox} from './schedule_components/scheduleBox';
+import {Schedulebox} from './schedulebox';
 import {getScheduleData,getUserData } from '../server';
-import {resetDatabase} from '../database';
+//import {resetDatabase} from '../database';
 
 
 export default class Schedule extends React.Component {
   constructor(props) {
       super(props);
-      this.state = {current_user:1, schedules: []}
+      console.log("We see");
+      this.state = {current_user:1, schedules: []};
   }
 
 
@@ -27,13 +28,16 @@ export default class Schedule extends React.Component {
     return(
       <div>
       <div className="container content">
-        { this.state.schedules.map((scheduleItem, i) => {
-          return <scheduleBox firstName={scheduleItem._id.first_name} postDate={scheduleItem.contents.postDate}
-            serviceContent={scheduleItem.contents.serviceContent} startTime={scheduleItem.contents.timestamp_start}
+        { this.state.schedules.map((scheduleItem,i) => {
+            console.log(scheduleItem);
+         return(
+           <Schedulebox key = {i} firstName={scheduleItem._id.first_name} postDate={scheduleItem.contents.postDate}
+             serviceContent={scheduleItem.contents.serviceContent} startTime={scheduleItem.contents.timestamp_start}
             endTime={scheduleItem.contents.timestamp_end} party={scheduleItem.contents.serviceContents}
-            completed={scheduleItem.completed}   />;
-                        })
-                  }
+            completed={scheduleItem.completed}   />
+        );
+      })
+    }
         </div>
       </div>
     )
