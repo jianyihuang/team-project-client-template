@@ -27,6 +27,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
+
     "2":{
       "_id":2,
       "first_name": "Karen",
@@ -47,6 +48,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
+
     "3":{
       "_id":3,
       "first_name": "Karen",
@@ -67,6 +69,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
+
     "4":{
       "_id":4,
       "first_name": "Jucong",
@@ -87,6 +90,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
+
     "5":{
       "_id":5,
       "first_name": "Xin",
@@ -107,6 +111,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
+
     "6":{
       "_id":6,
       "first_name": "JianYi",
@@ -126,9 +131,8 @@ var initialData = {
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
-    }
-
-  },
+      }
+    },
 
   "tasks":{
     "1":{
@@ -309,6 +313,16 @@ var initialData = {
       "_id": 1,
       "list_of_users":[1, 2]
     }
+  },
+
+  "schedule":{
+    "1":{
+      "_id": 1,
+      "list_of_users":[1, 5],
+      "completed":true,
+      "collaborator":[1],
+      "time": 1453668480000
+        }
   }
 
 };

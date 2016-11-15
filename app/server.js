@@ -24,7 +24,7 @@ function getFeedItemSync(feedItemId) {
     // need to check the type and have logic for each type.
     feedItem.contents.author =
       readDocument('users', feedItem.contents.author);
-    feedItem.tag = readDocument("servicetags",feedItemId);
+    feedItem.tag = readDocument("servicetags",feedItem.tag);
     return feedItem;
 }
 
@@ -48,6 +48,37 @@ export function getFeedData(user,type, cb) {
     // emulateServerReturn will emulate an asynchronous server operation, which
     // invokes (calls) the "cb" function some time in the future.
     emulateServerReturn(feedData, cb);
+}
+
+export function postStatusUpdate(user, contents,type, cb) {
+  var time = new Date().getTime();
+  var newPost = {
+    "view_count": 0,
+    "likeCounter": [],
+    // Taggs are by course_id
+    "tag": 1,
+    "list_of_comments":[],
+    "contents": {
+      "author": user,
+      "timestamp": time,
+      "request": contents.title,
+      "contents": contents.value
+    }
+  }
+  newPost = addDocument('feedItems',newPost);
+  var userData = readDocument('users', user);
+  var feedData;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', userData.Academic_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('academicfeeds', feedData);
+  }else {
+     feedData = readDocument('servicefeeds', userData.Service_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('servicefeeds', feedData);
+  }
+  writeDocument('feedItems', newPost);
+  emulateServerReturn(feedData, cb);
 }
 
 function createMessageBox(userId, cb) {
