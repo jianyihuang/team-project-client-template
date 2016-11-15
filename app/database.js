@@ -21,7 +21,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedules": [1,2],
+      "schedules": [1,2,3,4,5],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -188,6 +188,42 @@ var initialData = {
         "timestamp_start": "8:00 am",
         "timestamp_end": "12:00 pm",
         "serviceContents": "CS 250"
+      }
+    },
+    "3":{
+      "_id": 3,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 1,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 311"
+      }
+    },
+    "4":{
+      "_id": 4,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 121"
+      }
+    },
+    "5":{
+      "_id": 5,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 121"
       }
     }
   },

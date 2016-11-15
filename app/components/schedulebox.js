@@ -7,7 +7,7 @@ export class Schedulebox extends React.Component {
 	}
 	render() {
 		return (
-			<div className="row">
+			//<div className="row">
 				<div className="col-md-3 text-center">
 			<div className="panel panel-default whole-tab">
 				<div className="panel-body">
@@ -24,7 +24,7 @@ export class Schedulebox extends React.Component {
 							</div>
 							</div>
 						</div>
-					</div>
+			//		</div>
 			);
 	}
 }
