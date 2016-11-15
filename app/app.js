@@ -89,7 +89,12 @@ class SchedulePage extends React.Component {
 
 class ConfigPage extends React.Component {
   render() {
-    return (<Config/>);
+    return (
+      <div>
+        <link rel="stylesheet" type="text/css" href="css/config.css" />
+          <Config/>
+      </div>
+    );
   }
 }
 
@@ -104,7 +109,6 @@ ReactDOM.render((
       <Route path="/schedule" component={SchedulePage} />
       <Route path="/config" component={ConfigPage} />
       <Route path="/service_detail" component={AcademicDetailPage} />
-
     </Route>
   </Router>
   ),document.getElementById('App')
