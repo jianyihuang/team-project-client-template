@@ -127,7 +127,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
-    
+
   },
 
   "tasks":{
@@ -310,6 +310,16 @@ var initialData = {
       "list_of_users":[1, 2],
     }
   },
+
+  "schedule":{
+    "1":{
+      "_id": 1,
+      "list_of_users":[1, 5],
+      "completed":true，
+      "collaborator":[1],
+      "time": 1453668480000,
+        }
+  }   ,
 
 };
 

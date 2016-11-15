@@ -15,7 +15,7 @@ export default class MessagePanel extends React.Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.changeUser = this.changeUser.bind(this);
     }
-    componentDidMount() {        
+    componentDidMount() {
         getMessageBoxServer(msg_box_id, (msg_box) => {
             getParticipantProfiles(msg_box_id, (profiles) => {
                 this.setState({
@@ -30,8 +30,8 @@ export default class MessagePanel extends React.Component {
                 //     console.log(JSON.stringify(p));
                 // });
             });
-        }); 
-                
+        });
+
     }
     sendMessage(entered_text) {
         // Send the message to the server.
@@ -70,10 +70,10 @@ export default class MessagePanel extends React.Component {
     						</div>
     						<div className="panel-body">
     							<ul className="media-list recent-contact">
-                                                                                {
-                                                                                    this.state.participant_profiles.map((profile, i) => {
-                                                                                        return <Contact key={i} imgUrl={profile.profilepic} userName={profile.username}/>;
-                                                                                    })
+  {
+  this.state.participant_profiles.map((profile, i) => {
+    return <Contact key={i} imgUrl={profile.profilepic} userName={profile.username}/>;
+              })
                                                                                 }
     							</ul>
     						</div>
