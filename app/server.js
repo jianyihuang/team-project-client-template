@@ -24,7 +24,7 @@ function getFeedItemSync(feedItemId) {
     // need to check the type and have logic for each type.
     feedItem.contents.author =
       readDocument('users', feedItem.contents.author);
-    feedItem.tag = readDocument("servicetags",feedItemId);
+    feedItem.tag = readDocument("servicetags",feedItem.tag);
     return feedItem;
 }
 
@@ -48,6 +48,99 @@ export function getFeedData(user,type, cb) {
     // emulateServerReturn will emulate an asynchronous server operation, which
     // invokes (calls) the "cb" function some time in the future.
     emulateServerReturn(feedData, cb);
+}
+
+export function postStatusUpdate(user, contents,type, cb) {
+  var time = new Date().getTime();
+  var newPost = {
+    "view_count": 0,
+    "likeCounter": [],
+    // Taggs are by course_id
+    "tag": 1,
+    "list_of_comments":[],
+    "contents": {
+      "author": user,
+      "timestamp": time,
+      "request": contents.title,
+      "contents": contents.value,
+      "imgUrl":contents.imgUrl
+    }
+  }
+  newPost = addDocument('feedItems',newPost);
+  var userData = readDocument('users', user);
+  var feedData;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', userData.Academic_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('academicfeeds', feedData);
+  }else {
+     feedData = readDocument('servicefeeds', userData.Service_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('servicefeeds', feedData);
+  }
+  writeDocument('feedItems', newPost);
+  emulateServerReturn(feedData, cb);
+}
+
+export function deleteFeed(userId,feedItemId,type,cb) {
+  var user = readDocument('users', userId);
+  var feedData;
+  var feedItemIndex;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', user.Academic_feed);
+     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
+     if (feedItemIndex !== -1) {
+       // 'splice' removes items from an array. This
+       // removes 1 element starting from userIndex.
+       feedData.list_of_feeditems.splice(feedItemIndex, 1);
+     }
+     writeDocument('academicfeeds', feedData);
+  }else {
+     feedData = readDocument('servicefeeds', user.Service_feed);
+     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
+     if (feedItemIndex !== -1) {
+       // 'splice' removes items from an array. This
+       // removes 1 element starting from userIndex.
+       feedData.list_of_feeditems.splice(feedItemIndex, 1);
+       writeDocument('servicefeeds', feedData);
+     }
+     writeDocument('servicefeeds', feedData);
+  }
+  emulateServerReturn(feedData, cb);
+}
+
+export function likeFeedItem(feedItemId, userId, cb) {
+  var feedItem = readDocument('feedItems', feedItemId);
+    // Normally, we would check if the user already
+  // liked this comment. But we will not do that
+  // in this mock server. ('push' modifies the array
+  // by adding userId to the end)
+  feedItem.likeCounter.push(userId);
+  writeDocument('feedItems', feedItem);
+  // Return a resolved version of the likeCounter
+  emulateServerReturn(feedItem.likeCounter.map((userId) =>
+                        readDocument('users', userId)), cb);
+}
+
+export function unlikeFeedItem(feedItemId, userId, cb) {
+  var feedItem = readDocument('feedItems', feedItemId);
+  // Find the array index that contains the user's ID.
+  // (We didn't *resolve* the FeedItem object, so
+  // it is just an array of user IDs)
+  var userIndex = feedItem.likeCounter.indexOf(userId);
+  // -1 means the user is *not* in the likeCounter,
+  // so we can simply avoid updating
+  // anything if that is the case: the user already
+  // doesn't like the item.
+  if (userIndex !== -1) {
+    // 'splice' removes items from an array. This
+    // removes 1 element starting from userIndex.
+    feedItem.likeCounter.splice(userIndex, 1);
+    writeDocument('feedItems', feedItem);
+  }
+  // Return a resolved version of the likeCounter
+  emulateServerReturn(feedItem.likeCounter.map((userId) =>
+                        readDocument('users', userId)), cb);
 }
 
 function createMessageBox(userId, cb) {
