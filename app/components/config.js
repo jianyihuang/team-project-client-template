@@ -11,7 +11,7 @@ export default class Config extends React.Component {
 			user_id: initial_user,
 			username: '',
 			password: '',
-			email: '',
+			email: ''
 		}
 		this.handleUsernameChange = this.handleUsernameChange.bind(this);
 		this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -39,30 +39,28 @@ export default class Config extends React.Component {
 		event.preventDefault();
 		var newUsername = event.target.value;
 		this.setState({
-			username: newUsername,
+			username: newUsername
 		});
 	}
 	handleEmailChange(event) {
 		event.preventDefault();
 		var newEmail = event.target.value;
 		this.setState({
-			email: newEmail,
+			email: newEmail
 		});
 	}
 	handlePasswordChange(event) {
 		event.preventDefault();
 		var newPassword = event.target.value;
 		this.setState({
-			password: newPassword,
+			password: newPassword
 		});
 	}
 	render() {
 		return (
-			<div>
-				<div className="row">Junk, delete this after CSS is fixed</div>
-				<div className="row">Junk, delete this after CSS is fixed</div>
-				<div className="row">Junk, delete this after CSS is fixed</div>
-				<div className="col-xs-8">
+			<div className="row">
+				<div className="col-xs-3"/>
+				<div className="col-xs-6">
 					<div className="panel panel-default">
 						<div className= "panel-color">
 							<div className="panel-body">
@@ -100,21 +98,23 @@ export default class Config extends React.Component {
 									</div>
 								</div>
 								<hr />
-								<div className="row">	
-									<button className="button-style" onClick={this.handleSave} >
-										<span className="glyphicon glyphicon-check"></span>
-										Save
-									</button>
-									<button className="button-style" onClick={this.handleCancel}>
-										<span className="glyphicon glyphicon-remove"></span>
-										Cancel
-									</button>
-								</div>
+								<div className="text-center">
+									<div className="btn-group" role="group">
+										<button className="button-style" onClick={this.handleSave} >
+											<span className="glyphicon glyphicon-check"></span>
+											Save
+										</button>
+										<button className="button-style" onClick={this.handleCancel}>
+											<span className="glyphicon glyphicon-remove"></span>
+											Cancel
+										</button>
+									</div>
+							</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div className="col-xs-4">
+				<div className="col-xs-3">
 					<p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
 				</div>
 			</div>

@@ -144,6 +144,13 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
                         readDocument('users', userId)), cb);
 }
 
+export function increaseViewCount(feedItemId,cb) {
+  var feedItem = readDocument("feedItems",feedItemId);
+  feedItem.view_count = feedItem.view_count+1;
+  writeDocument("feedItems",feedItem);
+  emulateServerReturn(feedItem.view_count,cb);
+}
+
 // Create a new message box.
 function createMessageBox(userId, cb) {
 	// Get the current time.
