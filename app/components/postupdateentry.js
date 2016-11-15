@@ -51,7 +51,7 @@ handleImg(e) {
         <div className="widget-area no-padding blank" id ="myModal">
           <div className="status-upload">
             <form>
-              <textarea placeholder="Enter the Summary"
+              <textarea placeholder="Enter the tiltle for this request"
                 row="1"
                 value={this.state.title}
                 onChange = {(e) => this.handleTitleChange(e)}>
