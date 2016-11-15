@@ -19,6 +19,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "school": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -127,7 +128,7 @@ var initialData = {
       "Academic_savedlists": 1,
       "Service_savedlists": 1
     },
-    
+
   },
 
   "tasks":{

@@ -1,7 +1,34 @@
 import React from 'react';
+import {getUserData, saveUserData} from '../server';
 
 export default class Profile extends React.Component{
+
+  handleChange(event) {
+    event.preventDefault();
+    this.setState({
+      entered_text: event.target.value
+    });
+  }
+
+  handleKeyUp(event) {
+    if(e.key === "Enter"){
+      var school = this.state.schoolInput.value.trim();
+      var year = this.state.yearInput.value.trim();
+      var quote = this.state.quoteInput.value.trim();
+      saveUserData(1, school, year, quote, () => {
+        this.refresh();
+      });
+    }
+  }
+
+  componentDidMount() {
+  this.refresh()
+  }
+
+
   render() {
+    var userData = getUserData(1);
+
     return (
       <div className = "container">
         <div className="row">
@@ -16,7 +43,7 @@ export default class Profile extends React.Component{
                   <div className="col-md-6">
                     <div className="additionalPadding">
                       <div className="profile-pic">
-                      <img src="img/student.jpg" alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
+                      <img src={userData.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
                       <span className="glyphicon glyphicon-camera"></span>
                       </div>
                     </div>
@@ -26,32 +53,43 @@ export default class Profile extends React.Component{
               </div>
             <form className="form-horizontal">
               <div className="form-group">
-                <label className="col-md-3 control-label">Name</label>
+                <label className="col-md-3 control-label"> First Name</label>
                   <div className="col-md-7">
-
-                    //<input className="form-control" id="nameInput" type="text" placeholder="What would you like to be called?"/>
+                    {userData.first_name}
                   </div>
                 </div>
+                <div className="form-group">
+                  <label className="col-md-3 control-label"> Last Name</label>
+                    <div className="col-md-7">
+                      {userData.last_name}
+                    </div>
+                  </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Academic Level</label>
                 <div className="col-md-5">
-                  <input className="form-control" id="yearInput" type="text" placeholder="What level are you?"/>
+                  <input className="form-control expandable" id="yearInput" type="text" placeholder="What level are you?"
+                    value={userData.education_level} onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Academic Institution</label>
                 <div className="col-md-7">
-                  <input className="form-control" id="schoolInput" type="text" placeholder="What school do you go to?"/>
+                  <input className="form-control expandable" id="schoolInput" type="text" placeholder="What school do you go to?"
+                    value={userData.school} onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Favorite Quote</label>
                 <div className="col-md-7">
-                  <input className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"/>
+                  <input className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"
+                    value = {userData.favorite_quote} onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
                 </div>
               </div>
               <div className="form-group">
-                <label className="col-md-3 control-label">Interested Subjects</label>
+                <label className="col-md-3 control-label">Areas of Intersest</label>
+                <div className="col-md-7">
+                  {userData.areas_of_interest}
+                </div>
                 <div className="col-md-7">
                   <form className="form-horizontal">
                     <div className="form-group">
@@ -67,6 +105,8 @@ export default class Profile extends React.Component{
                         </label>
                       </form>
                     </div>
+
+
                     <div className="form-group">
                       <button type="button" className="btn btn-default btn-sm">More
                         <span className="glyphicon glyphicon-option-horizontal"></span>
@@ -74,16 +114,6 @@ export default class Profile extends React.Component{
                     </div>
                   </form>
                 </div>
-              </div>
-              <div className="col-md-12 text-center">
-                <button type="button" className="btn btn-primary">
-                  Save
-                <span className="glyphicon glyphicon-ok"></span>
-                </button>
-                <button type="button" className="btn btn-primary">
-                  Cancel
-                <span className="glyphicon glyphicon-remove"></span>
-                </button>
               </div>
             </form>
           </div>
