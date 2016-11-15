@@ -48,7 +48,7 @@ class ServiceDetailPage extends React.Component {
     return(
       <div>
         <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <ServiceDetail />
+        <AcademicDetail/>
       </div>
     );
   }

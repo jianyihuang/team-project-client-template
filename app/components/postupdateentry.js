@@ -14,7 +14,7 @@ export default class PostUpdateEntry extends React.Component {
 handlePost(e){
     e.preventDefault();
     var writeRequestText = this.state.value.trim();
-      if(writeRequestText !== "" && this.state.type !== 0 && this.state.imgUrl !==""
+      if(writeRequestText !== "" && this.state.type !== 0
         &&this.state.title !== ""){
         this.props.onPost(this.state);
         this.setState({value: ""});
@@ -43,7 +43,7 @@ handleService(e) {
 
 handleImg(e) {
   e.preventDefault();
-  this.setState({imgUrl:"img/jucong_back.jpg"})
+  this.setState({imgUrl:"img/question_img.jpg"})
 }
   render() {
     return(
