@@ -266,7 +266,7 @@ export function getScheduleData(userId,cb) {
 export function getParticipantProfiles(box_msg_id, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	var participantList = messageBox.list_of_users;
-	var participantProfiles = participantList.map(function(user_id, i) {
+	var participantProfiles = participantList.map(function(user_id) {
 		return getShortProfile(user_id);
 	});
 	emulateServerReturn(participantProfiles, cb);
