@@ -2,45 +2,13 @@ import React from 'react';
 import {getUserData, saveUserData} from '../server';
 
 export default class Profile extends React.Component{
-      constructor(props){
-        super(props);
-          this.state = {
-            user: 1
-           }
-      }
 
 
-
-  handleSchool(event) {
+  handleChange(event) {
     event.preventDefault();
     this.setState({
-      school: event.target.value
+      value: event.target.value
     });
-  }
-
-  handleYear(event) {
-    event.preventDefault();
-    this.setState({
-      education_level: event.target.value
-    });
-  }
-
-  handleQuote(event) {
-    event.preventDefault();
-    this.setState({
-      favorite_quote: event.target.value
-    });
-  }
-
-
-  handleSaveUserInfo(event) {
-    if(event.key === "Enter"){
-
-    saveUserData(1, this.state.school, this.state.education_level, this.state.favorite_quote, (user) => {
-      this.setState({user:user});
-    });
-
-    }
   }
 
   handleKeyUp(event) {
@@ -73,7 +41,7 @@ export default class Profile extends React.Component{
                   <div className="col-md-6">
                     <div className="additionalPadding">
                       <div className="profile-pic">
-                      <img src={this.state.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
+                      <img src={user.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
                       <span className="glyphicon glyphicon-camera"></span>
                       </div>
                     </div>
@@ -85,34 +53,34 @@ export default class Profile extends React.Component{
               <div className="form-group">
                 <label className="col-md-3 control-label"> First Name</label>
                   <div className="col-md-7">
-                    {this.state.first_name}
+                    {user.first_name}
                   </div>
                 </div>
                 <div className="form-group">
                   <label className="col-md-3 control-label"> Last Name</label>
                     <div className="col-md-7">
-                      {this.state.last_name}
+                      {user.last_name}
                     </div>
                   </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Academic Level</label>
                 <div className="col-md-5">
                   <input className="form-control expandable" id="yearInput" type="text" placeholder="What level are you?"
-                    value={this.state.education_level} onChange={this.handleYear} onKeyUp={this.handleKeyUp}/>
+                    value={user.education_level} onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Academic Institution</label>
                 <div className="col-md-7">
                   <input className="form-control expandable" id="schoolInput" type="text" placeholder="What school do you go to?"
-                    value={this.state.school} onChange={this.handleSchool} onKeyUp={this.handleKeyUp}/>
+                    value={user.school} onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
                 </div>
               </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Favorite Quote</label>
                 <div className="col-md-7">
                   <input className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"
-                    value = {this.state.favorite_quote} onChange={this.handleQuote} onKeyUp={this.handleKeyUp}/>
+                    value = {user.favorite_quote} onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
                 </div>
               </div>
               <div className="form-group">
