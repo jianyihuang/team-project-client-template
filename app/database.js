@@ -132,11 +132,7 @@ var initialData = {
       "Service_savedlists": 1
       }
     },
-<<<<<<< HEAD
 
-  },
-=======
->>>>>>> refs/remotes/origin/master
 
   "tasks":{
     "1":{

@@ -68,7 +68,7 @@ class ProfilePage extends React.Component {
     return (
       <div>
         <link href="css/user-profile.css" rel="stylesheet"/>
-        <Profile />
+        <Profile user={1}/>
       </div>
     );
   }
