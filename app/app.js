@@ -110,6 +110,7 @@ ReactDOM.render((
       <Route path="/schedule" component={SchedulePage} />
       <Route path="/config" component={ConfigPage} />
       <Route path="/service_detail" component={AcademicDetailPage} />
+      <Route path="/categorybox" component={CategoryBoxPage} />
     </Route>
   </Router>
   ),document.getElementById('App')

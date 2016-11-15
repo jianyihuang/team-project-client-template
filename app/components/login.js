@@ -21,7 +21,9 @@ export default class LoginPage extends React.Component {
               <form className="login">
                 <input type="text" placeholder="Username" />
                 <input type="password" placeholder="Password" />
-                <input type="submit" value="Sign In" className="btn btn-success btn-sm" />
+                <Link to ="/categorybox">
+                  <input type="submit" value="Sign In" className="btn btn-success btn-sm" />
+                </Link>
                 <div className="remember-forgot">
                   <div className="row">
                     <div className="col-md-6">
