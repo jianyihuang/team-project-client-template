@@ -199,16 +199,22 @@ function getShortProfile(userId) {
 	return profile;
 }
 
-export function getUserData(userId) {
+// Get all information about the user.
+export function getUserData(userId, cb) {
   var user = readDocument('users', userId);
-  return user;
+  emulateServerReturn(user, cb);
 }
-
-export function saveUserData(userId, school, year, quote, cb) {
-  var user = readDocument('users', userId);
-  user.favorite_quote = quote;
-  user.education_level = year;
-  user.school = school;
+// Save new user profile information.
+export function saveUserData(newUserProfile, cb) {
+  var user = readDocument('users', newUserProfile.user_id);
+  user.first_name = newUserProfile.first_name,
+  user.last_name = newUserProfile.last_name,
+  user.profilepic = newUserProfile.profilepic,
+  user.favorite_quote = newUserProfile.favorite_quote,
+  user.areas_of_interest = newUserProfile.areas_of_interest,
+  user.classes_taken = newUserProfile.classes_taken,
+  user.education_level = newUserProfile.education_level,
+  user.academic_institution = newUserProfile.academic_institution,
   writeDocument('users', user);
   emulateServerReturn(user, cb);
 }
