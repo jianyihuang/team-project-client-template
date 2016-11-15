@@ -108,9 +108,10 @@ export default class MessagePanel extends React.Component {
                                             this.state.participant_profiles.map(function(profile, i) {
                                                 return <p key={i}>{profile.username}-id:{profile.user_id}</p>;
                                             })
-                                        }
-    				<p>UserID: <input type='text' size='3' maxLength='1' value={this.state.current_user} onChange={this.changeUser}/></p>
+                                        }                                       
                                         <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
+                                        <p>UserID: <input type='text' size='3' maxLength='1' value={this.state.user_id} onChange={this.changeUser}/></p>
+                                        <p><button type='button' onClick={this.refresh}>Change User</button></p>
     			</div>
     		</div>
     	</div>
