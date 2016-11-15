@@ -41,7 +41,7 @@ export default class Feed extends React.Component {
         <PostUpdateEntry onPost = {(postContents) => this.onPost(postContents)} />
         {this.state.list_of_feeditems.map((feedItem) => {
               return (
-                <FeedItem key={feedItem._id} data={feedItem} />
+                <FeedItem key={feedItem._id} data={feedItem} refresh = {()=> this.refresh()}/>
               )
             })}
       </div>

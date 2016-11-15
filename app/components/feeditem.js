@@ -1,5 +1,5 @@
 import React from 'react';
-import {unlikeFeedItem,likeFeedItem} from '../server';
+import {deleteFeed,unlikeFeedItem,likeFeedItem} from '../server';
 
 export default class FeedItem extends React.Component {
   constructor(props) {
@@ -8,7 +8,6 @@ export default class FeedItem extends React.Component {
   }
 
   handleLikeClick(clickEvent) {
-    console.log("Like clicked");
     clickEvent.preventDefault();
     if (clickEvent.button === 0) {
     var callbackFunction = (updatedLikeCounter) => {
@@ -38,6 +37,14 @@ export default class FeedItem extends React.Component {
     return liked;
   }
 
+  handleDeleteFeed(clickEvent) {
+    clickEvent.preventDefault();
+    if(clickEvent.button === 0) {
+      deleteFeed(1,this.state._id,1,()=>{
+        this.props.refresh();
+      });
+    }
+  }
   render() {
     var likeButtonText = "Like";
       if (this.didUserLike()) {
@@ -55,7 +62,9 @@ export default class FeedItem extends React.Component {
                 </div>
                 <div className="media-body">
                   Form Category: {data.tag.type_of_service}
-                  <a href="#"><span className="glyphicon glyphicon-remove pull-right"></span></a>
+                  <a href="#" onClick = {(e)=>this.handleDeleteFeed(e)}>
+                    <span className="glyphicon glyphicon-remove pull-right"></span>
+                  </a>
                   <br /><a href="#">{data.contents.request}</a>
                 </div>
               </div>
