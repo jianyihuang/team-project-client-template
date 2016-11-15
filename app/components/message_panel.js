@@ -6,12 +6,13 @@ import {sendMessageServer, getMessageBoxServer, getParticipantProfiles} from '..
 import {resetDatabase} from '../database';
 // import server functions here.
 
+const initial_user = 1;
 const msg_box_id = 1;
 
 export default class MessagePanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {current_user: 1, messages: [], participant_profiles: []};
+        this.state = {current_user: initial_user, messages: [], participant_profiles: []};
         this.sendMessage = this.sendMessage.bind(this);
         this.changeUser = this.changeUser.bind(this);
     }

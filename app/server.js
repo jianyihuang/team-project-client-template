@@ -109,6 +109,7 @@ export function deleteFeed(userId,feedItemId,type,cb) {
   emulateServerReturn(feedData, cb);
 }
 
+
 export function likeFeedItem(feedItemId, userId, cb) {
   var feedItem = readDocument('feedItems', feedItemId);
     // Normally, we would check if the user already
@@ -143,6 +144,7 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
                         readDocument('users', userId)), cb);
 }
 
+// Create a new message box.
 function createMessageBox(userId, cb) {
 	// Get the current time.
 	var time = new Date().getTime();
@@ -156,10 +158,32 @@ function createMessageBox(userId, cb) {
 	emulateServerReturn(messageBox, cb);
 }
 
+// Add a user into a message box.
 function joinMessageBox(box_msg_id, userId, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	messageBox.list_of_Users.push(userId);
 	emulateServerReturn(messageBox, cb);
+}
+
+// Get user's setting.
+export function getUserSetting(userId, cb) {
+  var user = readDocument('users', userId);
+  var setting = {
+    username: user.username,
+    email: user.email,
+    password: user.password
+  };
+  emulateServerReturn(setting, cb);
+}
+
+// Update user's setting.
+export function updateUserSetting(newSetting, cb) {
+  var user = readDocument('users', newSetting.user_id);
+  user.username = newSetting.username;
+  user.email = newSetting.email;
+  user.password = newSetting.password;
+  writeDocument('users', user);
+  emulateServerReturn(user, cb);
 }
 
 // Get the user's short profile.
@@ -168,10 +192,50 @@ function getShortProfile(userId) {
 	var profile = {
 		user_id: userId,
 		username: user.username,
+    firstName: user.first_name,
+    lastName: user.last_name,
 		profilepic: user.profilepic
 	};
 	return profile;
 }
+
+// Get all information about the user.
+export function getUserData(userId, cb) {
+  var user = readDocument('users', userId);
+  emulateServerReturn(user, cb);
+}
+// Save new user profile information.
+export function saveUserData(newUserProfile, cb) {
+  var user = readDocument('users', newUserProfile.user_id);
+  user.first_name = newUserProfile.first_name,
+  user.last_name = newUserProfile.last_name,
+  user.profilepic = newUserProfile.profilepic,
+  user.favorite_quote = newUserProfile.favorite_quote,
+  user.areas_of_interest = newUserProfile.areas_of_interest,
+  user.classes_taken = newUserProfile.classes_taken,
+  user.education_level = newUserProfile.education_level,
+  user.academic_institution = newUserProfile.academic_institution,
+  writeDocument('users', user);
+  emulateServerReturn(user, cb);
+}
+
+
+function getScheduleItemSync(scheduleId) {
+  var scheduleItem = readDocument('schedules', scheduleId);
+  scheduleItem._id = readDocument('users',scheduleItem._id );
+  scheduleItem.contents.party =
+      readDocument('users', scheduleItem.contents.party);
+    return scheduleItem;
+}
+
+export function getScheduleData(userId,cb) {
+    // Get the User object with the id "user".
+    var userData = readDocument('users', userId);
+    var scheduleData = userData.schedules.map((id) => readDocument('schedules', id));
+    scheduleData = scheduleData.map(getScheduleItemSync);
+    emulateServerReturn(scheduleData, cb);
+}
+
 
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {

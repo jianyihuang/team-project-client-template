@@ -17,10 +17,11 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": [1],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -28,8 +29,8 @@ var initialData = {
 
     "2":{
       "_id":2,
-      "first_name": "Karen",
-      "last_name":"Zheung",
+      "first_name": "Thien",
+      "last_name":"Dinh",
       "profilepic": 'img/pug.jpg',
       "username": "Thien",
       "password": "123abc",
@@ -38,10 +39,11 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": [1],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -49,8 +51,8 @@ var initialData = {
 
     "3":{
       "_id":3,
-      "first_name": "Karen",
-      "last_name":"Zheung",
+      "first_name": "Timothy",
+      "last_name":"Addai",
       "profilepic": 'img/cat.jpeg',
       "username": "Tim",
       "password": "123abc",
@@ -59,10 +61,11 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": [1],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -71,7 +74,7 @@ var initialData = {
     "4":{
       "_id":4,
       "first_name": "Jucong",
-      "last_name":"Zheung",
+      "last_name":"He",
       "profilepic": 'img/pug.jpg',
       "username": "Jucong",
       "password": "123abc",
@@ -80,10 +83,11 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": [1],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -92,7 +96,7 @@ var initialData = {
     "5":{
       "_id":5,
       "first_name": "Xin",
-      "last_name":"Zheung",
+      "last_name":"Liu",
       "profilepic": 'img/cat.jpeg',
       "username": "Xin",
       "password": "123abc",
@@ -101,10 +105,11 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": [1],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -112,8 +117,8 @@ var initialData = {
 
     "6":{
       "_id":6,
-      "first_name": "JianYi",
-      "last_name":"Zheung",
+      "first_name": "Jianyi",
+      "last_name":"Huang",
       "profilepic": 'img/pug.jpg',
       "username": "JianYi",
       "password": "123abc",
@@ -122,10 +127,11 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedule": 1,
+      "schedules": [1],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -161,8 +167,16 @@ var initialData = {
 
   "schedules":{
     "1":{
-    "_id": 1,
-    "list_of_tasks":[1, 2]
+      "_id": 2,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 250"
+      }
     }
   },
 
@@ -313,16 +327,6 @@ var initialData = {
       "_id": 1,
       "list_of_users":[1, 2]
     }
-  },
-
-  "schedule":{
-    "1":{
-      "_id": 1,
-      "list_of_users":[1, 5],
-      "completed":true,
-      "collaborator":[1],
-      "time": 1453668480000
-        }
   }
 
 };
