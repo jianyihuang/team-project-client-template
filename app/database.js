@@ -132,10 +132,6 @@ var initialData = {
       "Service_savedlists": 1
       }
     },
-<<<<<<< HEAD
-
-=======
->>>>>>> 58c92b42b8a930557d04643c2aa6d671d7095730
 
   "tasks":{
     "1":{
