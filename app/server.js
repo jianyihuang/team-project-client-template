@@ -228,10 +228,10 @@ function getScheduleItemSync(scheduleId) {
     return scheduleItem;
 }
 
-export function getScheduleData(user,type, cb) {
+export function getScheduleData(userId,cb) {
     // Get the User object with the id "user".
-    var userData = readDocument('users', user);
-    var scheduleData = readDocument('academicfeeds', userData.schedules);
+    var userData = readDocument('users', userId);
+    var scheduleData = userData.schedules.map((id) => readDocument('schedules', id));
     scheduleData = scheduleData.map(getScheduleItemSync);
     emulateServerReturn(scheduleData, cb);
 }
