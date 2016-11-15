@@ -126,8 +126,8 @@ var initialData = {
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
-    },
-    
+    }
+
   },
 
   "tasks":{
@@ -214,21 +214,21 @@ var initialData = {
     "3":{
       "_id": 3,
       "course_id": "MATH132",
-      "course_id": "Calculus 2"
+      "course_title": "Calculus 2"
     }
   },
 
   "Academic_savedlists":{
     "1":{
       "_id": 1,
-      "list_of_feeditems":[1],
+      "list_of_feeditems":[1]
     }
   },
 
   "Service_savedlists":{
     "1":{
       "_id": 1,
-      "list_of_posts":[1],
+      "list_of_posts":[1]
     }
   },
 
@@ -307,9 +307,9 @@ var initialData = {
   "likelists":{
     "1":{
       "_id": 1,
-      "list_of_users":[1, 2],
+      "list_of_users":[1, 2]
     }
-  },
+  }
 
 };
 
