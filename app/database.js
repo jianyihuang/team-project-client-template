@@ -17,6 +17,7 @@ var initialData = {
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
+      "school": "Umass Amherst",
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
@@ -131,6 +132,11 @@ var initialData = {
       "Service_savedlists": 1
       }
     },
+<<<<<<< HEAD
+
+  },
+=======
+>>>>>>> refs/remotes/origin/master
 
   "tasks":{
     "1":{

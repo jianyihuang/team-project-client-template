@@ -168,11 +168,26 @@ function getShortProfile(userId) {
 	var profile = {
 		user_id: userId,
 		username: user.username,
+    firstName: user.first_name,
+    lastName: user.last_name,
 		profilepic: user.profilepic
 	};
 	return profile;
 }
 
+export function getUserData(userId) {
+  var user = readDocument('users', userId);
+  return user;
+}
+
+export function saveUserData(userId, school, year, quote, cb) {
+  var user = readDocument('users', userId);
+  user.favorite_quote = quote;
+  user.education_level = year;
+  user.school = school;
+  writeDocument('users', user);
+  emulateServerReturn(user, cb);
+}
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);

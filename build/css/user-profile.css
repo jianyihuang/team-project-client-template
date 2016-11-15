@@ -97,11 +97,15 @@ body {
 
 .btn-space {
   padding-right: 200px;
-  padding-left: 20px;
+  padding-left: 200px;
 }
 
 .panel {
   -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
   -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
   box-shadow: 0px 8px 5px 0px #BDBDBD;
+}
+
+button.visible{
+  visibility: none;
 }
