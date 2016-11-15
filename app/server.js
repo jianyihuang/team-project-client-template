@@ -143,6 +143,7 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
                         readDocument('users', userId)), cb);
 }
 
+// Create a new message box.
 function createMessageBox(userId, cb) {
 	// Get the current time.
 	var time = new Date().getTime();
@@ -156,10 +157,32 @@ function createMessageBox(userId, cb) {
 	emulateServerReturn(messageBox, cb);
 }
 
+// Add a user into a message box.
 function joinMessageBox(box_msg_id, userId, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	messageBox.list_of_Users.push(userId);
 	emulateServerReturn(messageBox, cb);
+}
+
+// Get user's setting.
+export function getUserSetting(userId, cb) {
+  var user = readDocument('users', userId);
+  var setting = {
+    username: user.username,
+    email: user.email,
+    password: user.password
+  };
+  emulateServerReturn(setting, cb);
+}
+
+// Update user's setting.
+export function updateUserSetting(newSetting, cb) {
+  var user = readDocument('users', newSetting.user_id);
+  user.username = newSetting.username;
+  user.email = newSetting.email;
+  user.password = newSetting.password;
+  writeDocument('users', user);
+  emulateServerReturn(user, cb);
 }
 
 // Get the user's short profile.
