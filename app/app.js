@@ -6,7 +6,6 @@ import Navbar from './components/navbar';
 import MessagePanel from './components/message_panel';
 import Schedule from './components/schedule';
 import Profile from './components/profile';
-import ServiceDetail from './components/servicedetail.js'
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 
@@ -47,7 +46,7 @@ class ServiceDetailPage extends React.Component {
     return(
       <div>
         <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <ServiceDetail />
+        <AcademicDetail/>
       </div>
     );
   }

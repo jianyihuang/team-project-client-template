@@ -247,7 +247,8 @@ var initialData = {
         "author": 1,
         "timestamp": 1453668480000,
         "request": "Oh god! CS311 homework is too hard! PlZZZ help",
-        "contents": "sending hugs your way"
+        "contents": "sending hugs your way",
+        "imgUrl":"img/question_img.jpeg"
       }
     },
     "2":{
@@ -262,7 +263,8 @@ var initialData = {
         "author": 1,
         "timestamp": 1453668480000,
         "request": "Oh god! Chinese homework is too hard! PlZZZ help",
-        "contents": "呵呵呵呵呵呵呵呵呵呵"
+        "contents": "呵呵呵呵呵呵呵呵呵呵",
+        "imgUrl":"img/history.jpg"
       }
     }
   },

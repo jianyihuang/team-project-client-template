@@ -1,6 +1,6 @@
 import React from 'react';
 import {deleteFeed,unlikeFeedItem,likeFeedItem} from '../server';
-
+import Contents from './contents';
 export default class FeedItem extends React.Component {
   constructor(props) {
     super(props);
@@ -70,11 +70,7 @@ export default class FeedItem extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12 text-feed">
-              {data.contents.contents}
-            </div>
-          </div>
+          <Contents data={data}/>
           <hr />
           <div className="row">
             <div className="col-md-12">

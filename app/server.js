@@ -62,7 +62,8 @@ export function postStatusUpdate(user, contents,type, cb) {
       "author": user,
       "timestamp": time,
       "request": contents.title,
-      "contents": contents.value
+      "contents": contents.value,
+      "imgUrl":contents.imgUrl
     }
   }
   newPost = addDocument('feedItems',newPost);
