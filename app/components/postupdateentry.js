@@ -43,7 +43,7 @@ handleService(e) {
 
 handleImg(e) {
   e.preventDefault();
-  this.setState({imgUrl:"img/question_img.jpg"})
+  this.setState({imgUrl:"img/question_img.jpeg"})
 }
   render() {
     return(
