@@ -94,7 +94,7 @@ export default class Profile extends React.Component{
     });
   }
 
-      // Called when text in text field 'Quote' changed.
+     // Called when text in text field 'Quote' changed.
   handleQuote(event) {
     event.preventDefault();
     this.setState({
@@ -143,6 +143,7 @@ export default class Profile extends React.Component{
                     <div className="additionalPadding">
                       <div className="profile-pic">
                         <img src={this.state.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
+
                       <span className="glyphicon glyphicon-camera"></span>
                       </div>
                     </div>
