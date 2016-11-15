@@ -59,6 +59,9 @@ export default class Config extends React.Component {
 	render() {
 		return (
 			<div>
+				<div className="row">Junk, delete this after CSS is fixed</div>
+				<div className="row">Junk, delete this after CSS is fixed</div>
+				<div className="row">Junk, delete this after CSS is fixed</div>
 				<div className="col-xs-8">
 					<div className="panel panel-default">
 						<div className= "panel-color">
