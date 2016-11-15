@@ -31,7 +31,7 @@ var initialData = {
       "_id":2,
       "first_name": "Thien",
       "last_name":"Dinh",
-      "profilepic": 'img/pug.jpg',
+      "profilepic": 'img/kiwi.jpg',
       "username": "Thien",
       "password": "Thien'sPassword",
       "email": "tddinh@umass.edu",
