@@ -45,9 +45,11 @@ export default class MessagePanel extends React.Component {
     }
     changeUser(event){
         var user = event.target.value;
-        this.setState({
-            current_user: Number(user)
-        });
+        if(user !== '') {         
+          this.setState({
+              user_id: Number(user)
+          });
+        }
     }
   render() {
     return(
@@ -110,7 +112,7 @@ export default class MessagePanel extends React.Component {
                                             })
                                         }                                       
                                         <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
-                                        <p>UserID: <input type='text' size='3' maxLength='1' value={this.state.user_id} onChange={this.changeUser}/></p>
+                                        <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={initial_user} onChange={this.changeUser}/></p>
                                         <p><button type='button' onClick={this.refresh}>Change User</button></p>
     			</div>
     		</div>

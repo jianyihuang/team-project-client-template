@@ -18,10 +18,14 @@ export default class Config extends React.Component {
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
 		this.handleCancel = this.handleCancel.bind(this);
 		this.handleSave = this.handleSave.bind(this);
+		this.changeUser = this.changeUser.bind(this);
+		this.refresh = this.refresh.bind(this);
 	}
 	componentDidMount() {
+		this.refresh();
+	}
+	refresh(){
 		getUserSetting(this.state.user_id, (setting) => {
-			console.log(JSON.stringify(setting));
 			this.setState(setting);
 		});
 	}
@@ -55,6 +59,14 @@ export default class Config extends React.Component {
 		this.setState({
 			password: newPassword
 		});
+	}
+	changeUser(event){
+		var user = event.target.value;
+		if(user !== '') {         
+		  this.setState({
+		      user_id: Number(user)
+		  });
+		}
 	}
 	render() {
 		return (
@@ -116,6 +128,8 @@ export default class Config extends React.Component {
 				</div>
 				<div className="col-xs-3">
 					<p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
+				            <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={initial_user} onChange={this.changeUser}/></p>
+				            <p><button type='button' onClick={this.refresh}>Change User</button></p>
 				</div>
 			</div>
 		);
