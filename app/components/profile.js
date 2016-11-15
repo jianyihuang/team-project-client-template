@@ -45,11 +45,7 @@ export default class Profile extends React.Component{
             education_level: user_data.education_level,
             academic_institution: user_data.academic_institution,
           });
-<<<<<<< HEAD
         });
-=======
-        });        
->>>>>>> 6265f0887b308ffe25249845fd734a8cd98f0596
       }
       componentDidMount() {
         console.log('Mounted: ' + this.state.user_id);
@@ -215,12 +211,13 @@ export default class Profile extends React.Component{
                 </div>
               </div>
             </form>
-            <div>
-                      <button type="button" className="btn btn-default btn-sm" onClick={this.handleSave}>Save
-                        <span className="glyphicon glyphicon-option-horizontal"></span>
+
+            <div className="col-md-12 text-center">
+                      <button type="button" className="btn btn-success btn-sm" onClick={this.handleSave}>Save
+                        <span className="glyphicon glyphicon-ok"></span>
                       </button>
-                      <button type="button" className="btn btn-default btn-sm" onClick={this.handleCancel}>Cancel
-                        <span className="glyphicon glyphicon-option-horizontal"></span>
+                      <button type="button" className="btn btn-danger btn-sm" onClick={this.handleCancel}>Cancel
+                        <span className="glyphicon glyphicon-remove"></span>
                       </button>
             </div>
           </div>
