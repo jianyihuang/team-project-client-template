@@ -265,7 +265,7 @@ export function getScheduleData(userId,cb) {
     emulateServerReturn(scheduleData, cb);
 }
 
-export function deleteFeed(userId,feedItemId,type,cb) {
+export function deleteSchedule(userId,feedItemId,type,cb) {
   var user = readDocument('users', userId);
   var feedData;
   var feedItemIndex;
