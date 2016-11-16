@@ -1,9 +1,20 @@
 import React from 'react';
+import {deleteSchedule} from '../server';
 
 export class Schedulebox extends React.Component {
 	constructor(props){
 		super(props);
 	}
+
+	handleDeleteSchedule(clickEvent) {
+		clickEvent.preventDefault();
+		if(clickEvent.button === 0) {
+			deleteSchedule(1,this.props.id,()=>{
+				this.props.refresh();
+			});
+		}
+	}
+
 	render() {
 		return (
 				<div className="col-md-3 text-center">
@@ -17,8 +28,11 @@ export class Schedulebox extends React.Component {
 							<br /><span className = "taken-by">{this.props.party}</span><br />
 							<hr />
 							<button type="button" className="btn btn-primary completed-button">
-								{this.props.completed}
+								<a href="#" onClick= {(e) => this.handleDeleteSchedule(e)}>
+								{this.props.completed}</a>
 							</button>
+
+
 							</div>
 							</div>
 						</div>
