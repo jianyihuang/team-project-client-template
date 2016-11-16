@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserData, saveUserData} from '../server';
+import {getUserData, saveUserData, getClassData} from '../server';
 import {resetDatabase} from '../database';
 import {classesTaken} from './classesTaken';
 
@@ -79,6 +79,7 @@ export default class Profile extends React.Component{
           });
         });
       }
+      //called when submit button next to class list
 
 
       // Called when text in text field 'Academic Institution' changed.
@@ -199,7 +200,7 @@ export default class Profile extends React.Component{
               <div className="form-group">
                 <label className="col-md-3 control-label">Classes Taken</label>
                 <div className="col-md-7">
-                
+
                   {this.state.classes_taken.map((classItem, i) => {
                     return <classesTaken key={i} courseid={classItem.course_id} courseTitle={classItem.course_title} />;
                   })}
@@ -223,6 +224,8 @@ export default class Profile extends React.Component{
                       <option id="CS326">CS326</option>
                       <option id="MATH411">MATH411</option>
                     </select>
+                    <button type = "button" onClick={this.handleClasses}>Submit</button>
+
 
                 </div>
               </div>
