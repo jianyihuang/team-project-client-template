@@ -261,7 +261,31 @@ export function getScheduleData(userId,cb) {
     emulateServerReturn(scheduleData, cb);
 }
 
+function getClassItemSync(classItem) {
+  classItem._id = readDocument('classes', classItem._id);
+  classItem.course_title = readDocument('classes', classItem.course_title);
+    return classItem;
+}
 
+function getClass(classId) {
+  var classItem = readDocument('classes', classId);
+  var classData = {
+    _id: classId,
+    course_id: classItem.course_id,
+    course_title: classItem.course_title
+  };
+  return classData;
+}
+
+export function getUserClasses(userId, cb) {
+  var userData = readDocument('users', userId);
+  var classTaken = userData.classes_taken.map(function(classId) {
+    return getClass(classId);
+  });
+  classTaken = classTaken.map(getClassItemSync)
+  emulateServerReturn(classTaken, cb);
+
+}
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);

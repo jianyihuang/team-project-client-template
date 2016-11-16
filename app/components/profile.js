@@ -1,6 +1,7 @@
 import React from 'react';
 import {getUserData, saveUserData} from '../server';
 import {resetDatabase} from '../database';
+import {classesTaken} from './classesTaken';
 
 
 const intial_user = 1;
@@ -78,6 +79,8 @@ export default class Profile extends React.Component{
           });
         });
       }
+
+
       // Called when text in text field 'Academic Institution' changed.
   handleSchool(event) {
     event.preventDefault();
@@ -144,7 +147,7 @@ export default class Profile extends React.Component{
                       <div className="profile-pic">
                         <img src={this.state.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
 
-                      <span className="glyphicon glyphicon-camera"></span>
+                      <span className="glyphicon glyphicon-camera"></span>Edit Picture
                       </div>
                     </div>
                   </div>
@@ -186,9 +189,17 @@ export default class Profile extends React.Component{
                 </div>
               </div>
               <div className="form-group">
-                <label className="col-md-3 control-label">Areas of Intersest</label>
+                <label className="col-md-3 control-label"> Areas of Interest</label>
+                  <div className="col-md-7">
+                    {this.state.areas_of_interest}
+                  </div>
+                </div>
+              <div className="form-group">
+                <label className="col-md-3 control-label">Classes Taken</label>
                 <div className="col-md-7">
-
+                  {this.state.classes_taken.map((classItem, i) => {
+                    return <classesTaken key={i} courseid={classItem.course_id} courseTitle={classItem.course_title} />;
+                  })}
                 </div>
                 <div className="col-md-7">
                     <div className="form-group">
@@ -203,6 +214,8 @@ export default class Profile extends React.Component{
                         </label>
                     </div>
 
+
+
                     <div className="form-group">
                       <button type="button" className="btn btn-default btn-sm">More
                         <span className="glyphicon glyphicon-option-horizontal"></span>
@@ -212,7 +225,7 @@ export default class Profile extends React.Component{
               </div>
             </form>
 
-            <div className="col-md-12 text-center">
+            <div className="col-md-12 text-center editBtns" id="editBtns">
                       <button type="button" className="btn btn-success btn-sm" onClick={this.handleSave}>Save
                         <span className="glyphicon glyphicon-ok"></span>
                       </button>
