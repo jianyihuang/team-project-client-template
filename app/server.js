@@ -206,22 +206,7 @@ function getShortProfile(userId) {
 	return profile;
 }
 
-function getScheduleItem(scheduleId) {
-	var schedules = readDocument('schedules', scheduleId);
-	var scheduleData = {
-     _id: scheduleId,
-     completed: schedules.completed,
-     contents: {
-      // ID of the user that the appointment is with
-      party : schedules.contents.party,
-      date : schedules.contents.date,
-      timestamp_start: schedules.contents.timestamp_start,
-      timestamp_end: schedules.contents.timestamp_end,
-      serviceContents: schedules.contents.serviceContents
-    }
-	};
-	return scheduleData;
-}
+
 // Get all information about the user.
 export function getUserData(userId, cb) {
   var user = readDocument('users', userId);
@@ -243,6 +228,25 @@ export function saveUserData(newUserProfile, cb) {
 }
 
 
+//------------------------ Schedule Part
+function getScheduleItem(scheduleId) {
+	var schedules = readDocument('schedules', scheduleId);
+	var scheduleData = {
+     _id: scheduleId,
+     completed: schedules.completed,
+     contents: {
+      // ID of the user that the appointment is with
+      party : schedules.contents.party,
+      date : schedules.contents.date,
+      timestamp_start: schedules.contents.timestamp_start,
+      timestamp_end: schedules.contents.timestamp_end,
+      serviceContents: schedules.contents.serviceContents
+    }
+	};
+	return scheduleData;
+}
+
+
 function getScheduleItemSync(scheduleItem) {
 //  console.log(scheduleItem);
   scheduleItem._id = readDocument('users',scheduleItem._id);
@@ -260,6 +264,26 @@ export function getScheduleData(userId,cb) {
     scheduleData = scheduleData.map(getScheduleItemSync)
     emulateServerReturn(scheduleData, cb);
 }
+
+export function deleteFeed(userId,feedItemId,type,cb) {
+  var user = readDocument('users', userId);
+  var feedData;
+  var feedItemIndex;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', user.Academic_feed);
+     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
+     if (feedItemIndex !== -1) {
+       // 'splice' removes items from an array. This
+       // removes 1 element starting from userIndex.
+       feedData.list_of_feeditems.splice(feedItemIndex, 1);
+     }
+     writeDocument('academicfeeds', feedData);
+  }
+  emulateServerReturn(feedData, cb);
+}
+//-------------------------------------------------
+
+
 
 
 // Get a list of user's short profiles.
