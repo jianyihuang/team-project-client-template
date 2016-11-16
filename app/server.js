@@ -242,7 +242,9 @@ export function saveUserData(newUserProfile, cb) {
 function getScheduleItem(scheduleId) {
 	var schedules = readDocument('schedules', scheduleId);
 	var scheduleData = {
-     _id: scheduleId,
+    //console.log(indexSchedule);
+     index: scheduleId,
+     _id: schedules._id,
      completed: schedules.completed,
      contents: {
       // ID of the user that the appointment is with
@@ -275,21 +277,18 @@ export function getScheduleData(userId,cb) {
     emulateServerReturn(scheduleData, cb);
 }
 
-export function deleteSchedule(userId,feedItemId,type,cb) {
+export function deleteSchedule(userId,scheduleId,cb) {
   var user = readDocument('users', userId);
-  var feedData;
-  var feedItemIndex;
-  if(type === 1) {
-     feedData = readDocument('academicfeeds', user.Academic_feed);
-     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-     if (feedItemIndex !== -1) {
-       // 'splice' removes items from an array. This
-       // removes 1 element starting from userIndex.
-       feedData.list_of_feeditems.splice(feedItemIndex, 1);
+  var scheduleData = user.schedules;
+  var scheduleIndex = scheduleData.indexOf(scheduleId);
+     //feedData = readDocument('academicfeeds', user.Academic_feed);
+     // 'splice' removes items from an array.
+     //This removes 1 element starting from userIndex.
+     if (scheduleIndex !== -1) {
+      scheduleData.splice(scheduleIndex, 1);
      }
-     writeDocument('academicfeeds', feedData);
-  }
-  emulateServerReturn(feedData, cb);
+  writeDocument('users', user);
+  emulateServerReturn(scheduleData, cb);
 }
 //-------------------------------------------------
 

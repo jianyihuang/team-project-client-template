@@ -18,7 +18,7 @@ render() {
 										</a>
 									</li>
 									<li>
-										<Link to="/service_detail"><span className="glyphicon glyphicon-tags"></span>
+										<Link to="/servicehome"><span className="glyphicon glyphicon-tags"></span>
 											Service
 										</Link>
 									</li>

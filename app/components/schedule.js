@@ -22,6 +22,7 @@ export default class Schedule extends React.Component {
       this.refresh()
     }
 
+
   render(){
     return(
       <div>
@@ -31,7 +32,7 @@ export default class Schedule extends React.Component {
            <Schedulebox key = {i} firstName={scheduleItem._id.first_name} postDate={scheduleItem.contents.date}
              serviceContent={scheduleItem.contents.serviceContents} startTime={scheduleItem.contents.timestamp_start}
             endTime={scheduleItem.contents.timestamp_end} party={scheduleItem.contents.party}
-            completed={scheduleItem.completed}   />
+            completed={scheduleItem.completed} id ={scheduleItem.index}   />
         );
       })
     }
