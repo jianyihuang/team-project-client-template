@@ -206,22 +206,7 @@ function getShortProfile(userId) {
 	return profile;
 }
 
-function getScheduleItem(scheduleId) {
-	var schedules = readDocument('schedules', scheduleId);
-	var scheduleData = {
-     _id: scheduleId,
-     completed: schedules.completed,
-     contents: {
-      // ID of the user that the appointment is with
-      party : schedules.contents.party,
-      date : schedules.contents.date,
-      timestamp_start: schedules.contents.timestamp_start,
-      timestamp_end: schedules.contents.timestamp_end,
-      serviceContents: schedules.contents.serviceContents
-    }
-	};
-	return scheduleData;
-}
+
 // Get all information about the user.
 export function getUserData(userId, cb) {
   var user = readDocument('users', userId);
@@ -243,11 +228,30 @@ export function saveUserData(newUserProfile, cb) {
 }
 
 
+//------------------------ Schedule Part
+function getScheduleItem(scheduleId) {
+	var schedules = readDocument('schedules', scheduleId);
+	var scheduleData = {
+     _id: scheduleId,
+     completed: schedules.completed,
+     contents: {
+      // ID of the user that the appointment is with
+      party : schedules.contents.party,
+      date : schedules.contents.date,
+      timestamp_start: schedules.contents.timestamp_start,
+      timestamp_end: schedules.contents.timestamp_end,
+      serviceContents: schedules.contents.serviceContents
+    }
+	};
+	return scheduleData;
+}
+
+
 function getScheduleItemSync(scheduleItem) {
 //  console.log(scheduleItem);
   scheduleItem._id = readDocument('users',scheduleItem._id);
-  scheduleItem.contents.party =
-      readDocument('users', scheduleItem.contents.party);
+  var userData = readDocument('users', scheduleItem.contents.party);
+  scheduleItem.contents.party = userData.first_name;
     return scheduleItem;
 }
 
@@ -261,6 +265,7 @@ export function getScheduleData(userId,cb) {
     emulateServerReturn(scheduleData, cb);
 }
 
+<<<<<<< HEAD
 function getClassItemSync(classItem) {
   classItem._id = readDocument('classes', classItem._id);
   classItem.course_title = readDocument('classes', classItem.course_title);
@@ -284,13 +289,35 @@ export function getUserClasses(userId, cb) {
   });
   classTaken = classTaken.map(getClassItemSync)
   emulateServerReturn(classTaken, cb);
+=======
+export function deleteFeed(userId,feedItemId,type,cb) {
+  var user = readDocument('users', userId);
+  var feedData;
+  var feedItemIndex;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', user.Academic_feed);
+     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
+     if (feedItemIndex !== -1) {
+       // 'splice' removes items from an array. This
+       // removes 1 element starting from userIndex.
+       feedData.list_of_feeditems.splice(feedItemIndex, 1);
+     }
+     writeDocument('academicfeeds', feedData);
+  }
+  emulateServerReturn(feedData, cb);
+}
+//-------------------------------------------------
+
+
+
+>>>>>>> 4e48fdb21531a3938183e196ceb56f28900c281f
 
 }
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	var participantList = messageBox.list_of_users;
-	var participantProfiles = participantList.map(function(user_id, i) {
+	var participantProfiles = participantList.map(function(user_id) {
 		return getShortProfile(user_id);
 	});
 	emulateServerReturn(participantProfiles, cb);

@@ -121,9 +121,11 @@ export default class Profile extends React.Component{
 
     changeUser(event){
         var user = event.target.value;
-        this.setState({
-            user_id: Number(user)
-        });
+        if(user !== '') {         
+          this.setState({
+              user_id: Number(user)
+          });
+        }
     }
 
   render() {
@@ -133,7 +135,7 @@ export default class Profile extends React.Component{
         <div className="row">
           <div className="col-md-3">
             <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
-            <p>UserID: <input type='text' size='3' maxLength='1' value={this.state.user_id} onChange={this.changeUser}/></p>
+            <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={intial_user} onChange={this.changeUser}/></p>
             <p><button type='button' onClick={this.refresh}>Change User</button></p>
           </div>
           <div className="col-md-6">

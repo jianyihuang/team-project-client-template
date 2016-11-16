@@ -21,7 +21,7 @@ var initialData = {
       //start of references
       "Academic_feed": 1,
       "Service_feed": 1,
-      "schedules": [1],
+      "schedules": [1,2,3,4,5],
       "messageboxes":[1],
       "Academic_savedlists": 1,
       "Service_savedlists": 1
@@ -31,11 +31,11 @@ var initialData = {
       "_id":2,
       "first_name": "Thien",
       "last_name":"Dinh",
-      "profilepic": 'img/pug.jpg',
+      "profilepic": 'img/kiwi.jpg',
       "username": "Thien",
-      "password": "123abc",
-      "email": "kzheung@umass.edu",
-      "favorite_quote": "Anything I say.",
+      "password": "Thien'sPassword",
+      "email": "tddinh@umass.edu",
+      "favorite_quote": "You become what you think about.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
@@ -55,9 +55,9 @@ var initialData = {
       "last_name":"Addai",
       "profilepic": 'img/cat.jpeg',
       "username": "Tim",
-      "password": "123abc",
-      "email": "kzheung@umass.edu",
-      "favorite_quote": "Anything I say.",
+      "password": "Timtimpass",
+      "email": "taddai@umass.edu",
+      "favorite_quote": "I have a dream.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
@@ -78,8 +78,8 @@ var initialData = {
       "profilepic": 'img/pug.jpg',
       "username": "Jucong",
       "password": "123abc",
-      "email": "kzheung@umass.edu",
-      "favorite_quote": "Anything I say.",
+      "email": "juconghe@umass.edu",
+      "favorite_quote": "CSS Expert has nothing to say.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
@@ -99,9 +99,9 @@ var initialData = {
       "last_name":"Liu",
       "profilepic": 'img/cat.jpeg',
       "username": "Xin",
-      "password": "123abc",
-      "email": "kzheung@umass.edu",
-      "favorite_quote": "Anything I say.",
+      "password": "XinPass",
+      "email": "xliu0@umass.edu",
+      "favorite_quote": "Scheduling like a boss.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
@@ -121,9 +121,9 @@ var initialData = {
       "last_name":"Huang",
       "profilepic": 'img/pug.jpg',
       "username": "JianYi",
-      "password": "123abc",
-      "email": "kzheung@umass.edu",
-      "favorite_quote": "Anything I say.",
+      "password": "HuangJianyi!@#",
+      "email": "jianyihuang@umass.edu",
+      "favorite_quote": "You only live once.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
@@ -176,6 +176,54 @@ var initialData = {
         "timestamp_start": "8:00 am",
         "timestamp_end": "12:00 pm",
         "serviceContents": "CS 250"
+      }
+    },
+    "2":{
+      "_id": 2,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 3,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 250"
+      }
+    },
+    "3":{
+      "_id": 3,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 1,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 311"
+      }
+    },
+    "4":{
+      "_id": 4,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 121"
+      }
+    },
+    "5":{
+      "_id": 5,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "serviceContents": "CS 121"
       }
     }
   },
