@@ -266,6 +266,7 @@ export function getScheduleData(userId,cb) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 function getClassItemSync(classItem) {
   classItem._id = readDocument('classes', classItem._id);
   classItem.course_title = readDocument('classes', classItem.course_title);
@@ -291,6 +292,9 @@ export function getUserClasses(userId, cb) {
   emulateServerReturn(classTaken, cb);
 =======
 export function deleteFeed(userId,feedItemId,type,cb) {
+=======
+export function deleteSchedule(userId,feedItemId,type,cb) {
+>>>>>>> 94f4a53df1d068b17eab9526ffe5b5341331b3e8
   var user = readDocument('users', userId);
   var feedData;
   var feedItemIndex;
