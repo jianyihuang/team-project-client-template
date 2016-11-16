@@ -8,6 +8,7 @@ import Schedule from './components/schedule';
 import Profile from './components/profile';
 import LoginPage from './components/login';
 import Config from './components/config';
+import ServiceHome from './components/servicehome.js'
 
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
@@ -41,6 +42,16 @@ class AcademicDetailPage extends React.Component {
       </div>
     );
   }
+}
+class ServiceHomePage extends React.Component{
+  render(){
+  return(
+  <div>
+    <link href="css/service.css" rel="stylesheet"/>
+    <ServiceHome/>
+  </div>
+)
+}
 }
 
 class WelcomePage extends React.Component {
@@ -111,6 +122,7 @@ ReactDOM.render((
       <Route path="/config" component={ConfigPage} />
       <Route path="/service_detail" component={AcademicDetailPage} />
       <Route path="/categorybox" component={CategoryBoxPage} />
+      <Route path="/servicehome" component={ServiceHomePage} />
     </Route>
   </Router>
   ),document.getElementById('App')
