@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class classesTaken extends React.Component{
+export class ClassesTaken extends React.Component{
   render(){
     return (
         <div className="row">

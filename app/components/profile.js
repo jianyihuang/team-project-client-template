@@ -121,7 +121,7 @@ export default class Profile extends React.Component{
 
     changeUser(event){
         var user = event.target.value;
-        if(user !== '') {         
+        if(user !== '') {
           this.setState({
               user_id: Number(user)
           });
@@ -199,6 +199,7 @@ export default class Profile extends React.Component{
               <div className="form-group">
                 <label className="col-md-3 control-label">Classes Taken</label>
                 <div className="col-md-7">
+                
                   {this.state.classes_taken.map((classItem, i) => {
                     return <classesTaken key={i} courseid={classItem.course_id} courseTitle={classItem.course_title} />;
                   })}
@@ -215,14 +216,14 @@ export default class Profile extends React.Component{
                           <input type="checkbox" value=""/>Biology
                         </label>
                     </div>
+                    <select id="selClass" multiple="multiple">
+                      <option id="CS311">CS311</option>
+                      <option id="CS250">CS250</option>
+                      <option id="MATH132">MATH132</option>
+                      <option id="CS326">CS326</option>
+                      <option id="MATH411">MATH411</option>
+                    </select>
 
-
-
-                    <div className="form-group">
-                      <button type="button" className="btn btn-default btn-sm">More
-                        <span className="glyphicon glyphicon-option-horizontal"></span>
-                      </button>
-                    </div>
                 </div>
               </div>
             </form>
