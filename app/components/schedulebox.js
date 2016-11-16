@@ -4,13 +4,14 @@ import {deleteSchedule} from '../server';
 export class Schedulebox extends React.Component {
 	constructor(props){
 		super(props);
+		this.state = this.props
 	}
 
 	handleDeleteSchedule(clickEvent) {
 		clickEvent.preventDefault();
 		if(clickEvent.button === 0) {
 			deleteSchedule(1,this.props.id,()=>{
-				this.props.refresh();
+				this.props.refresh;
 			});
 		}
 	}
@@ -31,8 +32,6 @@ export class Schedulebox extends React.Component {
 								<a href="#" onClick= {(e) => this.handleDeleteSchedule(e)}>
 								{this.props.completed}</a>
 							</button>
-
-
 							</div>
 							</div>
 						</div>
