@@ -212,6 +212,16 @@ export function getUserData(userId, cb) {
   var user = readDocument('users', userId);
   emulateServerReturn(user, cb);
 }
+
+export function getClassData(classId){
+  var course = readDocument('classes', classId);
+  var courseInfo ={
+    class_id: classId,
+    course_id: course.course_id,
+    course_title: course.course_title
+  };
+  return courseInfo;
+}
 // Save new user profile information.
 export function saveUserData(newUserProfile, cb) {
   var user = readDocument('users', newUserProfile.user_id);
