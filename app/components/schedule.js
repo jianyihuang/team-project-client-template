@@ -1,19 +1,19 @@
 import React from 'react';
 import {Schedulebox} from './schedulebox';
 import {getScheduleData} from '../server';
-//import {resetDatabase} from '../database';
+import {resetDatabase} from '../database';
 
-
+const initial_user = 1;
 export default class Schedule extends React.Component {
   constructor(props) {
       super(props);
-      this.state = {current_user:1, schedules: []};
+      this.state = {current_user:initial_user, schedules: []};
   }
 
     refresh() {
-      getScheduleData(1, (scheduleData) => {
+      getScheduleData(this.state.current_user, (scheduleData) => {
               this.setState({
-                  schedules: scheduleData
+                schedules: scheduleData
               });
           });
   }
@@ -37,6 +37,11 @@ export default class Schedule extends React.Component {
       })
     }
         </div>
+
+        <div className="col-xs-3">
+          <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
+        </div>
+
       </div>
     )
   }
