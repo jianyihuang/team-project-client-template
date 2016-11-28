@@ -38,7 +38,6 @@ export class MessageEditor extends React.Component {
 							Press Enter to send.
 						</span>
 						<div className="btn-group pull-right footer-btn">
-							<button className="btn btn-default"><span className="glyphicon glyphicon-file"></span>Add File</button>
 							<button className="btn btn-default"><span className="glyphicon glyphicon-calendar"></span>Add Appointment</button>
 						</div>
 					</div>

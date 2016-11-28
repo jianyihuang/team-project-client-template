@@ -151,26 +151,6 @@ export function increaseViewCount(feedItemId,cb) {
   emulateServerReturn(feedItem.view_count,cb);
 }
 
-// Create a new message box.
-function createMessageBox(userId, cb) {
-	// Get the current time.
-	var time = new Date().getTime();
-	// Create a message box.
-	var messageBox = {
-		'creation_timestamp': time,
-		'list_of_users': [],
-		'list_of_messages_by_users_in_box': []
-	}
-	messageBox = addDocument('messageboxes', messageBox);
-	emulateServerReturn(messageBox, cb);
-}
-
-// Add a user into a message box.
-function joinMessageBox(box_msg_id, userId, cb) {
-	var messageBox = readDocument('messageboxes', box_msg_id);
-	messageBox.list_of_Users.push(userId);
-	emulateServerReturn(messageBox, cb);
-}
 
 // Get user's setting.
 export function getUserSetting(userId, cb) {
@@ -290,10 +270,6 @@ export function deleteSchedule(userId,scheduleId,cb) {
   writeDocument('users', user);
   emulateServerReturn(scheduleData, cb);
 }
-//-------------------------------------------------
-
-
-
 
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
@@ -316,17 +292,65 @@ export function sendMessageServer(box_msg_id, user_id, content, cb) {
 	var time = new Date().getTime();
 	var messageBox = readDocument('messageboxes', box_msg_id);
 	// Check if the user is already in the conversation.
-	if(messageBox.list_of_users.indexOf(user_id) === -1) {
-		messageBox.list_of_users.push(user_id);
-	}
-	// Push the message into the conversation box.
-	messageBox.list_of_messages_by_users_in_box.push({
-		'user_id': user_id,
-		'timestamp': time,
-		'content': content
-	});
-	// Update in the database.
-	writeDocument('messageboxes', messageBox);
-	// Return the udpated version of messageBox.
-	emulateServerReturn(messageBox, cb);
+	if(messageBox.list_of_users.indexOf(user_id) !== -1) {
+        // Push the message into the conversation box.
+        messageBox.list_of_messages_by_users_in_box.push({
+          'user_id': user_id,
+          'timestamp': time,
+          'content': content
+        });
+        writeDocument('messageboxes', messageBox);
+	}      
+        // Return the udpated version of messageBox.
+        emulateServerReturn(messageBox, cb);
+}
+
+// Get numberOfBoxes recent message boxes participated by the user.
+export function getRecentMessageBoxes(userId, numberOfBoxes, cb) {
+  // Read the user from the database.
+  var user = readDocument('users', userId);
+  // Get the last numberOfBoxes in the messageboxes.
+  var reversedMsgBoxes = user.messageboxes;
+  var recentBoxIds = reversedMsgBoxes.reverse().slice(0, numberOfBoxes);
+  // Return the list with the callback.
+  emulateServerReturn(recentBoxIds, cb);
+}
+
+// Create a new message box.
+export function createMessageBox(userId, cb) {
+  // Get the current time.
+  var time = new Date().getTime();
+  // Create a message box.
+  var messageBox = {
+    'list_of_users': [],
+    'list_of_messages_by_users_in_box': [],
+    'creation_timestamp': time,
+  }
+  messageBox.list_of_users.push(userId);
+  messageBox = addDocument('messageboxes', messageBox);
+  var user = readDocument('users', userId);
+  // Add the creator into the list of users.
+  user.messageboxes.push(messageBox._id);
+  // Update users in database.
+  writeDocument('users', user);
+  emulateServerReturn(messageBox, cb);
+}
+
+// Add a user into a message box.
+export function joinMessageBox(box_msg_id, userId, cb) {
+  console.log(box_msg_id + ' ' + userId);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  // When the invited user is not already in the list of participants, we add him or her in.
+  if (messageBox.list_of_users.indexOf(userId) === -1) {
+    // Add the user into the list.
+    messageBox.list_of_users.push(userId);
+    // Update messageBox.
+    writeDocument('messageboxes', messageBox);
+    var user = readDocument('users', userId);
+    user.messageboxes.push(box_msg_id);
+    // Update user.
+    writeDocument('users', user);
+  }
+  // Return the message box.
+  emulateServerReturn(messageBox, cb);
 }

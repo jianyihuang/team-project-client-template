@@ -291,7 +291,8 @@ var initialData = {
           {
           user_id: 2, timestamp: 1479148390962, content: 'I thought someone else is doing that one. I can do that too.'
           }
-        ]
+        ],
+        "creation_timestamp": 1479148390962
     }
   },
 

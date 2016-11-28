@@ -11,6 +11,11 @@ textarea {
 	width: 100%;
 }
 
+.custom-scrollable {
+  height: 400px;
+  overflow: scroll;
+}
+
 body {
   padding-top: 80px;
   background-color:#EEEEEE;
