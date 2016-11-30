@@ -360,6 +360,22 @@ var initialData = {
         "contents": "呵呵呵呵呵呵呵呵呵呵",
         "imgUrl":"img/history.jpg"
       }
+    },
+    "3":{
+      "_id": 3,
+      // references post item for content
+      "view_count": 0,
+      "likeCounter": [1],
+      // Taggs are by course_id
+      "tag": 1,
+      "list_of_comments":[1],
+      "contents": {
+        "author": 1,
+        "timestamp": 1453668480000,
+        "request": "Oh god! My toilet was stucked! PlZZZ help",
+        "contents": "呵呵呵呵呵呵呵呵呵呵",
+        "imgUrl":"img/toilet_stuck.jpg"
+      }
     }
   },
 
@@ -378,7 +394,7 @@ var initialData = {
     "1":{
       "_id": 1,
       // references to the ids of the post(s) in feed 1
-      "list_of_feeditems":[1]
+      "list_of_feeditems":[3]
     }
   },
 

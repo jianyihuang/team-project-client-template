@@ -41,7 +41,7 @@ export default class FeedItem extends React.Component {
   handleDeleteFeed(clickEvent) {
     clickEvent.preventDefault();
     if(clickEvent.button === 0) {
-      deleteFeed(1,this.state._id,1,()=>{
+      deleteFeed(1,this.state._id,this.props.type,()=>{
         this.props.refresh();
       });
     }

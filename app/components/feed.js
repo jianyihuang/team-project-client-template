@@ -14,18 +14,18 @@ export default class Feed extends React.Component {
 
   onPost(postContents) {
     if(postContents.type === 1) {
-      postStatusUpdate(1,postContents,1,() => {
+      postStatusUpdate(this.props.user,postContents,1,() => {
         this.refresh();
       });
     }else{
-      postStatusUpdate(1,postContents,2,() => {
+      postStatusUpdate(this.props.user,postContents,2,() => {
         this.refresh();
       });
     }
   }
 
   refresh() {
-    getFeedData(this.props.user,1, (feedData) => {
+    getFeedData(this.props.user,this.props.type, (feedData) => {
       // console.log(feedData);
       this.setState(feedData);
     });
@@ -41,7 +41,8 @@ export default class Feed extends React.Component {
         <PostUpdateEntry onPost = {(postContents) => this.onPost(postContents)} />
         {this.state.list_of_feeditems.map((feedItem) => {
               return (
-                <FeedItem key={feedItem._id} data={feedItem} refresh = {()=> this.refresh()}/>
+                <FeedItem key={feedItem._id} data={feedItem} type={this.props.type}
+                   refresh = {()=> this.refresh()}/>
               )
             })}
       </div>

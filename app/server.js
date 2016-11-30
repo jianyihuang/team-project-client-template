@@ -300,7 +300,7 @@ export function sendMessageServer(box_msg_id, user_id, content, cb) {
           'content': content
         });
         writeDocument('messageboxes', messageBox);
-	}      
+	}
         // Return the udpated version of messageBox.
         emulateServerReturn(messageBox, cb);
 }
@@ -324,7 +324,7 @@ export function createMessageBox(userId, cb) {
   var messageBox = {
     'list_of_users': [],
     'list_of_messages_by_users_in_box': [],
-    'creation_timestamp': time,
+    'creation_timestamp': time
   }
   messageBox.list_of_users.push(userId);
   messageBox = addDocument('messageboxes', messageBox);

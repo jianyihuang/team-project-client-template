@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CategoryBox from './components/categorybox';
-import AcademicDetail from './components/academicdetail';
+import DetailPage from './components/detailpage';
 import Navbar from './components/navbar';
 import MessagePanel from './components/message_panel';
 import Schedule from './components/schedule';
@@ -38,20 +38,32 @@ class AcademicDetailPage extends React.Component {
     return(
       <div>
         <link href="css/detail_page.css" rel="stylesheet"/>
-        <AcademicDetail />
+        <DetailPage type={1}/>
       </div>
     );
   }
 }
+
 class ServiceHomePage extends React.Component{
   render(){
   return(
-  <div>
-    <link href="css/service.css" rel="stylesheet"/>
-    <ServiceHome/>
-  </div>
-)
+    <div>
+      <link href="css/service.css" rel="stylesheet"/>
+      <ServiceHome/>
+    </div>
+    )
+  }
 }
+
+class ServiceDetailPage extends React.Component {
+  render() {
+    return(
+      <div>
+        <link href="css/service_detail_page.css" rel="stylesheet"/>
+        <DetailPage type={2}/>
+      </div>
+    );
+  }
 }
 
 class WelcomePage extends React.Component {
@@ -114,8 +126,9 @@ ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={CategoryBoxPage} />
-      <Route path='/login' component={WelcomePage} /> */}
+      <Route path="/login" component={WelcomePage} />
       <Route path="/acedemicdetail" component={AcademicDetailPage} />
+      <Route path="/servicedetail" component={ServiceDetailPage} />
       <Route path="/message" component={MessagePage} />
       <Route path="/profile" component={ProfilePage} />
       <Route path="/schedule" component={SchedulePage} />

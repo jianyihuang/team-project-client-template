@@ -187,8 +187,11 @@ border: 1px solid #F2F2F2;
   margin-top: 9px;
 }
 
-.postCategoryBtn > button:focus {
+.activeBtn,
+.activeBtn:focus {
   background-color: #5cb85c !important;
+  color: white;
+  border-radius: 3px !important;
 }
 
 .postCategoryBtn > button {
