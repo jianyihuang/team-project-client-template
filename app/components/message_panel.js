@@ -83,6 +83,7 @@ export default class MessagePanel extends React.Component {
         });
     }
     _userChanged(event) {
+        event.preventDefault();
         this.setState({
             textChangeUser: event.target.value,            
             user_id: Number(event.target.value)
