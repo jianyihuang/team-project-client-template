@@ -1,7 +1,7 @@
 {
-  "name": "team-project-client",
+  "name": "workshop-3",
   "version": "0.0.1",
-  "description": "Build support for the client-side of CS326 projects.",
+  "description": "Repository for CS326 Workshop 3",
   "author": "John Vilk <jvilk@cs.umass.edu>",
   "license": "MIT",
   "scripts": {
@@ -19,12 +19,13 @@
     "eslint-plugin-react": "^3.14.0",
     "history": "^1.17.0",
     "react": "^0.14.6",
+    "react-bootstrap-modal": "^2.0.0",
     "react-dom": "^0.14.6",
     "react-router": "^1.0.3",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "react-bootstrap": "^0.30.6"
+    "react-router": "^2.0.0"
   }
 }

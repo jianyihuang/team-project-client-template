@@ -18,6 +18,33 @@ app.use(bodyParser.json());
 app.use(express.static('../client/build'));
 
 /**
+* Get the user ID from a token. Returns -1 (an invalid ID)
+* if it fails.
+*/
+  // var token ="eyJpZCI6MX0=";
+function getUserIdFromToken(authorizationLine) {
+  try {
+    // Cut off "Bearer " from the header value.
+    var token = authorizationLine.slice(7);
+    // Convert the base64 string to a UTF-8 string.
+    var regularString = new Buffer(token, 'base64').toString('utf8');
+    // Convert the UTF-8 string into a JavaScript object.
+    var tokenObj = JSON.parse(regularString);
+    var id = tokenObj['id'];
+    // Check that id is a number.
+    if (typeof id === 'number') {
+    return id;
+    } else {
+    // Not a number. Return -1, an invalid ID.
+    return -1;
+    }
+  } catch (e) {
+// Return an invalid ID.
+return -1;
+}
+}
+
+/**
  * Given a feed item ID, returns a FeedItem object with references resolved.
  * Internal to the server, since it's synchronous.
  */
@@ -91,13 +118,27 @@ function postStatusUpdate(user, contents,imgUrl,request,type) {
  2 is Service feed
 */
 app.get('/user/:userid/feed/:feedtype', function(req, res) {
-  var userid =  parseInt(req.params.userid,10);
+console.log(req.params.userid);
+console.log(req.get("Authorization"));
+var userid =  parseInt(req.params.userid,10);
   var feedType = parseInt(req.params.feedtype,10);
   // userid is a string. We need it to be a number.
   // Parameters are always strings.
+var fromUser = getUserIdFromToken(req.get('Authorization'));
 
-    // Send response.
-    res.send(getFeedData(userid,feedType));
+console.log("fromUser:"+fromUser);
+console.log("userid :"+userid);
+console.log("feedtype:"+feedType);
+if(fromUser === userid){
+  // Send response.
+  res.send(getFeedData(userid,feedType));
+}
+else{
+  // 401: Unauthorized request.
+  res.status(401).end();
+
+}
+
 });
 
 app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(req,res) {
@@ -163,6 +204,24 @@ app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   // Return a resolved version of the likeCounter
   res.send(feedItem.likeCounter.map((userId) =>
                         readDocument('users', userId)));
+});
+// Search for feed item
+app.post('/search', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userData = readDocument('users', fromUser);
+  if (typeof(req.body) === 'string') {
+    var query = req.body.trim().toLowerCase();
+    var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
+    console.log("query: "+query);
+    console.log("feedData: "+feedData);
+  res.send(feedData.filter((feedItemId) => {
+    var feedItem = readDocument('feedItems',feedItemId);
+    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
+  }).map(getFeedItemSync));
+}
+else{
+res.status(400).end();
+}
 });
 /**
  * Translate JSON Schema Validation failures into error 400s.
