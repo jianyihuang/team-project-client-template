@@ -1,6 +1,71 @@
 import {readDocument, writeDocument, addDocument} from './database.js';
 
 /**
+ * Properly configure+send an XMLHttpRequest with error handling,
+ * authorization token, and other needed properties.
+ */
+function sendXHR(verb, resource, body, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open(verb, resource);
+  // xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+
+  // The below comment tells ESLint that FacebookError is a global.
+  // Otherwise, ESLint would complain about it! (See what happens in Atom if
+  // you remove the comment...)
+  // Response received from server. It could be a failure, though!
+  xhr.addEventListener('load', function() {
+    var statusCode = xhr.status;
+    var statusText = xhr.statusText;
+    if (statusCode >= 200 && statusCode < 300) {
+      // Success: Status code is in the [200, 300) range.
+      // Call the callback with the final XHR object.
+      cb(xhr);
+    } else {
+      // Client or server error.
+      // The server may have included some response text with details concerning // the error.
+      var responseText = xhr.responseText;
+      console.log('Could not ' + verb + " " + resource + ": Received " +
+                  statusCode + " " + statusText + ": " + responseText);
+      }
+    });
+    // Time out the request if it takes longer than 10,000
+    // milliseconds (10 seconds)
+    xhr.timeout = 10000;
+    // Network failure: Could not connect to server.
+    xhr.addEventListener('error', function() {
+      console.log('Could not ' + verb + " " + resource +
+      ": Could not connect to the server.");
+    });
+
+    // Network failure: request took too long to complete.
+    xhr.addEventListener('timeout', function() {
+      console.log('Could not ' + verb + " " + resource +
+                ": Request timed out.");
+    });
+
+    switch (typeof(body)) {
+      case 'undefined':
+        // No body to send.
+        console.log("body is undefined");
+        xhr.send();
+        break;
+      case 'string':
+        // Tell the server we are sending text.
+        console.log("body is a string");
+        xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+        xhr.send(body);
+        break;
+      case 'object':
+        // Tell the server we are sending JSON.
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        // Convert body into a JSON string.
+        xhr.send(JSON.stringify(body));
+        break;
+      default:
+        throw new Error('Unknown body type: ' + typeof(body));
+    }
+  }
+/**
  * Emulates how a REST call is *asynchronous* -- it calls your function back
  * some time in the future with data.
  */
@@ -10,76 +75,21 @@ function emulateServerReturn(data, cb) {
   }, 4);
 }
 
-/**
- * Given a feed item ID, returns a FeedItem object with references resolved.
- * Internal to the server, since it's synchronous.
- */
-function getFeedItemSync(feedItemId) {
-  var feedItem = readDocument('feedItems', feedItemId);
-  // Resolve 'like' counter.
-  feedItem.likeCounter =
-    feedItem.likeCounter.map((id) => readDocument('users', id));
-    // Assuming a StatusUpdate. If we had other types of
-    // FeedItems in the DB, we would
-    // need to check the type and have logic for each type.
-    feedItem.contents.author =
-      readDocument('users', feedItem.contents.author);
-    feedItem.tag = readDocument("servicetags",feedItem.tag);
-    return feedItem;
-}
-
 export function getFeedData(user,type, cb) {
-    // Get the User object with the id "user".
-    var userData = readDocument('users', user);
-    // Get the Feed object for the user.
-    // 1 is academic feed
-    // 2 is Service feed
-    var feedData;
-    if(type === 1) {
-       feedData = readDocument('academicfeeds', userData.Academic_feed);
-    }else {
-       feedData = readDocument('servicefeeds', userData.Service_feed);
-    }
-    // Map the Feed's FeedItem references to actual FeedItem objects.
-    // Note: While map takes a callback function as an argument, it is
-    // synchronous, not asynchronous. It calls the callback immediately.
-    feedData.list_of_feeditems = feedData.list_of_feeditems.map(getFeedItemSync);
-    // Return FeedData with resolved references.
-    // emulateServerReturn will emulate an asynchronous server operation, which
-    // invokes (calls) the "cb" function some time in the future.
-    emulateServerReturn(feedData, cb);
+  sendXHR('GET','/user/1/feed/'+type,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function postStatusUpdate(user, contents,type, cb) {
-  var time = new Date().getTime();
-  var newPost = {
-    "view_count": 0,
-    "likeCounter": [],
-    // Taggs are by course_id
-    "tag": 1,
-    "list_of_comments":[],
-    "contents": {
-      "author": user,
-      "timestamp": time,
-      "request": contents.title,
-      "contents": contents.value,
-      "imgUrl":contents.imgUrl
-    }
-  }
-  newPost = addDocument('feedItems',newPost);
-  var userData = readDocument('users', user);
-  var feedData;
-  if(type === 1) {
-     feedData = readDocument('academicfeeds', userData.Academic_feed);
-     feedData.list_of_feeditems.unshift(newPost._id);
-     writeDocument('academicfeeds', feedData);
-  }else {
-     feedData = readDocument('servicefeeds', userData.Service_feed);
-     feedData.list_of_feeditems.unshift(newPost._id);
-     writeDocument('servicefeeds', feedData);
-  }
-  writeDocument('feedItems', newPost);
-  emulateServerReturn(feedData, cb);
+  sendXHR('POST','/feeditem/'+type,{
+    "author": user,
+    "request": contents.title,
+    "contents": contents.value,
+    "imgUrl":contents.imgUrl
+  },(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function deleteFeed(userId,feedItemId,type,cb) {
@@ -111,44 +121,21 @@ export function deleteFeed(userId,feedItemId,type,cb) {
 
 
 export function likeFeedItem(feedItemId, userId, cb) {
-  var feedItem = readDocument('feedItems', feedItemId);
-    // Normally, we would check if the user already
-  // liked this comment. But we will not do that
-  // in this mock server. ('push' modifies the array
-  // by adding userId to the end)
-  feedItem.likeCounter.push(userId);
-  writeDocument('feedItems', feedItem);
-  // Return a resolved version of the likeCounter
-  emulateServerReturn(feedItem.likeCounter.map((userId) =>
-                        readDocument('users', userId)), cb);
+  sendXHR('PUT','/feeditem/'+feedItemId+'/likelist/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function unlikeFeedItem(feedItemId, userId, cb) {
-  var feedItem = readDocument('feedItems', feedItemId);
-  // Find the array index that contains the user's ID.
-  // (We didn't *resolve* the FeedItem object, so
-  // it is just an array of user IDs)
-  var userIndex = feedItem.likeCounter.indexOf(userId);
-  // -1 means the user is *not* in the likeCounter,
-  // so we can simply avoid updating
-  // anything if that is the case: the user already
-  // doesn't like the item.
-  if (userIndex !== -1) {
-    // 'splice' removes items from an array. This
-    // removes 1 element starting from userIndex.
-    feedItem.likeCounter.splice(userIndex, 1);
-    writeDocument('feedItems', feedItem);
-  }
-  // Return a resolved version of the likeCounter
-  emulateServerReturn(feedItem.likeCounter.map((userId) =>
-                        readDocument('users', userId)), cb);
+  sendXHR('DELETE','/feeditem/'+feedItemId+'/likelist/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function increaseViewCount(feedItemId,cb) {
-  var feedItem = readDocument("feedItems",feedItemId);
-  feedItem.view_count = feedItem.view_count+1;
-  writeDocument("feedItems",feedItem);
-  emulateServerReturn(feedItem.view_count,cb);
+  sendXHR('PUT','/feeditem/'+feedItemId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 
@@ -300,7 +287,7 @@ export function sendMessageServer(box_msg_id, user_id, content, cb) {
           'content': content
         });
         writeDocument('messageboxes', messageBox);
-	}      
+	}
         // Return the udpated version of messageBox.
         emulateServerReturn(messageBox, cb);
 }
@@ -324,7 +311,7 @@ export function createMessageBox(userId, cb) {
   var messageBox = {
     'list_of_users': [],
     'list_of_messages_by_users_in_box': [],
-    'creation_timestamp': time,
+    'creation_timestamp': time
   }
   messageBox.list_of_users.push(userId);
   messageBox = addDocument('messageboxes', messageBox);
@@ -353,4 +340,10 @@ export function joinMessageBox(box_msg_id, userId, cb) {
   }
   // Return the message box.
   emulateServerReturn(messageBox, cb);
+}
+
+export function resetDatabase() {
+  sendXHR('POST',"/restdb",undefined,()=>{
+
+  });
 }

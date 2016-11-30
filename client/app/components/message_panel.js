@@ -3,7 +3,7 @@ import {MessageBox} from './message_components/message_box';
 import {Message} from './message_components/message';
 import {MessageEditor} from './message_components/message_editor';
 import {sendMessageServer, getMessageBoxServer, getRecentMessageBoxes, getParticipantProfiles, createMessageBox, joinMessageBox} from '../server';
-import {resetDatabase} from '../database';
+import {resetDatabase} from '../server';
 // import server functions here.
 
 const initial_user = 1;
@@ -25,7 +25,7 @@ export default class MessagePanel extends React.Component {
     componentDidMount() {
         this.refresh();
     }
-    refresh() {        
+    refresh() {
         // Get recent message boxes.
         getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
             // Get the most recent message box.
@@ -67,7 +67,7 @@ export default class MessagePanel extends React.Component {
                 });
             });
     }
-    refreshMessageBox(updatedMsgBox) {        
+    refreshMessageBox(updatedMsgBox) {
                 getParticipantProfiles(updatedMsgBox._id, (profiles) => {
                     this.setState({
                         msg_box_id: updatedMsgBox._id,
@@ -78,14 +78,14 @@ export default class MessagePanel extends React.Component {
     }
     addNewParticipant(){
         var invitedUserId = Number(this.refs.invitedUser.value);
-        joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {            
+        joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {
             this.refreshMessageBox(updatedMsgBox);
         });
     }
     _userChanged(event) {
         event.preventDefault();
         this.setState({
-            textChangeUser: event.target.value,            
+            textChangeUser: event.target.value,
             user_id: Number(event.target.value)
         });
     }
@@ -118,10 +118,10 @@ export default class MessagePanel extends React.Component {
     			<div className="col-xs-8">
     				<div className="panel panel-default">
                                                     <div className="panel-heading">
-                                                        <h4><span className="glyphicon glyphicon-book"></span>{this.state.msg_box_id}</h4>                                                        
+                                                        <h4><span className="glyphicon glyphicon-book"></span>{this.state.msg_box_id}</h4>
                                                         <div className="btn-group footer-btn">
                                                             <button className="btn btn-default" onClick={this.createNewConversation}><span className="glyphicon glyphicon-calendar"></span>New Conversation</button>
-                                                            
+
                                                             <button className="btn btn-default" data-toggle="modal" data-target="#myModal"><span className="glyphicon glyphicon-calendar"></span>Add Participant</button>
                                                             <div id="myModal" className="modal fade" role="dialog">
                                                                 <div className="modal-dialog">
@@ -131,7 +131,7 @@ export default class MessagePanel extends React.Component {
                                                                             <h4 className="modal-title">Search and Select Participants</h4>
                                                                         </div>
                                                                         <div className="modal-body">
-                                                                            User ID :: <input ref="invitedUser" type="text"/>                                                                            
+                                                                            User ID :: <input ref="invitedUser" type="text"/>
                                                                         </div>
                                                                         <div className="modal-footer">
                                                                             <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.addNewParticipant}>Add</button>
@@ -152,7 +152,7 @@ export default class MessagePanel extends React.Component {
                                                                                     profile = profile[0];
                                                                                     return (
                                                                                         <Message key={i} profile={profile} {...message}/>
-                                                                                        );                                                                                    
+                                                                                        );
                                                                                 }
                                                                                 else {
                                                                                     console.log('Empty Participants!');
@@ -166,7 +166,7 @@ export default class MessagePanel extends React.Component {
     					</div>
     				</div>
     			</div>
-    			<div className="col-xs-2">                                    
+    			<div className="col-xs-2">
                                         <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
                                         <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={initial_user} value={this.state.textChangeUser} onChange={this._userChanged}/></p>
                                         <p><button type='button' onClick={this.changeUser}>Change User</button></p>

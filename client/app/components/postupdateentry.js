@@ -7,7 +7,8 @@ export default class PostUpdateEntry extends React.Component {
     value:"",
     type:0,
     imgUrl:"",
-    title:""
+    title:"",
+    activebtn:""
   };
 }
 
@@ -33,17 +34,25 @@ handleTitleChange(e) {
 }
 handleAcademic(e) {
   e.preventDefault();
-  this.setState({type:1});
+  this.setState({type:1,activebtn:"academic"});
 }
 
 handleService(e) {
   e.preventDefault();
-  this.setState({type:2});
+  this.setState({type:2,activebtn:"service"});
 }
 
 handleImg(e) {
   e.preventDefault();
   this.setState({imgUrl:"img/question_img.jpeg"})
+}
+
+checkActive(btn) {
+  if(btn === this.state.activebtn) {
+    return " btn btn-default activeBtn";
+  }else {
+    return "btn btn-default";
+  }
 }
   render() {
     return(
@@ -51,7 +60,7 @@ handleImg(e) {
         <div className="widget-area no-padding blank" id ="myModal">
           <div className="status-upload">
             <form>
-              <textarea placeholder="Enter the Summary"
+              <textarea placeholder="Enter the tiltle for this request"
                 row="1"
                 value={this.state.title}
                 onChange = {(e) => this.handleTitleChange(e)}>
@@ -62,11 +71,11 @@ handleImg(e) {
                 onChange = {(e) => this.handleChange(e)}>
               </textarea>
               <div className="btn-group postCategoryBtn" role="group">
-                <button type="button" className="btn btn-default" onClick= {(e) => this.handleAcademic(e)}>
+                <button type="button" className={this.checkActive("academic")} onClick= {(e) => this.handleAcademic(e)}>
                   <span className="glyphicon glyphicon-book"></span>
                    Academic
                 </button>
-                <button type="button" className= "btn btn-default" onClick= {(e) => this.handleService(e)}>
+                <button type="button" className= {this.checkActive("service")} onClick= {(e) => this.handleService(e)}>
                   <span className="glyphicon glyphicon-tags"></span>
                    Service
                 </button>

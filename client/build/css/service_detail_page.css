@@ -1,6 +1,6 @@
 body {
   padding-top: 80px;
-  background-color:#E3F2FD;
+  background-color:#EEEEEE;
 }
 
 .exSer-search {
@@ -21,32 +21,38 @@ body {
   color: #90A4AE;
 }
 
+/* navigation bar background color*/
 .navbar {
-  background-color: #90CAF9;
+  background-color: #E0E0E0;
   border-bottom: none;
-  box-shadow: 0px 2px 5px #90A4AE;
+  box-shadow: 0px 0px 15px #90A4AE;
 }
 
+/*all buttons in the navigation bar*/
 .navbar button,
 .navbar a {
   border-radius: 80px;
   border: none;
 }
 
+/*left most two pill in the navigation bar*/
 .nav .nav-pills {
   padding-top: 5px;
 }
 
+/*text inside the pills of navigation bar*/
 .nav .nav-pills > li > a {
   color: black;
 }
 
+/*badge of notification*/
 .navbar .badge {
   background-color: transparent;
   color: black;
 }
 
 
+/*when button click hover in navigtaion bar*/
 .navbar button:hover,
 .navbar button:focus,
 .navbar a:hover,
@@ -57,19 +63,19 @@ body {
 .dropdown-menu > li > a:hover {
   background-color: azure;
 }
-
+/*Name of the website*/
 .navbar-default .navbar-brand{
-  color: #EEEEEE;
+  color: #B0BEC5;
 }
 
 .nav-pills>li.active>a:focus,
 .nav-pills>li.active>a:hover {
   color: black;
-  background-color: azure;
+  background-color: #EFEBE9;
 }
 
 .nav-pills>li.active>a {
-  background-color: azure;
+  background-color: #EFEBE9;
 }
 
 .catergory_status {
@@ -90,8 +96,8 @@ body {
 .media-body > a {
   font-weight: bold;
   font-family: Verdana, Geneva, sans-serif;
+  color: #039BE5;
   font-size: 14px;
-  color: #039BE5
 }
 
 .media-body > a > span {
@@ -105,6 +111,7 @@ body {
 
 .panel-body {
   padding-bottom: 0px;
+
 }
 
 .panel {
@@ -112,14 +119,14 @@ body {
   -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
   box-shadow: 0px 8px 5px 0px #BDBDBD;
 }
+
 .list-group {
   border-radius: 10px;
   -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
   -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
   box-shadow: 0px 8px 5px 0px #BDBDBD;
-  border-radius: 10px;
 }
-/*
+*
   Write A Request Styling
 */
 #myModal {
@@ -180,8 +187,11 @@ border: 1px solid #F2F2F2;
   margin-top: 9px;
 }
 
-.postCategoryBtn > button:focus {
+.activeBtn,
+.activeBtn:focus {
   background-color: #5cb85c !important;
+  color: white;
+  border-radius: 3px !important;
 }
 
 .postCategoryBtn > button {

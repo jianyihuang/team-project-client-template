@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router';
 export default class ServiceHome extends React.Component{
 
 render(){
@@ -10,7 +10,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Pet related</h5>
-							<a href="#"><img src="img/cat.jpeg"/></a>
+							<Link to="/servicedetail"><img src="img/cat.jpeg"/></Link>
             </div>
           </div>
         </div>
@@ -18,7 +18,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Home improvement</h5>
-							<a href="#"><img src="img/home.jpeg"/></a>
+							<Link to="/servicedetail"><img src="img/home.jpeg"/></Link>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Travel</h5>
-              <a href="#"><img src="img/travel.jpeg"/></a>
+              <Link to="/servicedetail"><img src="img/travel.jpeg"/></Link>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Yard</h5>
-              <a href="#"><img src="img/yard.jpg"/></a>
+              <Link to="/servicedetail"><img src="img/yard.jpg"/></Link>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Plumer</h5>
-              <a href="#"><img src="img/toilet_stuck.jpg"/></a>
+              <Link to="/servicedetail"><img src="img/toilet_stuck.jpg"/></Link>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Car pool</h5>
-              <a href="#"><img src="img/carpool.png"/></a>
+              <Link to="/servicedetail"><img src="img/carpool.png"/></Link>
             </div>
           </div>
         </div>

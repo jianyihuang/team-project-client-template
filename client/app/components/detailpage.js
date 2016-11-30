@@ -1,7 +1,7 @@
 import React from 'react';
 import Feed from './feed';
 
-export default class AcademicDetail extends React.Component {
+export default class DetailPage extends React.Component {
   render() {
     return (
       <div className = "container">
@@ -14,7 +14,7 @@ export default class AcademicDetail extends React.Component {
                 Newest Requests
               </div>
             </div>
-            <Feed user={1}/>
+            <Feed user={1} type={this.props.type}/>
           </div>
           <div className="col-md-1" />
         </div>
