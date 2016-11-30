@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "author": {
+      "type": "integer",
+      "id": "author"
+    },
+    "request": {
+      "type": "string",
+      "id": "request"
+    },
+    "contents": {
+      "type": "string",
+      "id": "contents"
+    },
+    "imgUrl": {
+      "type": "string",
+      "id": "imgUrl"
+    }
+  },
+  "id": "/",
+  "additionalProperties": false,
+  "required": [
+    "author",
+    "request",
+    "contents",
+    "imgUrl"
+  ]
+}

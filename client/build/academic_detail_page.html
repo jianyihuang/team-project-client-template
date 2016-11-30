@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head;
+         any other head content must come *after* these tags -->
+    <title>ExServ</title>
+    <!-- Bootstrap's CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/detail_page.css" rel="stylesheet">
+</head>
+<body>
+  <!-- navigation bar -->
+  <nav class="navbar navbar-fixed-top navbar-default">
+    <a class="navbar-brand" href="#"> ExServ</a>
+    <div class="container">
+      <!-- left list of button in the navigation bar -->
+      <div class="nav navbar-nav navbar-left">
+        <ul class="nav nav-pills">
+            <li class="active">
+              <a href="#"><span class="glyphicon glyphicon-book"></span>
+                Academic
+              </a>
+            </li>
+            <li>
+              <a href="#"><span class="glyphicon glyphicon-tags"></span>
+                Service
+              </a>
+            </li>
+          </ul>
+      </div>
+      <!-- container that contains list of right algin elements -->
+      <div class="nav navbar-nav navbar-right">
+        <!-- Search areas in the navigation bar -->
+        <form class="navbar-form navbar-left" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control exSer-search" placeholder="Search for service">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        </form>
+        <!-- two buttons -->
+        <div class="nav navbar-nav">
+          <!-- picture button -->
+          <div class="btn-group" role="group">
+            <button type="button" class="btn navbar-btn btn-default">
+              <span class="glyphicon glyphicon-envelope"></span>
+              Notifications
+              <span class="badge">2</span>
+            </button>
+            <button type="button" class="btn navbar-btn btn-default" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-edit"></span>
+                Write a Request
+            </button>
+            <button type="button" class="btn navbar-btn btn-default dropdown-toggle "
+                  data-toggle="dropdown">
+                  User
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#"><span class="glyphicon glyphicon-user"></span>
+                  Profile</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>
+                  My Request</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-calendar"></span>
+                  My schedule</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-cog"></span>
+                  Settings</a>
+              </li>
+              <li><a href="#"><span class="glyphicon glyphicon-off"></span>
+                  Log off</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+   <!-- Post a Request Modal Box -->
+     <div class="modal fade" id="myModal" role="dialog">
+    <!-- <div class="row">
+  		<h3>Post Request</h3>
+  	</div> -->
+
+      <!-- <div class="row"> -->
+
+      <div class="col-md-6">
+      						<div class="widget-area no-padding blank">
+  								<div class="status-upload">
+  									<form>
+  										<textarea placeholder="What would you like help with?" ></textarea>
+  										<ul>
+  											<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Academic"><span class="glyphicon glyphicon-book"></span></a></li>
+  											<li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Service"><span class="glyphicon glyphicon-tags"></span></a></li>
+                        <li><a title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Image"><span class="glyphicon glyphicon-camera"></span></a></li>
+
+  										</ul>
+  										<button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Post</button>
+
+                    </form>
+
+  								</div><!-- Status Upload  -->
+  							</div><!-- Widget Area -->
+  						</div>
+
+      <!-- </div> -->
+  </div>
+</div>
+
+  <!-- feed area -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <!-- row contains cross button -->
+        <div class="row">
+          <div class="col-md-12 catergory_status">
+            <span class="glyphicon glyphicon-th-list"></span>
+            Newest Requests
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <!-- the row contains user and post description -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="media">
+                  <div class="media-left media-top">
+                    <img class="media-object img-rounded" src="img/jucong_back.jpg" width="64" height="64">
+                  </div>
+                  <div class="media-body">
+                    Form Category: Computer Science
+                    <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                    <br> <a href="#">Oh god! CS311 homework is too hard! PlZZZ help</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- the row contains help request -->
+            <div class="row">
+              <div class="col-md-12 text-feed">
+              You are consulting for a trucking company that does a large amount
+               of business shipping packages between New York and Boston.
+               The volume is high enough that they have to send a number of trucks
+               each day between the two locations. Trucks have a fixed limit W on
+               the maximum amount of weight they are allowed to carry. Boxes arrive
+               at the New York station one by one, and each package i has a weight
+               wi. The trucking station is quite small, so at most one truck can be
+               at the station at any time. Company policy requires that boxes are ...
+               <a href="#">Show more</a>
+              </div>
+            </div>
+            <hr>
+            <!-- the row contains status icons -->
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="list-inline icon-status">
+                  <li>
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <a href="#">25 Views</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <a href="#">Share</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-heart-empty"></span>
+                    <a href="#">Save</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <a href="#">Like</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="media">
+                  <div class="media-left media-top">
+                    <img class="media-object img-rounded" src="img/jucong_profile.jpeg" width="64" height="64">
+                  </div>
+                  <div class="media-body">
+                    Form Category: Computer Science
+                    <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                    <br> <a href="#">Urgen help for CS 250</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row feed_with_img">
+              <div class="col-md-4">
+                <img class="img-rounded" src="img/cat.jpeg" width="100%" height="112"/>
+              </div>
+              <div class="col-md-8 text-feed">
+                Each of A, B, C is either a knight (always tells the truth) or a
+                knave (always lies). Suppose that A says, “I am the only knight
+                or the only knave,” B says, “There is exactly one knave,” and C
+                says “Exactly one of A and B is a knight.” Use truth tables to
+                determine who is who.
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="list-inline icon-status">
+                  <li>
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <a href="#">25 Views</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <a href="#">Share</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-heart-empty"></span>
+                    <a href="#">Save</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <a href="#">Like</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="media">
+                  <div class="media-left media-top">
+                    <img class="media-object img-rounded" src="img/jucong_profile.jpeg" width="64" height="64">
+                  </div>
+                  <div class="media-body">
+                    Form Category: Language
+                    <a href="#"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+                    <br> <a href="#">Can any Chinese native speaker help me translate it ?! I can help you with your English</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row feed_with_img">
+              <div class="col-md-4">
+                <img class="img-rounded" src="img/question_img.jpeg" width="100%" height="112"/>
+              </div>
+              <div class="col-md-8 text-feed">
+                长歌行
+                <br>青青园中葵，朝露待日晞。
+                <br>阳春布德泽，万物生光辉。
+                <br>常恐秋节至，焜黄华叶衰。
+                <br>百川东到海，何时复西归?
+                <br>少壮不努力，老大徒伤悲
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <ul class="list-inline icon-status">
+                  <li>
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <a href="#">25 Views</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                    <a href="#">Share</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-heart-empty"></span>
+                    <a href="#">Save</a>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <a href="#">Like</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- recommendation-->
+      <div class="col-md-3">
+        <div class="row">
+          <div class="col-md-12">
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-12 catergory_status">
+                    <span class="glyphicon glyphicon-sunglasses"></span>
+                    Recommendation
+                  </div>
+                </div>
+              </div>
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">
+                  <h5 class="list-group-item-heading">Help with Cal1 please</h5>
+                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <h5 class="list-group-item-heading">Help with Biology</h5>
+                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <h5 class="list-group-item-heading">Anyone can help me revise my essay?</h5>
+                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <h5 class="list-group-item-heading">Need help in CS121</h5>
+                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below),
+         or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

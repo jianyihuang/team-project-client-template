@@ -1,0 +1,84 @@
+body {
+  padding-top: 80px;
+  background-color:#E3F2FD;
+}
+
+.exSer-search {
+  border-radius: 50px;
+  border-right: none;
+}
+/* navigation bar background color*/
+.navbar {
+  background-color: #90CAF9;
+  border-bottom: none;
+  box-shadow: 0px 2px 5px #90A4AE;
+}
+
+/*all buttons in the navigation bar*/
+.navbar button,
+.navbar a {
+  border-radius: 80px;
+  border: none;
+}
+
+/*left most two pill in the navigation bar*/
+.nav .nav-pills {
+  padding-top: 5px;
+}
+
+/*text inside the pills of navigation bar*/
+.nav .nav-pills > li > a {
+  color: black;
+}
+
+/*badge of notification*/
+.navbar .badge {
+  background-color: transparent;
+  color: black;
+}
+
+
+/*when button click hover in navigtaion bar*/
+.navbar button:hover,
+.navbar button:focus,
+.navbar a:hover,
+.navbar a:focus,
+.nav-pills >li > a:hover,
+.nav-pills >li > a:focus,
+.list-group > a:hover,
+.dropdown-menu > li > a:hover {
+  background-color: azure;
+}
+
+/*Name of the website*/
+.navbar-default .navbar-brand{
+  color: #EEEEEE;
+}
+
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+  color: black;
+  background-color: azure;
+}
+
+.nav-pills>li.active>a {
+  background-color: azure;
+}
+
+
+.panel-body >a > img:hover {
+  -webkit-box-shadow: 0px 0px 30px 0px #757575;
+  -moz-box-shadow: 0px 0px 30px 0px #757575;
+  box-shadow: 0px 0px 30px 0px #757575;
+}
+.panel {
+  -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
+  box-shadow: 0px 8px 5px 0px #BDBDBD;
+  border-radius: 10px;
+}
+
+img {
+  width: 325px;
+  height: 200px;
+}
