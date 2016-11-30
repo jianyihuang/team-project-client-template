@@ -119,6 +119,14 @@ app.post('/restdb',function(req,res) {
   res.send();
 });
 
+app.put('/feeditem/:feeditemid',function(req,res) {
+  var feedItemId = parseInt(req.params.feeditemid);
+  var feedItem = readDocument("feedItems",feedItemId);
+  feedItem.view_count = feedItem.view_count+1;
+  writeDocument("feedItems",feedItem);
+  res.status(201);
+  res.send(JSON.stringify(feedItem.view_count));
+});
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */

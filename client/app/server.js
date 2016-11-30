@@ -156,12 +156,9 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
 }
 
 export function increaseViewCount(feedItemId,cb) {
-  // var feedItem = readDocument("feedItems",feedItemId);
-  // feedItem.view_count = feedItem.view_count+1;
-  // writeDocument("feedItems",feedItem);
-  // emulateServerReturn(feedItem.view_count,cb);
-  emulateServerReturn(0,cb);
-
+  sendXHR('PUT','/feeditem/'+feedItemId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 
