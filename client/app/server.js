@@ -169,8 +169,8 @@ function getShortProfile(userId) {
 
 
 // Get all information about the user.
-export function getUserData(user, type, cb) {
-  sendXHR('GET', '/user/1/profile/' + type, undefined, (xhr) => {
+export function getUserData(user, cb) {
+  sendXHR('GET', '/user/1/profile/', undefined, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -185,18 +185,23 @@ export function getClassData(classId){
   return courseInfo;
 }
 // Save new user profile information.
-export function saveUserData(newUserProfile, cb) {
-  var user = readDocument('users', newUserProfile.user_id);
-  user.first_name = newUserProfile.first_name,
-  user.last_name = newUserProfile.last_name,
-  user.profilepic = newUserProfile.profilepic,
-  user.favorite_quote = newUserProfile.favorite_quote,
-  user.areas_of_interest = newUserProfile.areas_of_interest,
-  user.classes_taken = newUserProfile.classes_taken,
-  user.education_level = newUserProfile.education_level,
-  user.academic_institution = newUserProfile.academic_institution,
-  writeDocument('users', user);
-  emulateServerReturn(user, cb);
+export function saveUserData(info, cb) {
+  // var user = readDocument('users', newUserProfile.user_id);
+  // user.first_name = newUserProfile.first_name,
+  // user.last_name = newUserProfile.last_name,
+  // user.profilepic = newUserProfile.profilepic,
+  // user.favorite_quote = newUserProfile.favorite_quote,
+  // user.areas_of_interest = newUserProfile.areas_of_interest,
+  // user.classes_taken = newUserProfile.classes_taken,
+  // user.education_level = newUserProfile.education_level,
+  // user.academic_institution = newUserProfile.academic_institution,
+  // writeDocument('users', user);
+  // emulateServerReturn(user, cb);
+
+
+  sendXHR('PUT', '/user/' + info.user_id + '/profile', info, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 

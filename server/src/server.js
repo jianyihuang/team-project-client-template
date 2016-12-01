@@ -340,13 +340,29 @@ app.get('/user/:userid/profile', function(req, res) {
 });
 
 //update profile
-app.put('/user/:userid/profile', function(req,res) {
+app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userData = req.body;
   if(fromUser === userid) {
+      //update user info here
+      var user = readDocument('users', userid);
+      user.first_name = userData.first_name;
+      user.last_name = userData.last_name;
+      user.profilepic = userData.profilepic;
+      user.academic_institution = userData.academic_institution;
+      user.education_level = userData.education_level;
+      user.favorite_quote = userData.favorite_quote;
+      user.areas_of_interest = userData.areas_of_interest;
 
+      writeDocument('users', user);
+      res.status(201);
+      res.send(user);
+
+  } else {
+    res.status(401).end();
   }
-})
+});
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
