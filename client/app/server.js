@@ -1,6 +1,6 @@
 import {readDocument, writeDocument, addDocument} from './database.js';
 
-var token = 'eyJpZCI6MX0';
+var token = 'eyJpZCI6MX0=';
 /**
  * Properly configure+send an XMLHttpRequest with error handling,
  * authorization token, and other needed properties.
@@ -154,19 +154,6 @@ export function updateUserSetting(newSetting, cb) {
   emulateServerReturn(user, cb);
 }
 
-// Get the user's short profile.
-function getShortProfile(userId) {
-	var user = readDocument('users', userId);
-	var profile = {
-		user_id: userId,
-		username: user.username,
-    firstName: user.first_name,
-    lastName: user.last_name,
-		profilepic: user.profilepic
-	};
-	return profile;
-}
-
 
 // Get all information about the user.
 export function getUserData(user, cb) {
@@ -272,92 +259,52 @@ export function deleteSchedule(userId,scheduleId,cb) {
   emulateServerReturn(scheduleData, cb);
 }
 
+
+
 // Get a list of user's short profiles.
 export function getParticipantProfiles(box_msg_id, cb) {
-	var messageBox = readDocument('messageboxes', box_msg_id);
-	var participantList = messageBox.list_of_users;
-	var participantProfiles = participantList.map(function(user_id) {
-		return getShortProfile(user_id);
-	});
-	emulateServerReturn(participantProfiles, cb);
+  sendXHR('GET','/messagebox/' + box_msg_id + '/participantlist', undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 // Get the message box by its id.
 export function getMessageBoxServer(box_msg_id, cb) {
-	emulateServerReturn(readDocument('messageboxes', box_msg_id), cb);
+  sendXHR('GET','/messagebox/' + box_msg_id, undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 // Client send message to the message box.
 export function sendMessageServer(box_msg_id, user_id, content, cb) {
-	// Get the current time.
-	var time = new Date().getTime();
-	var messageBox = readDocument('messageboxes', box_msg_id);
-	// Check if the user is already in the conversation.
-	if(messageBox.list_of_users.indexOf(user_id) !== -1) {
-        // Push the message into the conversation box.
-        messageBox.list_of_messages_by_users_in_box.push({
-          'user_id': user_id,
-          'timestamp': time,
-          'content': content
-        });
-        writeDocument('messageboxes', messageBox);
-	}
-        // Return the udpated version of messageBox.
-        emulateServerReturn(messageBox, cb);
+  sendXHR('POST','/messagebox/'+ box_msg_id + '/send/' + user_id, {"content": content},(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 // Get numberOfBoxes recent message boxes participated by the user.
 export function getRecentMessageBoxes(userId, numberOfBoxes, cb) {
-  // Read the user from the database.
-  var user = readDocument('users', userId);
-  // Get the last numberOfBoxes in the messageboxes.
-  var reversedMsgBoxes = user.messageboxes;
-  var recentBoxIds = reversedMsgBoxes.reverse().slice(0, numberOfBoxes);
-  // Return the list with the callback.
-  emulateServerReturn(recentBoxIds, cb);
+  sendXHR('GET','/users/'+ userId + '/recentmsgboxes/'+ numberOfBoxes, undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 // Create a new message box.
 export function createMessageBox(userId, cb) {
-  // Get the current time.
-  var time = new Date().getTime();
-  // Create a message box.
-  var messageBox = {
-    'list_of_users': [],
-    'list_of_messages_by_users_in_box': [],
-    'creation_timestamp': time
-  }
-  messageBox.list_of_users.push(userId);
-  messageBox = addDocument('messageboxes', messageBox);
-  var user = readDocument('users', userId);
-  // Add the creator into the list of users.
-  user.messageboxes.push(messageBox._id);
-  // Update users in database.
-  writeDocument('users', user);
-  emulateServerReturn(messageBox, cb);
+  console.log("Created!!!");
+  sendXHR('PUT','/messagebox/create/' + userId, undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 // Add a user into a message box.
 export function joinMessageBox(box_msg_id, userId, cb) {
-  console.log(box_msg_id + ' ' + userId);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  // When the invited user is not already in the list of participants, we add him or her in.
-  if (messageBox.list_of_users.indexOf(userId) === -1) {
-    // Add the user into the list.
-    messageBox.list_of_users.push(userId);
-    // Update messageBox.
-    writeDocument('messageboxes', messageBox);
-    var user = readDocument('users', userId);
-    user.messageboxes.push(box_msg_id);
-    // Update user.
-    writeDocument('users', user);
-  }
-  // Return the message box.
-  emulateServerReturn(messageBox, cb);
+  sendXHR('PUT','/messagebox/'+ box_msg_id + '/add/' + userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
-
   });
 }

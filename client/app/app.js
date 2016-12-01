@@ -14,6 +14,9 @@ import ServiceHome from './components/servicehome.js'
 import ErrorBanner from './components/errorbanner';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
+// Temporarily used until we learn proper way to authenticate.
+ 
+
 /**
  * Search results page.
  */

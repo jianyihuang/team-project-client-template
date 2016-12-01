@@ -102,8 +102,8 @@ export default class MessagePanel extends React.Component {
     						<div className="panel-heading">
     							<h4><span className="glyphicon glyphicon-book"></span> Recent Conversations</h4>
     						</div>
-    						<div className="panel-body">
-    							<ul className="list-group recent-contact">
+    						<div className="panel-body recent-contact">
+    							<ul className="list-group">
                                                                             {
                                                                                 this.state.recent_msgBoxes.map((boxId, i) => {
                                                                                     return <MessageBox key={i} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
