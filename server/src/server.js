@@ -228,7 +228,7 @@ app.post('/search', function(req, res) {
     console.log("feedData: "+feedData);
   res.send(feedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
-    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
+    return feedItem.contents.request.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
   }).map(getFeedItemSync));
 }
 else{
