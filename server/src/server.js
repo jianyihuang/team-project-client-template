@@ -298,14 +298,10 @@ app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
 
 //schedule part ------------
 
-function addScheule(user, contents,imgUrl,request,type) {
+function addScheule(user, userId, contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
-    "view_count": 0,
-    "likeCounter": [],
-    // Taggs are by course_id
-    "tag": 1,
-    "list_of_comments":[],
+    "completed": "COMPLETED",
     "contents": {
       "author": user,
       "timestamp": time,
