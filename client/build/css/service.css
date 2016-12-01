@@ -74,7 +74,7 @@ body {
   border-radius: 10px;
 }
 
-img-responsive {
+.img-responsive {
   width: 325px;
   height: 200px;
 }
