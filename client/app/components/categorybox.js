@@ -18,7 +18,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">Math</h5>
-                <Link to="/acedemicdetail"><img src="img/math.jpg" className="img-responsive" width="325px"
+                <Link to="/acedemicdetail"><img src="img/math.jpg" className="img-responsive"  width="325px"
                   height ="200px"/></Link>
               </div>
             </div>
@@ -47,7 +47,7 @@ export default class CategoryBox extends React.Component {
             <div className="panel panel-default">
               <div className="panel-body">
                 <h5 className="text-center">History</h5>
-                <Link to="/acedemicdetail"><img src="img/history.jpg"  width="325px"
+                <Link to="/acedemicdetail"><img src="img/history.jpg" className="img-responsive" width="325px"
                   height ="200px"/></Link>
               </div>
             </div>
