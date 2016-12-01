@@ -26,7 +26,6 @@ export default class Feed extends React.Component {
 
   refresh() {
     getFeedData(this.props.user,this.props.type, (feedData) => {
-      console.log(feedData);
       this.setState(feedData);
     });
   }

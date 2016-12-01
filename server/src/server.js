@@ -17,6 +17,21 @@ app.use(bodyParser.json());
 //pull static contends from build
 app.use(express.static('../client/build'));
 
+var categoryMap = {
+  "Computer Science":1,
+  "Math":2,
+  "Music":3,
+  "History":4,
+  "Physics":5,
+  "English":6,
+  "Pet Related":7,
+  "Home Improvement":8,
+  "Travel":9,
+  "Yard":10,
+  "Plumer":11,
+  "Car Pool":12
+}
+
 /**
 * Get the user ID from a token. Returns -1 (an invalid ID)
 * if it fails.
@@ -80,13 +95,13 @@ function getFeedData(user,type) {
   return feedData;
 }
 
-function postStatusUpdate(user, contents,imgUrl,request,type) {
+function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
     "view_count": 0,
     "likeCounter": [],
     // Taggs are by course_id
-    "tag": 1,
+    "tag": categoryMap[tag],
     "list_of_comments":[],
     "contents": {
       "author": user,
@@ -96,8 +111,6 @@ function postStatusUpdate(user, contents,imgUrl,request,type) {
       "imgUrl":imgUrl
     }
   }
-  console.log(contents);
-  console.log(newPost);
   newPost = addDocument('feedItems',newPost);
   var userData = readDocument('users', user);
   var feedData;
@@ -139,7 +152,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
   var body = req.body;
   if(body.author === fromUser) {
     var feedItemType = parseInt(req.params.feeditemtype,10);
-    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
     res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
