@@ -135,29 +135,22 @@ export function increaseViewCount(feedItemId,cb) {
 
 // Get user's setting.
 export function getUserSetting(userId, cb) {
-  var user = readDocument('users', userId);
-  var setting = {
-    username: user.username,
-    email: user.email,
-    password: user.password
-  };
-  emulateServerReturn(setting, cb);
+  sendXHR('GET','/user/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 // Update user's setting.
-export function updateUserSetting(newSetting, cb) {
-  var user = readDocument('users', newSetting.user_id);
-  user.username = newSetting.username;
-  user.email = newSetting.email;
-  user.password = newSetting.password;
-  writeDocument('users', user);
-  emulateServerReturn(user, cb);
+export function updateUserSetting(userId, cb) {
+  sendXHR('PUT','/config/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 
 // Get all information about the user.
-export function getUserData(user, cb) {
-  sendXHR('GET', '/user/1/profile/', undefined, (xhr) => {
+export function getUserData(userId, cb) {
+  sendXHR('GET', '/config/' + userId, undefined, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }

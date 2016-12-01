@@ -512,6 +512,36 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   }
 });
 
+app.put('/config/:userId', validate({body: UserProfileSchema}), function(req,res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userData = req.body;
+  if(fromUser === userid) {
+      //update configuration
+      var user = readDocument('users', userid);
+      user.username = userData.username;
+      user.password = userData.password;
+      user.email = userData.email;
+      writeDocument('users', user);
+      res.status(201);
+      res.send(user);
+
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/config/:userId', function(req, res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid) {
+    // send response
+    res.status(201);
+    res.send(getUserData(userid));
+  } else {
+    res.status(401).end();
+  }
+});
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
