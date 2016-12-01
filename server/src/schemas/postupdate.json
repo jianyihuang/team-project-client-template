@@ -17,14 +17,18 @@
     "imgUrl": {
       "type": "string",
       "id": "imgUrl"
+    },
+    "category": {
+      "type": "string",
+      "id": "category"
     }
   },
   "id": "/",
-  "additionalProperties": false,
   "required": [
     "author",
     "request",
     "contents",
-    "imgUrl"
+    "imgUrl",
+    "category"
   ]
 }

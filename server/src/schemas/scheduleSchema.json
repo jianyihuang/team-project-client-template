@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "type": "integer"
+    },
+    "completed": {
+      "type": "string"
+    },
+    "contents": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "subscriber": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "serviceContents": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "author",
+        "subscriber",
+        "date",
+        "time",
+        "serviceContents"
+      ]
+    }
+  },
+  "required": [
+    "_id",
+    "completed",
+    "contents"
+  ]
+}

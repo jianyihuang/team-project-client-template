@@ -195,3 +195,7 @@ border: 1px solid #F2F2F2;
 .dropdown > a > span.green:before {
 border-left-color: #2dcb73;
 }
+/* Prevent an HTML element from displaying at all. */
+.hidden {
+  display: 'none';
+}

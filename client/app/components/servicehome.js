@@ -10,7 +10,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Pet related</h5>
-							<Link to="/servicedetail"><img src="img/cat.jpeg"/></Link>
+							<Link to="/servicedetail"><img src="img/cat.jpeg" className="img-responsive"/></Link>
             </div>
           </div>
         </div>
@@ -18,7 +18,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Home improvement</h5>
-							<Link to="/servicedetail"><img src="img/home.jpeg"/></Link>
+							<Link to="/servicedetail"><img src="img/home.jpeg" className="img-responsive"/></Link>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Travel</h5>
-              <Link to="/servicedetail"><img src="img/travel.jpeg"/></Link>
+              <Link to="/servicedetail"><img src="img/travel.jpeg" className="img-responsive"/></Link>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Yard</h5>
-              <Link to="/servicedetail"><img src="img/yard.jpg"/></Link>
+              <Link to="/servicedetail"><img src="img/yard.jpg" className="img-responsive"/></Link>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Plumer</h5>
-              <Link to="/servicedetail"><img src="img/toilet_stuck.jpg"/></Link>
+              <Link to="/servicedetail"><img src="img/toilet_stuck.jpg" className="img-responsive" /></Link>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@ render(){
           <div className="panel panel-default">
             <div className="panel-body">
               <h5 className="text-center">Car pool</h5>
-              <Link to="/servicedetail"><img src="img/carpool.png"/></Link>
+              <Link to="/servicedetail"><img src="img/carpool.png" className="img-responsive" /></Link>
             </div>
           </div>
         </div>

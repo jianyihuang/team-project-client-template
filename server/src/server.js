@@ -339,6 +339,14 @@ app.get('/user/:userid/profile', function(req, res) {
   }
 });
 
+//update profile
+app.put('/user/:userid/profile', function(req,res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid) {
+
+  }
+})
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
