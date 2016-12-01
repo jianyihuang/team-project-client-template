@@ -23,6 +23,11 @@ export class MessageEditor extends React.Component {
 			entered_text: event.target.value
 		});
 	}
+	handleDateTimeChanged(event) {
+		event.preventDefault();
+		var value = event.target.value;
+		console.log((new Date(value)).getTime());
+	}
 	render() {
 		return (
 			<div>
@@ -38,7 +43,23 @@ export class MessageEditor extends React.Component {
 							Press Enter to send.
 						</span>
 						<div className="btn-group pull-right footer-btn">
-							<button className="btn btn-default"><span className="glyphicon glyphicon-calendar"></span>Add Appointment</button>
+							<button className="btn btn-default" data-toggle="modal" data-target="#mySchedule"><span className="glyphicon glyphicon-calendar"></span>Add Appointment</button>
+                                <div id="mySchedule" className="modal fade" role="dialog">
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                                <h4 className="modal-title">Specify a date and time</h4>
+                                            </div>
+                                            <div className="modal-body">
+                                            	Create an appoinment at :: <input type="datetime-local" onChange={this.handleDateTimeChanged}name="bdaytime"/>                                                                          
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.addNewParticipant}>Create</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 						</div>
 					</div>
 				</div>
