@@ -200,22 +200,21 @@ function getScheduleItem(scheduleId) {
 	var schedules = readDocument('schedules', scheduleId);
 	var scheduleData = {
     //console.log(indexSchedule);
-     index: scheduleId,
-     _id: schedules._id,
+     _id: scheduleId,
      completed: schedules.completed,
      contents: {
       // ID of the user that the appointment is with
-      party : schedules.contents.party,
+      author:schedules.contents.author,
+      subscriber : schedules.contents.subscriber,
       date : schedules.contents.date,
-      timestamp_start: schedules.contents.timestamp_start,
-      timestamp_end: schedules.contents.timestamp_end,
+      time:schedules.contents.time,
       serviceContents: schedules.contents.serviceContents
     }
 	};
 	return scheduleData;
 }
 
-
+/*
 function getScheduleItemSync(scheduleItem) {
 //  console.log(scheduleItem);
   scheduleItem._id = readDocument('users',scheduleItem._id);
@@ -223,6 +222,7 @@ function getScheduleItemSync(scheduleItem) {
   scheduleItem.contents.party = userData.first_name;
     return scheduleItem;
 }
+*/
 
 export function getScheduleData(userId,cb) {
     // Get the User object with the id "user".
@@ -230,7 +230,7 @@ export function getScheduleData(userId,cb) {
     var scheduleData = userData.schedules.map(function(scheduleId){
       return getScheduleItem(scheduleId);
     });
-    scheduleData = scheduleData.map(getScheduleItemSync)
+  //  scheduleData = scheduleData.map(getScheduleItemSync)
     emulateServerReturn(scheduleData, cb);
 }
 

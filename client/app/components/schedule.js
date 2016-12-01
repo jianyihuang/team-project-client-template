@@ -29,9 +29,9 @@ export default class Schedule extends React.Component {
       <div className="container content">
         { this.state.schedules.map((scheduleItem,i) => {
          return(
-           <Schedulebox key = {i} firstName={scheduleItem._id.first_name} postDate={scheduleItem.contents.date}
-             serviceContent={scheduleItem.contents.serviceContents} startTime={scheduleItem.contents.timestamp_start}
-            endTime={scheduleItem.contents.timestamp_end} party={scheduleItem.contents.party}
+           <Schedulebox key = {i} name={scheduleItem.contents.author} postDate={scheduleItem.contents.date}
+             serviceContent={scheduleItem.contents.serviceContents} time={scheduleItem.contents.time}
+             subscriber={scheduleItem.contents.subscriber}
             completed={scheduleItem.completed} id ={scheduleItem.index}   />
         );
       })
