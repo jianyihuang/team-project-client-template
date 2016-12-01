@@ -95,13 +95,13 @@ function getFeedData(user,type) {
   return feedData;
 }
 
-function postStatusUpdate(user, contents,imgUrl,request,type) {
+function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
     "view_count": 0,
     "likeCounter": [],
     // Taggs are by course_id
-    "tag": 1,
+    "tag": categoryMap[tag],
     "list_of_comments":[],
     "contents": {
       "author": user,
@@ -154,7 +154,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
   var body = req.body;
   if(body.author === fromUser) {
     var feedItemType = parseInt(req.params.feeditemtype,10);
-    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
     res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
