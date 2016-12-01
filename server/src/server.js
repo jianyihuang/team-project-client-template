@@ -302,7 +302,7 @@ function getShortProfile(userId) {
 // Handle getParticipantProfiles
 app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var box_msg_id = parseInt(req.params.box_msg_id, 10); 
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
   var messageBox = readDocument('messageboxes', box_msg_id);
   var participantList = messageBox.list_of_users;
   // The requesting user is in the participant list, which should be allowed.
@@ -320,7 +320,7 @@ app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
 // Handle getMessageBoxServer.
 app.get('/messagebox/:box_msg_id', function(req, res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var box_msg_id = parseInt(req.params.box_msg_id, 10); 
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
   var messageBox = readDocument('messageboxes', box_msg_id);
   if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
     res.send(messageBox);
@@ -511,10 +511,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
     res.status(401).end();
   }
 });
-<<<<<<< HEAD
-=======
 
->>>>>>> c5011e193b43581227ec044488878e999714cb2a
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
