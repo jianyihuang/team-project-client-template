@@ -333,7 +333,7 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 }
 
 export function resetDatabase() {
-  sendXHR('POST',"/restdb",undefined,()=>{
+  sendXHR('POST',"/resetdb",undefined,()=>{
 
   });
 }
