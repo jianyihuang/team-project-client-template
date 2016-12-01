@@ -118,37 +118,34 @@ function postStatusUpdate(user, contents,imgUrl,request,type) {
  2 is Service feed
 */
 app.get('/user/:userid/feed/:feedtype', function(req, res) {
-console.log(req.params.userid);
-console.log(req.get("Authorization"));
-var userid =  parseInt(req.params.userid,10);
+  var userid =  parseInt(req.params.userid,10);
   var feedType = parseInt(req.params.feedtype,10);
-  // userid is a string. We need it to be a number.
-  // Parameters are always strings.
-var fromUser = getUserIdFromToken(req.get('Authorization'));
-
-console.log("fromUser:"+fromUser);
-console.log("userid :"+userid);
-console.log("feedtype:"+feedType);
-if(fromUser === userid){
-  // Send response.
-  res.send(getFeedData(userid,feedType));
-}
-else{
-  // 401: Unauthorized request.
-  res.status(401).end();
-
-}
-
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid){
+    // Send response.
+    res.status(201);
+    res.send(getFeedData(userid,feedType));
+  }
+  else{
+    // 401: Unauthorized request.
+    res.status(401).end();
+  }
 });
 
+// Post a feed
 app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(req,res) {
   console.log("Get post feeditem");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
-  var feedItemType = parseInt(req.params.feeditemtype,10);
-  var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
-  res.status(201);
-  res.set('Location','/feeditem/'+newPost._id);
-  res.send(newPost);
+  if(body.author === fromUser) {
+    var feedItemType = parseInt(req.params.feeditemtype,10);
+    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    res.status(201);
+    res.set('Location','/feeditem/'+newPost._id);
+    res.send(newPost);
+  }else {
+    res.status(401).end();
+  }
 });
 
 //Rest database.
@@ -160,6 +157,8 @@ app.post('/restdb',function(req,res) {
   res.send();
 });
 
+// Increase view count
+// authorization is done in get feed data
 app.put('/feeditem/:feeditemid',function(req,res) {
   var feedItemId = parseInt(req.params.feeditemid);
   var feedItem = readDocument("feedItems",feedItemId);
@@ -169,42 +168,55 @@ app.put('/feeditem/:feeditemid',function(req,res) {
   res.send(JSON.stringify(feedItem.view_count));
 });
 
+// Like a feed
 app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
   var feedItemId = parseInt(req.params.feeditemid);
   var userId = parseInt(req.params.userid);
-  var feedItem = readDocument('feedItems', feedItemId);
-    // Normally, we would check if the user already
-  // liked this comment. But we will not do that
-  // in this mock server. ('push' modifies the array
-  // by adding userId to the end)
-  feedItem.likeCounter.push(userId);
-  writeDocument('feedItems', feedItem);
-  // Return a resolved version of the likeCounter
-  res.status(201);
-  res.send(feedItem.likeCounter.map((userId) =>
-                        readDocument('users', userId)));
+  if(fromUser === userId) {
+    var feedItem = readDocument('feedItems', feedItemId);
+      // Normally, we would check if the user already
+    // liked this comment. But we will not do that
+    // in this mock server. ('push' modifies the array
+    // by adding userId to the end)
+    feedItem.likeCounter.push(userId);
+    writeDocument('feedItems', feedItem);
+    // Return a resolved version of the likeCounter
+    res.status(201);
+    res.send(feedItem.likeCounter.map((userId) =>
+                          readDocument('users', userId)));
+  }else {
+    res.status(401).end();
+  }
 });
 
+// Unlike a feed
 app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
   var feedItemId = parseInt(req.params.feeditemid);
   var userId = parseInt(req.params.userid);
-  var feedItem = readDocument('feedItems', feedItemId);
-  var userIndex = feedItem.likeCounter.indexOf(userId);
-  // -1 means the user is *not* in the likeCounter,
-  // so we can simply avoid updating
-  // anything if that is the case: the user already
-  // doesn't like the item.
-  if (userIndex !== -1) {
-    // 'splice' removes items from an array. This
-    // removes 1 element starting from userIndex.
-    feedItem.likeCounter.splice(userIndex, 1);
-    writeDocument('feedItems', feedItem);
+  if(fromUser === userId) {
+    var feedItem = readDocument('feedItems', feedItemId);
+    var userIndex = feedItem.likeCounter.indexOf(userId);
+    // -1 means the user is *not* in the likeCounter,
+    // so we can simply avoid updating
+    // anything if that is the case: the user already
+    // doesn't like the item.
+    if (userIndex !== -1) {
+      // 'splice' removes items from an array. This
+      // removes 1 element starting from userIndex.
+      feedItem.likeCounter.splice(userIndex, 1);
+      writeDocument('feedItems', feedItem);
+    }
+    res.status(201);
+    // Return a resolved version of the likeCounter
+    res.send(feedItem.likeCounter.map((userId) =>
+                          readDocument('users', userId)));
+  }else {
+    res.status(401).end();
   }
-  res.status(201);
-  // Return a resolved version of the likeCounter
-  res.send(feedItem.likeCounter.map((userId) =>
-                        readDocument('users', userId)));
 });
+
 // Search for feed item
 app.post('/search', function(req, res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
@@ -222,6 +234,51 @@ app.post('/search', function(req, res) {
 else{
 res.status(400).end();
 }
+});
+
+// Delete a feed
+// If the user is the author of that feed remove it from feedItem otherwise just
+// remove the reference
+app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid);
+  var feedItemId = parseInt(req.params.feeditemid);
+  var feedItem = readDocument('feedItems', feedItemId);
+  var type = parseInt(req.params.feedtype);
+  if(fromUser === userId) {
+    var user = readDocument('users', userId);
+    var feedData;
+    var feedItemIndex;
+    if(type === 1) {
+       feedData = readDocument('academicfeeds', user.Academic_feed);
+       feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
+       if (feedItemIndex !== -1) {
+         // 'splice' removes items from an array. This
+         // removes 1 element starting from userIndex.
+         feedData.list_of_feeditems.splice(feedItemIndex, 1);
+       }
+       writeDocument('academicfeeds', feedData);
+       if(fromUser === feedItem.contents.author) {
+         database.deleteDocument('feedItems',feedItemId);
+       }
+    }else {
+       feedData = readDocument('servicefeeds', user.Service_feed);
+       feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
+       if (feedItemIndex !== -1) {
+         // 'splice' removes items from an array. This
+         // removes 1 element starting from userIndex.
+         feedData.list_of_feeditems.splice(feedItemIndex, 1);
+       }
+       writeDocument('servicefeeds', feedData);
+       if(fromUser === feedItem.contents.author) {
+         database.deleteDocument('feedItems',feedItemId);
+       }
+    }
+    res.status(201);
+    res.send(feedData);
+  } else {
+    res.status(401).end();
+  }
 });
 /**
  * Translate JSON Schema Validation failures into error 400s.
