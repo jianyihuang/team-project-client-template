@@ -1,5 +1,6 @@
 import {readDocument, writeDocument, addDocument} from './database.js';
 
+var token = 'eyJpZCI6MX0';
 /**
  * Properly configure+send an XMLHttpRequest with error handling,
  * authorization token, and other needed properties.
@@ -8,7 +9,7 @@ function sendXHR(verb, resource, body, cb) {
   var xhr = new XMLHttpRequest();
   xhr.open(verb, resource);
   // xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-
+  xhr.setRequestHeader('Authorization', 'Bearer ' + token);
   // The below comment tells ESLint that FacebookError is a global.
   // Otherwise, ESLint would complain about it! (See what happens in Atom if
   // you remove the comment...)
