@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-// import Post from './postpage';
+import SearchBar from './searchbar';
 
 export default class Navbar extends React.Component {
 
@@ -25,16 +25,7 @@ render() {
 								</ul>
 							</div>
 							<div className="nav navbar-nav navbar-right">
-								<form className="navbar-form navbar-left" role="search">
-									<div className="input-group">
-										<input type="text" className="form-control exSer-search" placeholder="Search for service" />
-										<span className="input-group-btn">
-											<button type="submit" className="btn btn-default">
-												<span className="glyphicon glyphicon-search"></span>
-											</button>
-										</span>
-									</div>
-								</form>
+								<SearchBar searchTerm={this.props.searchTerm} />
 								<div className="nav navbar-nav">
 									<div className="btn-group" role="group">
 										<Link to="/message" type="button" className="btn navbar-btn btn-default">

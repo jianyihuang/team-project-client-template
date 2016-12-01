@@ -92,6 +92,7 @@ export function postStatusUpdate(user, contents,type, cb) {
   });
 }
 
+
 export function deleteFeed(userId,feedItemId,type,cb) {
   var user = readDocument('users', userId);
   var feedData;
@@ -117,6 +118,15 @@ export function deleteFeed(userId,feedItemId,type,cb) {
      writeDocument('servicefeeds', feedData);
   }
   emulateServerReturn(feedData, cb);
+}
+/**
+ * Searches for feed items with the given text.
+ */
+export function searchForFeedItems(userId, queryText, cb) {
+  // userID is not needed; it's included in the JSON web token.
+sendXHR('POST', '/search', queryText, (xhr) => {
+cb(JSON.parse(xhr.responseText));
+});
 }
 
 
