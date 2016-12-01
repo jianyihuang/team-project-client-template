@@ -13,6 +13,9 @@ import FeedItem from './components/feeditem';
 import ServiceHome from './components/servicehome.js'
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
+// Temporarily used until we learn proper way to authenticate.
+ 
+
 /**
  * Search results page.
  */

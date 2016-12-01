@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 //import database functions
 var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
+var MessageSchema = require('./schemas/message.json');
 
 
 var readDocument = database.readDocument;
@@ -280,6 +281,158 @@ app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
     res.status(401).end();
   }
 });
+
+
+/**
+  Begin Message Page.
+**/
+
+// Get the user's short profile.
+function getShortProfile(userId) {
+  var user = readDocument('users', userId);
+  var profile = {
+    user_id: userId,
+    username: user.username,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    profilepic: user.profilepic
+  };
+  return profile;
+}
+
+// Handle getParticipantProfiles
+app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var box_msg_id = parseInt(req.params.box_msg_id, 10); 
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  var participantList = messageBox.list_of_users;
+  // The requesting user is in the participant list, which should be allowed.
+  if (participantList.indexOf(fromUser) !== -1) {
+    var participantProfiles = participantList.map(function(user_id) {
+      return getShortProfile(user_id);
+    });
+    res.send(participantProfiles);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+// Handle getMessageBoxServer.
+app.get('/messagebox/:box_msg_id', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var box_msg_id = parseInt(req.params.box_msg_id, 10); 
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
+    res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+// Handle sendMessageServer from client.
+app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  // Get the current time.
+  var time = new Date().getTime();
+  var user_id = parseInt(req.params.user_id, 10);
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  var content = req.body.content;
+  // Check if the user is already in the conversation.
+  if(messageBox.list_of_users.indexOf(fromUser) !== -1
+    && user_id === fromUser) {
+        // Push the message into the conversation box.
+        messageBox.list_of_messages_by_users_in_box.push({
+          'user_id': user_id,
+          'timestamp': time,
+          'content': content
+        });
+        writeDocument('messageboxes', messageBox);
+        res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+// Handle getRecentMessageBoxes from client.
+app.get('/users/:userid/recentmsgboxes/:numberofboxes', function(req, res) {
+  var userInToken = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var numberOfBoxes = parseInt(req.params.numberofboxes, 10);
+  if(userInToken === userId){
+    // Read the user from the database.
+    var user = readDocument('users', userId);
+    // Get the last numberOfBoxes in the messageboxes.
+    var reversedMsgBoxes = user.messageboxes;
+    var recentBoxIds = reversedMsgBoxes.reverse().slice(0, numberOfBoxes);
+    res.send(recentBoxIds);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+// Handle createMessageBox from client.
+app.put('/messagebox/create/:user_id', function(req, res) {
+  var userInToken = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.user_id, 10);
+  if (userInToken === userId){
+    // Get the current time.
+    var time = new Date().getTime();
+    // Create a message box.
+    var messageBox = {
+      'list_of_users': [],
+      'list_of_messages_by_users_in_box': [],
+      'creation_timestamp': time
+    }
+    messageBox.list_of_users.push(userId);
+    messageBox = addDocument('messageboxes', messageBox);
+    var user = readDocument('users', userId);
+    // Add the creator into the list of users.
+    user.messageboxes.push(messageBox._id);
+    // Update users in database.
+    writeDocument('users', user);
+    res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+
+});
+
+// Handle joinMessageBox from client.
+app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
+  var userInToken = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.user_id, 10);
+  var box_msg_id = parseInt(req.params.box_msg_id);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  if (messageBox.list_of_users.indexOf(userInToken) !== -1) {
+    // When the invited user is not already in the list of participants, we add him or her in.
+    if (messageBox.list_of_users.indexOf(userId) === -1) {
+      // Add the user into the list.
+      messageBox.list_of_users.push(userId);
+      // Update messageBox.
+      writeDocument('messageboxes', messageBox);
+      var user = readDocument('users', userId);
+      user.messageboxes.push(box_msg_id);
+      // Update user.
+      writeDocument('users', user);
+    }
+    res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+/**
+  End Message Page.
+**/
+
+
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
