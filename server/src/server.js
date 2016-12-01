@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 //import database functions
 var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
-
+var UserProfileSchema = require('./schemas/userprofile.json');
 
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -318,6 +318,26 @@ function addScheule(user, contents,imgUrl,request,type) {
   return newPost;
 }
 
+// user profile part
+// get user profile data
+function getUserData(user, type) {
+  console.log("Get called");
+  var userData = readDocument("users", user);
+  return userData;
+}
+
+//display user profile for particular user
+app.get('/user/:userid/profile', function(req, res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid) {
+    // send response
+    res.status(201);
+    res.send(getUserData(userid));
+  } else {
+    res.status(401).end();
+  }
+});
 
 /**
  * Translate JSON Schema Validation failures into error 400s.

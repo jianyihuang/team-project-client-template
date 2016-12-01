@@ -165,9 +165,10 @@ function getShortProfile(userId) {
 
 
 // Get all information about the user.
-export function getUserData(userId, cb) {
-  var user = readDocument('users', userId);
-  emulateServerReturn(user, cb);
+export function getUserData(user, type, cb) {
+  sendXHR('GET', '/user/1/profile/' + type, undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function getClassData(classId){
