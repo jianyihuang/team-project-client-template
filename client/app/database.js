@@ -235,7 +235,7 @@ var initialData = {
       }
     },
     "7":{
-      "_id": "Karen",
+      "_id": 7,
       "completed": "COMPLETED",
       "contents": {
         "author": "Thein",

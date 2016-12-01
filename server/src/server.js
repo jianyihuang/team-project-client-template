@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 //import database functions
 var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
-
+var scheduleSchema = require('./schemas/scheduleSchema.json');
 
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -285,35 +285,39 @@ app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
 
 //schedule part ------------
 
-function addScheule(user, userId, contents,imgUrl,request,type) {
-  var time = new Date().getTime();
+function addScheule(user, time, subscriber,date,serviceContents) {
   var newPost = {
     "completed": "COMPLETED",
     "contents": {
       "author": user,
-      "timestamp": time,
-      "request": request,
-      "contents": contents,
-      "imgUrl":imgUrl
+      "time": time,
+      "subscriber": subscriber,
+      "date": date,
+      "serviceContents":serviceContents
     }
   }
-  console.log(contents);
   console.log(newPost);
-  newPost = addDocument('feedItems',newPost);
+  newPost = addDocument('schedules',newPost);
   var userData = readDocument('users', user);
-  var feedData;
-  if(type === 1) {
-     feedData = readDocument('academicfeeds', userData.Academic_feed);
-     feedData.list_of_feeditems.unshift(newPost._id);
-     writeDocument('academicfeeds', feedData);
-  }else {
-     feedData = readDocument('servicefeeds', userData.Service_feed);
-     feedData.list_of_feeditems.unshift(newPost._id);
-     writeDocument('servicefeeds', feedData);
-  }
+  userData.schedules.unshift(newPost._id);
+  //writeDocument('academicfeeds', feedData);
   return newPost;
 }
 
+
+app.post('/schedule/:scheduleItem',validate({body:scheduleSchema}),function(req,res) {
+  console.log("Get post scheduleItem");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var body = req.body;
+  if(body.author === fromUser) {
+    var newPost = addScheule(body.author,body.time,body.subscriber,body.date,body.serviceContents);
+    res.status(201);
+    res.set('Location','/schedule/'+newPost._id);
+    res.send(newPost);
+  }else {
+    res.status(401).end();
+  }
+});
 
 /**
  * Translate JSON Schema Validation failures into error 400s.
