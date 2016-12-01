@@ -103,3 +103,7 @@ text-align: center;
   box-shadow: 0px 8px 5px 0px #BDBDBD;
   border-radius: 10px;
 }
+/* Prevent an HTML element from displaying at all. */
+.hidden {
+  display: 'none';
+}
