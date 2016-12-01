@@ -95,30 +95,9 @@ export function postStatusUpdate(user, contents,type, cb) {
 
 
 export function deleteFeed(userId,feedItemId,type,cb) {
-  var user = readDocument('users', userId);
-  var feedData;
-  var feedItemIndex;
-  if(type === 1) {
-     feedData = readDocument('academicfeeds', user.Academic_feed);
-     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-     if (feedItemIndex !== -1) {
-       // 'splice' removes items from an array. This
-       // removes 1 element starting from userIndex.
-       feedData.list_of_feeditems.splice(feedItemIndex, 1);
-     }
-     writeDocument('academicfeeds', feedData);
-  }else {
-     feedData = readDocument('servicefeeds', user.Service_feed);
-     feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-     if (feedItemIndex !== -1) {
-       // 'splice' removes items from an array. This
-       // removes 1 element starting from userIndex.
-       feedData.list_of_feeditems.splice(feedItemIndex, 1);
-       writeDocument('servicefeeds', feedData);
-     }
-     writeDocument('servicefeeds', feedData);
-  }
-  emulateServerReturn(feedData, cb);
+  sendXHR('DELETE','/user/'+userId+'/feed/'+type+'/'+feedItemId,undefined,(xhr)=> {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 /**
  * Searches for feed items with the given text.
