@@ -7,7 +7,7 @@ var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
 var UserProfileSchema = require('./schemas/userprofile.json');
-var ConfigSchema = require('./schemas/config.json');
+
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
 var addDocument = database.addDocument;
@@ -19,18 +19,18 @@ app.use(bodyParser.json());
 app.use(express.static('../client/build'));
 
 var categoryMap = {
-   "Computer Science":1,
-   "Math":2,
-   "Music":3,
-   "History":4,
-   "Physics":5,
-   "English":6,
-   "Pet Related":7,
-   "Home Improvement":8,
-   "Travel":9,
-   "Yard":10,
-   "Plumer":11,
-   "Car Pool":12
+  "Computer Science":1,
+  "Math":2,
+  "Music":3,
+  "History":4,
+  "Physics":5,
+  "English":6,
+  "Pet Related":7,
+  "Home Improvement":8,
+  "Travel":9,
+  "Yard":10,
+  "Plumer":11,
+  "Car Pool":12
  }
 /**
 * Get the user ID from a token. Returns -1 (an invalid ID)
@@ -156,7 +156,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
     var feedItemType = parseInt(req.params.feeditemtype,10);
     var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
-    res.set('Location','/feeditem/'newPost._id);
+    res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
   }else {
     res.status(401).end();
@@ -177,7 +177,7 @@ app.post('/resetdb',function(req,res) {
 app.put('/feeditem/:feeditemid',function(req,res) {
   var feedItemId = parseInt(req.params.feeditemid);
   var feedItem = readDocument("feedItems",feedItemId);
-  feedItem.view_count = feedItem.view_count1;
+  feedItem.view_count = feedItem.view_count+1;
   writeDocument("feedItems",feedItem);
   res.status(201);
   res.send(JSON.stringify(feedItem.view_count));
@@ -239,8 +239,8 @@ app.post('/search', function(req, res) {
   if (typeof(req.body) === 'string') {
     var query = req.body.trim().toLowerCase();
     var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
-    console.log("query: "query);
-    console.log("feedData: "feedData);
+    console.log("query: "+query);
+    console.log("feedData: "+feedData);
   res.send(feedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
     return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
@@ -508,7 +508,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
-      var user = readDocument('users', user_id);
+      var user = readDocument('users', userid);
       user.first_name = userData.first_name;
       user.last_name = userData.last_name;
       user.profilepic = userData.profilepic;
@@ -526,38 +526,6 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   }
 });
 
-<<<<<<< HEAD
-
-=======
-app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
-  var userid = parseInt(req.params.userid, 10);
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var userData = req.body;
-  if(fromUser === userid) {
-      var user = readDocument('users', userid);
-      user.username = userData.username;
-      user.password = userData.password;
-      user.email = userData.email;
-      writeDocument('users', user);
-      res.status(201);
-      res.send(user);
-
-  } else {
-    res.status(401).end();
-  }
-});
-
-app.get('/config/:userId', function(req, res) {
-  var userid = parseInt(req.params.userid, 10);
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  if(fromUser === userid) {
-    res.status(201);
-    res.send(getUserData(userid));
-  } else {
-    res.status(401).end();
-  }
-});
->>>>>>> a6e8e063b4a3d3dd58a6fb6bf3d6b6eabc181c3d
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
