@@ -236,6 +236,20 @@ export function getScheduleData(userId,cb) {
     emulateServerReturn(scheduleData, cb);
 }
 
+export function postSchedule(contents, cb) {
+  console.log(contents);
+  sendXHR('POST','/schedule/',{
+    "completed": "COMPLETED",
+    "author": contents.author,
+    "time": contents.time,
+    "subscriber": contents.subscriber,
+    "date":contents.date,
+    "serviceContents":contents.serviceContents
+  },(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
+}
+
 export function deleteSchedule(userId,scheduleId,cb) {
   var user = readDocument('users', userId);
   var scheduleData = user.schedules;
