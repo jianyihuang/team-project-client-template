@@ -280,6 +280,45 @@ app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
     res.status(401).end();
   }
 });
+
+
+
+//schedule part ------------
+
+function addScheule(user, contents,imgUrl,request,type) {
+  var time = new Date().getTime();
+  var newPost = {
+    "view_count": 0,
+    "likeCounter": [],
+    // Taggs are by course_id
+    "tag": 1,
+    "list_of_comments":[],
+    "contents": {
+      "author": user,
+      "timestamp": time,
+      "request": request,
+      "contents": contents,
+      "imgUrl":imgUrl
+    }
+  }
+  console.log(contents);
+  console.log(newPost);
+  newPost = addDocument('feedItems',newPost);
+  var userData = readDocument('users', user);
+  var feedData;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', userData.Academic_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('academicfeeds', feedData);
+  }else {
+     feedData = readDocument('servicefeeds', userData.Service_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('servicefeeds', feedData);
+  }
+  return newPost;
+}
+
+
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
