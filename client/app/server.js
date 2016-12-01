@@ -83,11 +83,13 @@ export function getFeedData(user,type, cb) {
 }
 
 export function postStatusUpdate(user, contents,type, cb) {
+  console.log(contents);
   sendXHR('POST','/feeditem/'+type,{
     "author": user,
     "request": contents.title,
     "contents": contents.value,
-    "imgUrl":contents.imgUrl
+    "imgUrl":contents.imgUrl,
+    "category":contents.category
   },(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
