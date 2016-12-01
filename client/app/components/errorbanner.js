@@ -1,5 +1,5 @@
 import React from 'react';
-// import {hideElement} from './util';
+ import {hideElement} from './util';
 
 export default class ErrorBanner extends React.Component {
   constructor(props) {
@@ -20,16 +20,10 @@ export default class ErrorBanner extends React.Component {
       })
     };
   }
-  hideElement(shouldHide) {
-    if (shouldHide) {
-      return 'hidden';
-    } else {
-      return '';
-    }
-}
+
   render() {
     return (
-      <div className={"alert alert-warning " + (!this.state.active)} onChange={(e) => this.hideElement(e)} role="alert">
+    <div className={"alert alert-warning " + hideElement(!this.state.active)} role="alert">
         ExServ was unable to complete a recent request: {this.state.error}<br />
         Please <a onClick={() => window.location.reload()}>refresh the web page</a> and try again.
       </div>
