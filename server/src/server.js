@@ -18,6 +18,20 @@ app.use(bodyParser.json());
 //pull static contends from build
 app.use(express.static('../client/build'));
 
+var categoryMap = {
+   "Computer Science":1,
+   "Math":2,
+   "Music":3,
+   "History":4,
+   "Physics":5,
+   "English":6,
+   "Pet Related":7,
+   "Home Improvement":8,
+   "Travel":9,
+   "Yard":10,
+   "Plumer":11,
+   "Car Pool":12
+ }
 /**
 * Get the user ID from a token. Returns -1 (an invalid ID)
 * if it fails.
@@ -142,7 +156,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
     var feedItemType = parseInt(req.params.feeditemtype,10);
     var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
-    res.set('Location','/feeditem/'+newPost._id);
+    res.set('Location','/feeditem/'newPost._id);
     res.send(newPost);
   }else {
     res.status(401).end();
@@ -163,7 +177,7 @@ app.post('/resetdb',function(req,res) {
 app.put('/feeditem/:feeditemid',function(req,res) {
   var feedItemId = parseInt(req.params.feeditemid);
   var feedItem = readDocument("feedItems",feedItemId);
-  feedItem.view_count = feedItem.view_count+1;
+  feedItem.view_count = feedItem.view_count1;
   writeDocument("feedItems",feedItem);
   res.status(201);
   res.send(JSON.stringify(feedItem.view_count));
@@ -225,8 +239,8 @@ app.post('/search', function(req, res) {
   if (typeof(req.body) === 'string') {
     var query = req.body.trim().toLowerCase();
     var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
-    console.log("query: "+query);
-    console.log("feedData: "+feedData);
+    console.log("query: "query);
+    console.log("feedData: "feedData);
   res.send(feedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
     return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
