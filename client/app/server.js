@@ -142,15 +142,15 @@ export function getUserSetting(userId, cb) {
 
 // Update user's setting.
 export function updateUserSetting(userId, cb) {
-  sendXHR('PUT','/config/'+userId,undefined,(xhr) => {
+  sendXHR('PUT','/config'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 
 // Get all information about the user.
-export function getUserData(userId, cb) {
-  sendXHR('GET', '/config/' + userId, undefined, (xhr) => {
+export function getUserData(user, cb) {
+  sendXHR('GET', '/user/1/profile/', undefined, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }

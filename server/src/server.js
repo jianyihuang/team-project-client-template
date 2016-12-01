@@ -7,7 +7,7 @@ var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
 var UserProfileSchema = require('./schemas/userprofile.json');
-
+var ConfigSchema = require('./schemas/config.json');
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
 var addDocument = database.addDocument;
@@ -512,12 +512,11 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   }
 });
 
-app.put('/config/:userId', validate({body: UserProfileSchema}), function(req,res) {
+app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
   if(fromUser === userid) {
-      //update configuration
       var user = readDocument('users', userid);
       user.username = userData.username;
       user.password = userData.password;
@@ -535,7 +534,6 @@ app.get('/config/:userId', function(req, res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   if(fromUser === userid) {
-    // send response
     res.status(201);
     res.send(getUserData(userid));
   } else {
