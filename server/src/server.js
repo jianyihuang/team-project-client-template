@@ -7,7 +7,7 @@ var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
 var UserProfileSchema = require('./schemas/userprofile.json');
-
+var ConfigSchema = require('./schemas/config.json');
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
 var addDocument = database.addDocument;
@@ -508,7 +508,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
-      var user = readDocument('users', userid);
+      var user = readDocument('users', user_id);
       user.first_name = userData.first_name;
       user.last_name = userData.last_name;
       user.profilepic = userData.profilepic;
@@ -526,6 +526,38 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   }
 });
 
+<<<<<<< HEAD
+
+=======
+app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userData = req.body;
+  if(fromUser === userid) {
+      var user = readDocument('users', userid);
+      user.username = userData.username;
+      user.password = userData.password;
+      user.email = userData.email;
+      writeDocument('users', user);
+      res.status(201);
+      res.send(user);
+
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/config/:userId', function(req, res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid) {
+    res.status(201);
+    res.send(getUserData(userid));
+  } else {
+    res.status(401).end();
+  }
+});
+>>>>>>> a6e8e063b4a3d3dd58a6fb6bf3d6b6eabc181c3d
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
