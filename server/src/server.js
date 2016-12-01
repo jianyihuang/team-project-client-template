@@ -494,7 +494,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
-      var user = readDocument('users', user_id);
+      var user = readDocument('users', userid);
       user.first_name = userData.first_name;
       user.last_name = userData.last_name;
       user.profilepic = userData.profilepic;
@@ -512,10 +512,8 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   }
 });
 
-<<<<<<< HEAD
 
-=======
-app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
+app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
@@ -533,17 +531,18 @@ app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,
   }
 });
 
-app.get('/config/:userId', function(req, res) {
+app.get('/config/:userid', function(req, res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   if(fromUser === userid) {
     res.status(201);
-    res.send(getUserData(userid));
+    var userData = readDocument("users", userid);
+    res.send(userData);
   } else {
     res.status(401).end();
   }
 });
->>>>>>> a6e8e063b4a3d3dd58a6fb6bf3d6b6eabc181c3d
+
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */

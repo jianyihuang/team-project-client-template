@@ -135,14 +135,14 @@ export function increaseViewCount(feedItemId,cb) {
 
 // Get user's setting.
 export function getUserSetting(userId, cb) {
-  sendXHR('GET','/user/'+userId,undefined,(xhr) => {
+  sendXHR('GET','/config/'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 // Update user's setting.
-export function updateUserSetting(userId, cb) {
-  sendXHR('PUT','/config'+userId,undefined,(xhr) => {
+export function updateUserSetting(data, cb) {
+  sendXHR('PUT','/config/' + data.user_id ,data,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
