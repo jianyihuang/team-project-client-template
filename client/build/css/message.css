@@ -108,3 +108,8 @@ body {
 textarea {
 	resize: vertical;
 }
+
+/* Prevent an HTML element from displaying at all. */
+.hidden {
+  display: 'none';
+}

@@ -11,6 +11,7 @@ import Config from './components/config';
 import {searchForFeedItems, deleteFeedItem} from './server';
 import FeedItem from './components/feeditem';
 import ServiceHome from './components/servicehome.js'
+import ErrorBanner from './components/errorbanner';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 // Temporarily used until we learn proper way to authenticate.
@@ -110,8 +111,14 @@ class App extends React.Component {
     return (
       <div>
         <Navbar />
-        {this.props.children}</div>
-    )
+        {this.props.children}
+        <div className="row">
+          <div className="col-md-12">
+            <ErrorBanner />
+          </div>
+        </div>
+      </div>
+        )
   }
 }
 

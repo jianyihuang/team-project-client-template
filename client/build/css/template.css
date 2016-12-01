@@ -61,3 +61,7 @@ body {
 .nav-pills>li.active>a {
   background-color: #EFEBE9;
 }
+/* Prevent an HTML element from displaying at all. */
+.hidden {
+  display: 'none';
+}

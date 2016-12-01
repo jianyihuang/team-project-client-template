@@ -82,3 +82,7 @@ body {
 .input-style{
   border-radius: 20px;
 }
+/* Prevent an HTML element from displaying at all. */
+.hidden {
+  display: 'none';
+}

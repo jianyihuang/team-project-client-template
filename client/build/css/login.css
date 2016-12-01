@@ -185,3 +185,7 @@ form.login a:hover
     padding: 10px;
     left: 45%;
 }
+/* Prevent an HTML element from displaying at all. */
+.hidden {
+  display: 'none';
+}

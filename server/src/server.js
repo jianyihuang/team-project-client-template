@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
-
+var UserProfileSchema = require('./schemas/userprofile.json');
 
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -150,7 +150,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
 });
 
 //Rest database.
-app.post('/restdb',function(req,res) {
+app.post('/resetdb',function(req,res) {
   console.log("Resetting database");
   // This is a debug route, so don't do any Validation.
   database.resetDatabase();
@@ -281,7 +281,6 @@ app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
     res.status(401).end();
   }
 });
-
 
 /**
   Begin Message Page.
@@ -428,10 +427,74 @@ app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
   }
 });
 
+//schedule part ------------
+
+function addScheule(user, contents,imgUrl,request,type) {
+  var time = new Date().getTime();
+  var newPost = {
+    "view_count": 0,
+    "likeCounter": [],
+    // Taggs are by course_id
+    "tag": 1,
+    "list_of_comments":[],
+    "contents": {
+      "author": user,
+      "timestamp": time,
+      "request": request,
+      "contents": contents,
+      "imgUrl":imgUrl
+    }
+  }
+  console.log(contents);
+  console.log(newPost);
+  newPost = addDocument('feedItems',newPost);
+  var userData = readDocument('users', user);
+  var feedData;
+  if(type === 1) {
+     feedData = readDocument('academicfeeds', userData.Academic_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('academicfeeds', feedData);
+  }else {
+     feedData = readDocument('servicefeeds', userData.Service_feed);
+     feedData.list_of_feeditems.unshift(newPost._id);
+     writeDocument('servicefeeds', feedData);
+  }
+  return newPost;
+}
+
+// user profile part
+// get user profile data
+function getUserData(user, type) {
+  console.log("Get called");
+  var userData = readDocument("users", user);
+  return userData;
+}
+
+//display user profile for particular user
+app.get('/user/:userid/profile', function(req, res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid) {
+    // send response
+    res.status(201);
+    res.send(getUserData(userid));
+  } else {
+    res.status(401).end();
+  }
+});
+
 /**
   End Message Page.
 **/
 
+//update profile
+app.put('/user/:userid/profile', function(req,res) {
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userid) {
+
+  }
+});
 
 /**
  * Translate JSON Schema Validation failures into error 400s.
