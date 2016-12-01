@@ -149,7 +149,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
 });
 
 //Rest database.
-app.post('/restdb',function(req,res) {
+app.post('/resetdb',function(req,res) {
   console.log("Resetting database");
   // This is a debug route, so don't do any Validation.
   database.resetDatabase();
