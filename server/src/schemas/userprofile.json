@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "id": "first_name"
+    },
+    "last_name": {
+      "type": "string",
+      "id": "last_name"
+    },
+    "profilepic": {
+      "type": "string",
+      "id": "profilepic"
+    },
+    "education_level": {
+      "type": "string",
+      "id": "education_level"
+    },
+    "academic_institution": {
+      "type": "string",
+      "id": "academic_institution"
+    },
+    "favorite_quote": {
+      "type": "string",
+      "id": "favorite_quote"
+    },
+    "areas_of_interest": {
+      "type": "string",
+      "id": "areas_of_interest"
+    }
+  },
+  "id": "/",
+  "additionalProperties": false,
+  "required": [
+    "first_name",
+    "last_name",
+    "profilepic",
+    "academic_institution",
+    "education_level",
+    "favorite_quote",
+    "areas_of_interest"
+  ]
+}

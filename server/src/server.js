@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 //import database functions
 var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
-
+var scheduleSchema = require('./schemas/scheduleSchema.json');
 
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -16,6 +16,21 @@ app.use(bodyParser.text());
 app.use(bodyParser.json());
 //pull static contends from build
 app.use(express.static('../client/build'));
+
+var categoryMap = {
+  "Computer Science":1,
+  "Math":2,
+  "Music":3,
+  "History":4,
+  "Physics":5,
+  "English":6,
+  "Pet Related":7,
+  "Home Improvement":8,
+  "Travel":9,
+  "Yard":10,
+  "Plumer":11,
+  "Car Pool":12
+}
 
 /**
 * Get the user ID from a token. Returns -1 (an invalid ID)
@@ -80,13 +95,13 @@ function getFeedData(user,type) {
   return feedData;
 }
 
-function postStatusUpdate(user, contents,imgUrl,request,type) {
+function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
     "view_count": 0,
     "likeCounter": [],
     // Taggs are by course_id
-    "tag": 1,
+    "tag": categoryMap[tag],
     "list_of_comments":[],
     "contents": {
       "author": user,
@@ -96,8 +111,6 @@ function postStatusUpdate(user, contents,imgUrl,request,type) {
       "imgUrl":imgUrl
     }
   }
-  console.log(contents);
-  console.log(newPost);
   newPost = addDocument('feedItems',newPost);
   var userData = readDocument('users', user);
   var feedData;
@@ -139,7 +152,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
   var body = req.body;
   if(body.author === fromUser) {
     var feedItemType = parseInt(req.params.feeditemtype,10);
-    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
     res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
@@ -285,39 +298,39 @@ app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
 
 //schedule part ------------
 
-function addScheule(user, contents,imgUrl,request,type) {
-  var time = new Date().getTime();
+function addScheule(user, time, subscriber,date,serviceContents) {
   var newPost = {
-    "view_count": 0,
-    "likeCounter": [],
-    // Taggs are by course_id
-    "tag": 1,
-    "list_of_comments":[],
+    "completed": "COMPLETED",
     "contents": {
       "author": user,
-      "timestamp": time,
-      "request": request,
-      "contents": contents,
-      "imgUrl":imgUrl
+      "time": time,
+      "subscriber": subscriber,
+      "date": date,
+      "serviceContents":serviceContents
     }
   }
-  console.log(contents);
   console.log(newPost);
-  newPost = addDocument('feedItems',newPost);
+  newPost = addDocument('schedules',newPost);
   var userData = readDocument('users', user);
-  var feedData;
-  if(type === 1) {
-     feedData = readDocument('academicfeeds', userData.Academic_feed);
-     feedData.list_of_feeditems.unshift(newPost._id);
-     writeDocument('academicfeeds', feedData);
-  }else {
-     feedData = readDocument('servicefeeds', userData.Service_feed);
-     feedData.list_of_feeditems.unshift(newPost._id);
-     writeDocument('servicefeeds', feedData);
-  }
+  userData.schedules.unshift(newPost._id);
+  //writeDocument('academicfeeds', feedData);
   return newPost;
 }
 
+
+app.post('/schedule/:scheduleItem',validate({body:scheduleSchema}),function(req,res) {
+  console.log("Get post scheduleItem");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var body = req.body;
+  if(body.author === fromUser) {
+    var newPost = addScheule(body.author,body.time,body.subscriber,body.date,body.serviceContents);
+    res.status(201);
+    res.set('Location','/schedule/'+newPost._id);
+    res.send(newPost);
+  }else {
+    res.status(401).end();
+  }
+});
 
 /**
  * Translate JSON Schema Validation failures into error 400s.

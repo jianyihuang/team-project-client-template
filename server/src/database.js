@@ -405,11 +405,51 @@ var initialData = {
   "servicetags":{
     "1":{
       "_id": 1,
-      "type_of_service": "Landscaping"
+      "type_of_service": "Computer Science"
     },
     "2":{
       "_id": 2,
+      "type_of_service": "Math"
+    },
+    "3":{
+      "_id": 3,
+      "type_of_service": "Music"
+    },
+    "4":{
+      "_id": 4,
+      "type_of_service": "History"
+    },
+    "5":{
+      "_id": 5,
+      "type_of_service": "Physics"
+    },
+    "6":{
+      "_id": 6,
+      "type_of_service": "English"
+    },
+    "7":{
+      "_id": 7,
+      "type_of_service": "Pet Related"
+    },
+    "8":{
+      "_id": 8,
       "type_of_service": "Home Improvement"
+    },
+    "9":{
+      "_id": 9,
+      "type_of_service": "Travel"
+    },
+    "10":{
+      "_id": 10,
+      "type_of_service": "Yard"
+    },
+    "11":{
+      "_id": 11,
+      "type_of_service": "Plumer"
+    },
+    "12":{
+      "_id": 12,
+      "type_of_service": "Car Pool"
     }
   },
 
