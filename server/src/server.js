@@ -7,7 +7,7 @@ var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
 var UserProfileSchema = require('./schemas/userprofile.json');
-var ConfigSchema = require('./schemas/config.json');
+var ConfigSchema = require('./schemas/config.json')
 var scheduleSchema = require('./schemas/scheduleSchema.json');
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -96,13 +96,13 @@ function getFeedData(user,type) {
   return feedData;
 }
 
-function postStatusUpdate(user, contents,imgUrl,request,type) {
+function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
     "view_count": 0,
     "likeCounter": [],
     // Taggs are by course_id
-    "tag": 1,
+    "tag": categoryMap[tag],
     "list_of_comments":[],
     "contents": {
       "author": user,
@@ -155,7 +155,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
   var body = req.body;
   if(body.author === fromUser) {
     var feedItemType = parseInt(req.params.feeditemtype,10);
-    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
     res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
@@ -239,14 +239,12 @@ app.post('/search', function(req, res) {
   var userData = readDocument('users', fromUser);
   if (typeof(req.body) === 'string') {
     var query = req.body.trim().toLowerCase();
-    var feedData = readDocument('academicfeeds', userData.Service_feed).list_of_feeditems;
-    var serviceFeedData = readDocument('academicfeeds',userData.Academic_feed).list_of_feeditems;
-    var newfeedData =feedData.concat(serviceFeedData);//console.log("logging service feeds "+ serviceFeedData.contents.content);
+    var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
     console.log("query: "+query);
-    console.log("feedData: "+newfeedData);
-  res.send(newfeedData.filter((feedItemId) => {
+    console.log("feedData: "+feedData);
+  res.send(feedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
-    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
+    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
   }).map(getFeedItemSync));
 }
 else{
@@ -446,7 +444,7 @@ app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
 
 //schedule part ------------
 
-function addScheule(userId,user, time, subscriber,date,serviceContents) {
+function addScheule(user, time, subscriber,date,serviceContents) {
   var newPost = {
     "completed": "COMPLETED",
     "contents": {
@@ -459,23 +457,19 @@ function addScheule(userId,user, time, subscriber,date,serviceContents) {
   }
   console.log(newPost);
   newPost = addDocument('schedules',newPost);
-  var userData = readDocument('users', userId);
+  var userData = readDocument('users', user);
   userData.schedules.unshift(newPost._id);
   //writeDocument('academicfeeds', feedData);
   return newPost;
 }
 
 
-app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
+app.post('/schedule/:scheduleId',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
-  //console.log(fromUser);
-//  console.log(body.author);
-  var user = readDocument('users', fromUser);
-  console.log((body.author) == (user.first_name));
-  if((body.author) === (user.first_name)) {
-    var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
+  if(body.author === fromUser) {
+    var newPost = addScheule(body.author,body.time,body.subscriber,body.date,body.serviceContents);
     res.status(201);
     res.set('Location','/schedule/'+newPost._id);
     res.send(newPost);
@@ -516,7 +510,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
-      var user = readDocument('users', user_id);
+      var user = readDocument('users', userid);
       user.first_name = userData.first_name;
       user.last_name = userData.last_name;
       user.profilepic = userData.profilepic;
@@ -536,7 +530,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
 
 
 
-app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
+app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
@@ -554,53 +548,13 @@ app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,
   }
 });
 
-app.get('/config/:userId', function(req, res) {
+app.get('/config/:userid', function(req, res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   if(fromUser === userid) {
     res.status(201);
     var userData = readDocument("users", userid);
     res.send(userData);
-  } else {
-    res.status(401).end();
-  }
-});
-
-app.post('/feed/:feeditemid/comment/:userid',function(req,res){
-  console.log("Comment function called");
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var userId = parseInt(req.params.userid, 10);
-  var feedItemId = parseInt(req.params.feeditemid,10);
-  var content = req.body;
-  if(fromUser === userId) {
-    var time = new Date().getTime();
-    var feedData = readDocument("feedItems",feedItemId);
-    var newComment = {
-      "author":userId,
-      "timestamp":time,
-      "contents":content
-    }
-    addDocument("comments",newComment);
-    feedData.list_of_comments.unshift(newComment._id);
-    writeDocument("feedItems",feedData);
-    console.log(readDocument("feedItems",feedItemId));
-    res.status(201);
-    res.send(newComment);
-  } else {
-    res.status(401).end();
-  }
-});
-
-app.get('/comment/:commentid/:userid',function(req,res){
-  console.log("Comment function called");
-  var userid = parseInt(req.params.userid, 10);
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var commentId = parseInt(req.params.commentid,10);
-  if(fromUser === userid) {
-    var comment = readDocument("comments",commentId);
-    comment.author = readDocument("users",comment.author);
-    res.status(201);
-    res.send();
   } else {
     res.status(401).end();
   }

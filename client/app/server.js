@@ -134,8 +134,8 @@ export function increaseViewCount(feedItemId,cb) {
 
 
 // Get user's setting.
-export function getUserSetting(userId, cb) {
-  sendXHR('GET','/config/'+userId,undefined,(xhr) => {
+export function getUserSetting(userid, cb) {
+  sendXHR('GET','/config/'+userid,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
