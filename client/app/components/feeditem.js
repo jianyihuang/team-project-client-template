@@ -2,6 +2,7 @@ import React from 'react';
 import {deleteFeed,unlikeFeedItem,likeFeedItem,increaseViewCount} from '../server';
 import Comment from './comment';
 import Contents from './contents';
+import CommentEntry from './commententry';
 export default class FeedItem extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +13,8 @@ export default class FeedItem extends React.Component {
       "listOfComments":props.data.list_of_comments,
       "tag":props.data.tag,
       "view_count":props.data.view_count,
-      "shouldHidden":true
+      "shouldHidden":true,
+      "text":"Show Comment"
     }
     this.increaseFeedItemViewCount();
   }
@@ -64,7 +66,11 @@ export default class FeedItem extends React.Component {
 
   handleHiddenClick(e){
     e.preventDefault();
-    this.setState({shouldHidden:!this.state.shouldHidden})
+    if(this.state.shouldHidden){
+      this.setState({shouldHidden:!this.state.shouldHidden,text:"Hide Comment"})
+    }else {
+      this.setState({shouldHidden:!this.state.shouldHidden,text:"Show Comment"})
+    }
     return this.state.shouldHidden;
   }
 
@@ -75,6 +81,7 @@ export default class FeedItem extends React.Component {
       return "panel-footer";
     }
   }
+
   render() {
     var likeButtonText = "Like";
       if (this.didUserLike()) {
@@ -124,7 +131,7 @@ export default class FeedItem extends React.Component {
                 </li>
                 <li>
                   <a href="#" onClick={(e) => this.handleHiddenClick(e)}>
-                    Show Comment
+                    {this.state.text}
                   </a>
                 </li>
               </ul>
@@ -134,24 +141,15 @@ export default class FeedItem extends React.Component {
         <div className={this.shouldHidden()}>
           <div className="row">
             <ul className="media-list">
-              <Comment />
-              <Comment />
+              {
+                data.listOfComments.map((commentId,i) => {
+                  return (
+                    <Comment key={i} data={commentId}/>
+                  );
+                })
+              }
             </ul>
-            <div className="media">
-              <div className="media-top">
-              </div>
-              <div className="media-body comment-entry">
-                <div className="input-group">
-                  <input type="text" className="form-control"
-                    placeholder="Write a comment..." />
-                  <span className="input-group-btn">
-                      <button type="button" className="btn btn-default">
-                        <span className="glyphicon glyphicon-camera" />
-                      </button>
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <CommentEntry feedItemId={data.id} refresh={this.props.refresh}/>
           </div>
         </div>
       </div>

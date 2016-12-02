@@ -32,6 +32,7 @@ export default class Profile extends React.Component{
           console.log('Saved data into database');
           // console.log(JSON.stringify(user_data));
         });
+
       }
       handleCancel() {
         getUserData(this.state.user_id, (user_data) => {

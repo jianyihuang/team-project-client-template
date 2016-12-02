@@ -1,4 +1,4 @@
-import {readDocument, writeDocument, addDocument} from './database.js';
+import {readDocument, writeDocument,addDocument} from './database.js';
 
 var token = 'eyJpZCI6MX0=';
 /**
@@ -134,8 +134,8 @@ export function increaseViewCount(feedItemId,cb) {
 
 
 // Get user's setting.
-export function getUserSetting(userId, cb) {
-  sendXHR('GET','/config/'+userId,undefined,(xhr) => {
+export function getUserSetting(userid, cb) {
+  sendXHR('GET','/config/'+userid,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -156,30 +156,13 @@ export function getUserData(user, cb) {
 }
 
 export function getClassData(classId){
-  var course = readDocument('classes', classId);
-  var courseInfo ={
-    class_id: classId,
-    course_id: course.course_id,
-    course_title: course.course_title
-  };
-  return courseInfo;
+  sendXHR('GET', '/user/1/class/' + classId, undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  } );
 }
 // Save new user profile information.
-export function saveUserData(info, cb) {
-  // var user = readDocument('users', newUserProfile.user_id);
-  // user.first_name = newUserProfile.first_name,
-  // user.last_name = newUserProfile.last_name,
-  // user.profilepic = newUserProfile.profilepic,
-  // user.favorite_quote = newUserProfile.favorite_quote,
-  // user.areas_of_interest = newUserProfile.areas_of_interest,
-  // user.classes_taken = newUserProfile.classes_taken,
-  // user.education_level = newUserProfile.education_level,
-  // user.academic_institution = newUserProfile.academic_institution,
-  // writeDocument('users', user);
-  // emulateServerReturn(user, cb);
-
-
-  sendXHR('PUT', '/user/' + info.user_id + '/profile', info, (xhr) => {
+export function saveUserData(userid, newInfo, cb) {
+  sendXHR('PUT', '/user/' + userid + '/profile', newInfo, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -226,7 +209,7 @@ export function getScheduleData(userId,cb) {
 
 export function postSchedule(contents, cb) {
 //  console.log(contents);
-  sendXHR('POST','/schedule/',{
+  sendXHR('POST','/schedule',{
     "completed": "COMPLETED",
     "author": contents.author,
     "time": contents.time,
@@ -300,4 +283,16 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
   });
+}
+
+export function getCommentData(commentId,userId,cb) {
+  sendXHR('GET','/comment/'+commentId+'/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  })
+}
+
+export function postComment(feedItemId,content,userId,cb) {
+  sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,()=>{
+    cb();
+  })
 }
