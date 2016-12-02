@@ -239,12 +239,14 @@ app.post('/search', function(req, res) {
   var userData = readDocument('users', fromUser);
   if (typeof(req.body) === 'string') {
     var query = req.body.trim().toLowerCase();
-    var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
+    var feedData = readDocument('academicfeeds', userData.Service_feed).list_of_feeditems;
+    var serviceFeedData = readDocument('academicfeeds',userData.Academic_feed).list_of_feeditems;
+    var newfeedData =feedData.concat(serviceFeedData);//console.log("logging service feeds "+ serviceFeedData.contents.content);
     console.log("query: "+query);
-    console.log("feedData: "+feedData);
-  res.send(feedData.filter((feedItemId) => {
+    console.log("feedData: "+newfeedData);
+  res.send(newfeedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
-    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
+    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
   }).map(getFeedItemSync));
 }
 else{
@@ -564,6 +566,45 @@ app.get('/config/:userId', function(req, res) {
   }
 });
 
+app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+  console.log("Comment function called");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var content = req.body;
+  if(fromUser === userId) {
+    var time = new Date().getTime();
+    var feedData = readDocument("feedItems",feedItemId);
+    var newComment = {
+      "author":userId,
+      "timestamp":time,
+      "contents":content
+    }
+    addDocument("comments",newComment);
+    feedData.list_of_comments.unshift(newComment._id);
+    writeDocument("feedItems",feedData);
+    console.log(readDocument("feedItems",feedItemId));
+    res.status(201);
+    res.send(newComment);
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/comment/:commentid/:userid',function(req,res){
+  console.log("Comment function called");
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var commentId = parseInt(req.params.commentid,10);
+  if(fromUser === userid) {
+    var comment = readDocument("comments",commentId);
+    comment.author = readDocument("users",comment.author);
+    res.status(201);
+    res.send();
+  } else {
+    res.status(401).end();
+  }
+});
 
 
 /**

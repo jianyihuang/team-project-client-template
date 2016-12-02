@@ -332,7 +332,7 @@ var initialData = {
       "likeCounter": [1],
       // Taggs are by course_id
       "tag": 1,
-      "list_of_comments":[1],
+      "list_of_comments":[1,2],
       "contents": {
         "author": 1,
         "timestamp": 1453668480000,
@@ -348,7 +348,7 @@ var initialData = {
       "likeCounter": [1],
       // Taggs are by course_id
       "tag": 1,
-      "list_of_comments":[1],
+      "list_of_comments":[1,2],
       "contents": {
         "author": 1,
         "timestamp": 1453668480000,
@@ -364,7 +364,7 @@ var initialData = {
       "likeCounter": [1],
       // Taggs are by course_id
       "tag": 1,
-      "list_of_comments":[1],
+      "list_of_comments":[1,2],
       "contents": {
         "author": 1,
         "timestamp": 1453668480000,
@@ -380,8 +380,13 @@ var initialData = {
       "_id": 1,
       "author": 1,
       "timestamp": 1453668480000,
-      "contents": "I can help!",
-      "like_count": [2]
+      "contents": "I can help!"
+    },
+    "2":{
+      "_id": 2,
+      "author": 1,
+      "timestamp": 1453668480000,
+      "contents": "I can help!"
     }
   },
 

@@ -1,4 +1,4 @@
-import {readDocument, writeDocument, addDocument} from './database.js';
+import {readDocument, writeDocument,addDocument} from './database.js';
 
 var token = 'eyJpZCI6MX0=';
 /**
@@ -300,4 +300,16 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
   });
+}
+
+export function getCommentData(commentId,userId,cb) {
+  sendXHR('GET','/comment/'+commentId+'/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  })
+}
+
+export function postComment(feedItemId,content,userId,cb) {
+  sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,()=>{
+    cb();
+  })
 }
