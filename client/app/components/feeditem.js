@@ -1,10 +1,19 @@
 import React from 'react';
 import {deleteFeed,unlikeFeedItem,likeFeedItem,increaseViewCount} from '../server';
+import Comment from './comment';
 import Contents from './contents';
 export default class FeedItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = props.data;
+    this.state = {
+      "id":props.data._id,
+      "contents":props.data.contents,
+      "likeCounter":props.data.likeCounter,
+      "listOfComments":props.data.list_of_comments,
+      "tag":props.data.tag,
+      "view_count":props.data.view_count,
+      "shouldHidden":true
+    }
     this.increaseFeedItemViewCount();
   }
 
@@ -41,16 +50,30 @@ export default class FeedItem extends React.Component {
   handleDeleteFeed(clickEvent) {
     clickEvent.preventDefault();
     if(clickEvent.button === 0) {
-      deleteFeed(1,this.state._id,this.props.type,()=>{
+      deleteFeed(1,this.state.id,this.props.type,()=>{
         this.props.refresh();
       });
     }
   }
 
   increaseFeedItemViewCount() {
-    increaseViewCount(this.state._id,(newViewCount)=>{
+    increaseViewCount(this.state.id,(newViewCount)=>{
       this.setState({view_count:newViewCount})
     })
+  }
+
+  handleHiddenClick(e){
+    e.preventDefault();
+    this.setState({shouldHidden:!this.state.shouldHidden})
+    return this.state.shouldHidden;
+  }
+
+  shouldHidden(){
+    if(this.state.shouldHidden){
+      return "panel-footer hidden";
+    }else {
+      return "panel-footer";
+    }
   }
   render() {
     var likeButtonText = "Like";
@@ -99,8 +122,36 @@ export default class FeedItem extends React.Component {
                   <a href="#" onClick= {(e) => this.handleLikeClick(e)}>
                   {data.likeCounter.length} {likeButtonText}</a>
                 </li>
+                <li>
+                  <a href="#" onClick={(e) => this.handleHiddenClick(e)}>
+                    Show Comment
+                  </a>
+                </li>
               </ul>
             </div>
+          </div>
+        </div>
+        <div className={this.shouldHidden()}>
+          <div className="row">
+            <ul className="media-list">
+              <Comment />
+              <Comment />
+            </ul>
+            <div className="media">
+              <div className="media-top">
+              </div>
+              <div className="media-body comment-entry">
+                <div className="input-group">
+                  <input type="text" className="form-control"
+                    placeholder="Write a comment..." />
+                  <span className="input-group-btn">
+                      <button type="button" className="btn btn-default">
+                        <span className="glyphicon glyphicon-camera" />
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
           </div>
         </div>
       </div>

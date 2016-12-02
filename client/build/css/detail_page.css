@@ -82,7 +82,7 @@ body {
   color: #90A4AE;
 }
 
-.media-body {
+.media-body,.post-time{
   color: #90A4AE;
   font-size: 12px;
 }
@@ -104,6 +104,8 @@ body {
 }
 
 .panel-body {
+  padding-top: 10px;
+  padding-left: 10px;
   padding-bottom: 0px;
 }
 
@@ -198,4 +200,30 @@ border-left-color: #2dcb73;
 /* Prevent an HTML element from displaying at all. */
 .hidden {
   display: 'none';
+}
+.media-list{
+  padding-left: 10px;
+  margin-bottom: 0px !important;
+}
+.media-list >li {
+  margin-top: 0px;
+}
+hr{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.panel-footer {
+  color: #90A4AE;
+  padding-top: 5px;
+  margin-bottom: 0px;
+}
+
+.comment-entry {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.panel-footer > .row > .media {
+  margin-top: 5px;
 }

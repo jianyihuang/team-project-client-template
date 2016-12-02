@@ -242,7 +242,7 @@ var initialData = {
         "subscriber" : "Jucong",
         "date" : "10/6/1996",
         "time": "8:00 am - 12am",
-        "serviceContents": "CS 121"
+        "serviceContents": "CS 220"
       }
     }
   },
