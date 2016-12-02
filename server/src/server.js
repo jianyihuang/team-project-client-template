@@ -176,7 +176,7 @@ app.post('/resetdb',function(req,res) {
 // Increase view count
 // authorization is done in get feed data
 app.put('/feeditem/:feeditemid',function(req,res) {
-  var feedItemId = parseInt(req.params.feeditemid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
   var feedItem = readDocument("feedItems",feedItemId);
   feedItem.view_count = feedItem.view_count+1;
   writeDocument("feedItems",feedItem);
@@ -187,8 +187,13 @@ app.put('/feeditem/:feeditemid',function(req,res) {
 // Like a feed
 app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
+<<<<<<< HEAD
   var feedItemId = parseInt(req.params.feeditemid);
   var userId = parseInt(req.params.userid);
+=======
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var userId = parseInt(req.params.userid,10);
+>>>>>>> 57cfac98002b07961ff753d88a804d77eb2cea26
   console.log(feedItemId);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
@@ -210,8 +215,8 @@ app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
 // Unlike a feed
 app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var feedItemId = parseInt(req.params.feeditemid);
-  var userId = parseInt(req.params.userid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var userId = parseInt(req.params.userid,10);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
     console.log(feedItem);
@@ -259,10 +264,10 @@ res.status(400).end();
 // remove the reference
 app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var userId = parseInt(req.params.userid);
-  var feedItemId = parseInt(req.params.feeditemid);
+  var userId = parseInt(req.params.userid,10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
   var feedItem = readDocument('feedItems', feedItemId);
-  var type = parseInt(req.params.feedtype);
+  var type = parseInt(req.params.feedtype,10);
   if(fromUser === userId) {
     var user = readDocument('users', userId);
     var feedData;
@@ -423,7 +428,7 @@ app.put('/messagebox/create/:user_id', function(req, res) {
 app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
   var userInToken = getUserIdFromToken(req.get('Authorization'));
   var userId = parseInt(req.params.user_id, 10);
-  var box_msg_id = parseInt(req.params.box_msg_id);
+  var box_msg_id = parseInt(req.params.box_msg_id,10);
   var messageBox = readDocument('messageboxes', box_msg_id);
   if (messageBox.list_of_users.indexOf(userInToken) !== -1) {
     // When the invited user is not already in the list of participants, we add him or her in.
@@ -510,10 +515,12 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
+
       var user = readDocument('users', user_id);
       user.academic_institution = req.body.academic_institution;
       user.education_level = req.body.education_level;
       user.favorite_quote = req.body.favorite_quote;
+
       writeDocument('users', user);
       res.status(201);
       res.send(user);
@@ -550,6 +557,46 @@ app.get('/config/:userid', function(req, res) {
     res.status(201);
     var userData = readDocument("users", userid);
     res.send(userData);
+  } else {
+    res.status(401).end();
+  }
+});
+app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+  console.log("Comment function called");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var content = req.body;
+  if(fromUser === userId) {
+    var time = new Date().getTime();
+    var feedData = readDocument("feedItems",feedItemId);
+    var newComment = {
+      "author":userId,
+      "timestamp":time,
+      "contents":content
+    }
+    addDocument("comments",newComment);
+    console.log("Comments before is "+feedData.list_of_comments);
+    feedData.list_of_comments.unshift(newComment._id);
+    writeDocument("feedItems",feedData);
+    res.status(201);
+    console.log("Comments after is "+feedData.list_of_comments);
+    res.send(feedData.list_of_comments);
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/comment/:commentid/:userid',function(req,res){
+  console.log("Comment function called");
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var commentId = parseInt(req.params.commentid,10);
+  if(fromUser === userid) {
+    var comment = readDocument("comments",commentId);
+    comment.author = readDocument("users",comment.author);
+    res.status(201);
+    res.send(comment);
   } else {
     res.status(401).end();
   }

@@ -27,10 +27,10 @@ export default class FeedItem extends React.Component {
     };
     if (this.didUserLike()) {
     // User clicked 'unlike' button.
-    unlikeFeedItem(this.state._id, 1, callbackFunction);
+    unlikeFeedItem(this.state.id, 1, callbackFunction);
     } else {
       // User clicked 'like' button.
-      likeFeedItem(this.state._id, 1, callbackFunction);
+      likeFeedItem(this.state.id, 1, callbackFunction);
     }
   }
 }
@@ -82,6 +82,9 @@ export default class FeedItem extends React.Component {
     }
   }
 
+handleCommentPost(listOfComments){
+  this.setState({"listOfComments":listOfComments});
+}
   render() {
     var likeButtonText = "Like";
       if (this.didUserLike()) {
@@ -142,14 +145,14 @@ export default class FeedItem extends React.Component {
           <div className="row">
             <ul className="media-list">
               {
-                data.listOfComments.map((commentId,i) => {
+                data.listOfComments.map((commentId) => {
                   return (
-                    <Comment key={i} data={commentId}/>
+                    <Comment key={commentId} data={commentId}/>
                   );
                 })
               }
             </ul>
-            <CommentEntry feedItemId={data.id} refresh={this.props.refresh}/>
+            <CommentEntry feedItemId={data.id} handleCommentPost={(listOfComments)=>this.handleCommentPost(listOfComments)}/>
           </div>
         </div>
       </div>
