@@ -21,6 +21,7 @@ import {changeToken} from './server';
  * Search results page.
  */
 class SearchResultsPage extends React.Component {
+
   getSearchTerm() {
     // If there's no query input to this page (e.g. /foo instead of /foo?bar=4),
     // query may be undefined. We have to check for this, otherwise
@@ -84,7 +85,7 @@ class SearchResults extends React.Component {
   render() {
     return (
       <div>
-
+        <link href="css/detail_page.css" rel="stylesheet"/>
         {/* <div className={hideElement(this.state.loaded || this.state.invalidSearch)}>Search results are loading...</div>
         <div className={hideElement(!this.state.invalidSearch)}>Invalid search query.</div> */}
         {/* <div className={hideElement(!this.state.loaded)}> */}

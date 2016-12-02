@@ -8,6 +8,7 @@ export default class Profile extends React.Component{
         super(props);
           this.state = {
             user_id: props.current_user,
+            editing: false,
             first_name: '',
             last_name: '',
             profilepic: '',
@@ -25,11 +26,24 @@ export default class Profile extends React.Component{
           this.changeUser = this.changeUser.bind(this);
           this.refresh = this.refresh.bind(this);
       }
+
+      hideElement(shouldHide) {
+        if(shouldHide)
+          return 'hidden';
+        else {
+          return '';
+        }
+      };
+
       handleSave() {
+        this.setState({
+          editing: false
+        });
         saveUserData(this.state, (user_data) => {
           console.log('Saved data into database');
           // console.log(JSON.stringify(user_data));
         });
+
       }
       handleCancel() {
         this.refresh(this.state.user_id);
@@ -49,6 +63,7 @@ export default class Profile extends React.Component{
         getUserData(user_id, (user_data) => {
           console.log(JSON.stringify(user_data));
           this.setState({
+            editing: false,
             first_name: user_data.first_name,
             last_name: user_data.last_name,
             profilepic: user_data.profilepic,
@@ -67,6 +82,7 @@ export default class Profile extends React.Component{
   handleSchool(event) {
     event.preventDefault();
     this.setState({
+      editing: true,
       academic_institution: event.target.value
     });
   }
@@ -75,6 +91,7 @@ export default class Profile extends React.Component{
   handleYear(event) {
     event.preventDefault();
     this.setState({
+      editing: true,
       education_level: event.target.value
     });
   }
@@ -83,6 +100,7 @@ export default class Profile extends React.Component{
   handleQuote(event) {
     event.preventDefault();
     this.setState({
+      editing: true,
       favorite_quote: event.target.value
     });
   }
@@ -165,14 +183,17 @@ export default class Profile extends React.Component{
               <div className="form-group">
                 <label className="col-md-3 control-label">Favorite Quote</label>
                 <div className="col-md-7">
-                  <input className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"
+                  <textarea className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"
                     value = {this.state.favorite_quote} onChange={this.handleQuote}/>
                 </div>
               </div>
+
+
+
               <div className="form-group">
                 <label className="col-md-3 control-label"> Areas of Interest</label>
                   <div className="col-md-7">
-                    {this.state.areas_of_interest}
+                    {this.state.areas_of_interest.join(', ')}
                   </div>
                 </div>
               <div className="form-group">
@@ -210,12 +231,14 @@ export default class Profile extends React.Component{
             </form>
 
             <div className="col-md-12 text-center editBtns" id="editBtns">
+              <span className={this.hideElement(!this.state.editing)}>
                       <button type="button" className="btn btn-success btn-sm" onClick={this.handleSave}>Save
                         <span className="glyphicon glyphicon-ok"></span>
                       </button>
                       <button type="button" className="btn btn-danger btn-sm" onClick={this.handleCancel}>Cancel
                         <span className="glyphicon glyphicon-remove"></span>
                       </button>
+              </span>
             </div>
           </div>
         </div>

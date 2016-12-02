@@ -23,6 +23,7 @@ handlePost(e){
         this.setState({activebtn:""});
         this.setState({category:"Category"});
         this.setState({type:0});
+        this.setState({imgUrl:""});
   }
 }
 

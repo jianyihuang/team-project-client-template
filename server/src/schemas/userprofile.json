@@ -2,6 +2,10 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
+    "user_id" : {
+      "type": "int",
+      "id": "user_id"
+    },
     "first_name": {
       "type": "string",
       "id": "first_name"

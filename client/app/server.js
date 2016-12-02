@@ -149,7 +149,7 @@ export function getUserSetting(userId, cb) {
 
 // Update user's setting.
 export function updateUserSetting(data, cb) {
-  sendXHR('PUT','/config/' + data.user_id + '/profile', {
+  sendXHR('PUT','/config/' + data.user_id, {
     "userId": data.user_id,
     "username": data.username,
     "password": data.password,
@@ -168,14 +168,11 @@ export function getUserData(user_id, cb) {
 }
 
 export function getClassData(classId){
-  var course = readDocument('classes', classId);
-  var courseInfo ={
-    class_id: classId,
-    course_id: course.course_id,
-    course_title: course.course_title
-  };
-  return courseInfo;
+  sendXHR('GET', '/user/1/class/' + classId, undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  } );
 }
+
 // Save new user profile information.
 export function saveUserData(info, cb) {
   // var user = readDocument('users', newUserProfile.user_id);

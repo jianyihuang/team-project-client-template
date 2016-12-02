@@ -7,7 +7,7 @@ var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
 var UserProfileSchema = require('./schemas/userprofile.json');
-var ConfigSchema = require('./schemas/config.json');
+var ConfigSchema = require('./schemas/config.json')
 var scheduleSchema = require('./schemas/scheduleSchema.json');
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -96,13 +96,13 @@ function getFeedData(user,type) {
   return feedData;
 }
 
-function postStatusUpdate(user, contents,imgUrl,request,type) {
+function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
     "view_count": 0,
     "likeCounter": [],
     // Taggs are by course_id
-    "tag": 1,
+    "tag": categoryMap[tag],
     "list_of_comments":[],
     "contents": {
       "author": user,
@@ -155,7 +155,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
   var body = req.body;
   if(body.author === fromUser) {
     var feedItemType = parseInt(req.params.feeditemtype,10);
-    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
     res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
@@ -176,7 +176,7 @@ app.post('/resetdb',function(req,res) {
 // Increase view count
 // authorization is done in get feed data
 app.put('/feeditem/:feeditemid',function(req,res) {
-  var feedItemId = parseInt(req.params.feeditemid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
   var feedItem = readDocument("feedItems",feedItemId);
   feedItem.view_count = feedItem.view_count+1;
   writeDocument("feedItems",feedItem);
@@ -189,6 +189,7 @@ app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var feedItemId = parseInt(req.params.feeditemid);
   var userId = parseInt(req.params.userid);
+  console.log(feedItemId);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
       // Normally, we would check if the user already
@@ -209,10 +210,11 @@ app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
 // Unlike a feed
 app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var feedItemId = parseInt(req.params.feeditemid);
-  var userId = parseInt(req.params.userid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var userId = parseInt(req.params.userid,10);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
+    console.log(feedItem);
     var userIndex = feedItem.likeCounter.indexOf(userId);
     // -1 means the user is *not* in the likeCounter,
     // so we can simply avoid updating
@@ -257,10 +259,10 @@ res.status(400).end();
 // remove the reference
 app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var userId = parseInt(req.params.userid);
-  var feedItemId = parseInt(req.params.feeditemid);
+  var userId = parseInt(req.params.userid,10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
   var feedItem = readDocument('feedItems', feedItemId);
-  var type = parseInt(req.params.feedtype);
+  var type = parseInt(req.params.feedtype,10);
   if(fromUser === userId) {
     var user = readDocument('users', userId);
     var feedData;
@@ -421,7 +423,7 @@ app.put('/messagebox/create/:user_id', function(req, res) {
 app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
   var userInToken = getUserIdFromToken(req.get('Authorization'));
   var userId = parseInt(req.params.user_id, 10);
-  var box_msg_id = parseInt(req.params.box_msg_id);
+  var box_msg_id = parseInt(req.params.box_msg_id,10);
   var messageBox = readDocument('messageboxes', box_msg_id);
   if (messageBox.list_of_users.indexOf(userInToken) !== -1) {
     // When the invited user is not already in the list of participants, we add him or her in.
@@ -499,9 +501,7 @@ app.get('/user/:userid/profile', function(req, res) {
   }
 });
 
-/**
-  End Message Page.
-**/
+
 
 //update profile
 app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(req,res) {
@@ -510,14 +510,11 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === user_id) {
       //update user info here
+
       var user = readDocument('users', user_id);
-      user.first_name = userData.first_name;
-      user.last_name = userData.last_name;
-      user.profilepic = userData.profilepic;
-      user.academic_institution = userData.academic_institution;
-      user.education_level = userData.education_level;
-      user.favorite_quote = userData.favorite_quote;
-      user.areas_of_interest = userData.areas_of_interest;
+      user.academic_institution = req.body.academic_institution;
+      user.education_level = req.body.education_level;
+      user.favorite_quote = req.body.favorite_quote;
 
       writeDocument('users', user);
       res.status(201);
@@ -530,7 +527,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
 
 
 
-app.put('/config/:userid/profile', validate({body: ConfigSchema}), function(req,res) {
+app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
@@ -559,7 +556,86 @@ app.get('/config/:userid', function(req, res) {
     res.status(401).end();
   }
 });
+app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+  console.log("Comment function called");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var content = req.body;
+  if(fromUser === userId) {
+    var time = new Date().getTime();
+    var feedData = readDocument("feedItems",feedItemId);
+    var newComment = {
+      "author":userId,
+      "timestamp":time,
+      "contents":content
+    }
+    addDocument("comments",newComment);
+    console.log("Comments before is "+feedData.list_of_comments);
+    feedData.list_of_comments.unshift(newComment._id);
+    writeDocument("feedItems",feedData);
+    res.status(201);
+    console.log("Comments after is "+feedData.list_of_comments);
+    res.send(feedData.list_of_comments);
+  } else {
+    res.status(401).end();
+  }
+});
 
+app.get('/comment/:commentid/:userid',function(req,res){
+  console.log("Comment function called");
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var commentId = parseInt(req.params.commentid,10);
+  if(fromUser === userid) {
+    var comment = readDocument("comments",commentId);
+    comment.author = readDocument("users",comment.author);
+    res.status(201);
+    res.send(comment);
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+  console.log("Comment function called");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var content = req.body;
+  if(fromUser === userId) {
+    var time = new Date().getTime();
+    var feedData = readDocument("feedItems",feedItemId);
+    var newComment = {
+      "author":userId,
+      "timestamp":time,
+      "contents":content
+    }
+    addDocument("comments",newComment);
+    feedData.list_of_comments.unshift(newComment._id);
+    writeDocument("feedItems",feedData);
+    console.log(readDocument("feedItems",feedItemId));
+    res.status(201);
+    res.send();
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/comment/:commentid/:userid',function(req,res){
+  console.log("Comment function called");
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var commentId = parseInt(req.params.commentid,10);
+  if(fromUser === userid) {
+    var comment = readDocument("comments",commentId);
+    comment.author = readDocument("users",comment.author);
+    res.status(201);
+    res.send(comment);
+  } else {
+    res.status(401).end();
+  }
+});
 
 
 /**
