@@ -20,7 +20,7 @@ export default class CommentEntry extends React.Component {
       if (comment !== "") {
         // Post comment
         postComment(this.props.feedItemId,this.state.value,1,()=>{
-          this.props.commentRefresh;
+          this.props.refresh();
         });
         this.setState({ value: "" });
       }

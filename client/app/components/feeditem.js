@@ -82,6 +82,9 @@ export default class FeedItem extends React.Component {
     }
   }
 
+commentRefresh(){
+  this.props.refresh();
+}
   render() {
     var likeButtonText = "Like";
       if (this.didUserLike()) {
@@ -149,7 +152,7 @@ export default class FeedItem extends React.Component {
                 })
               }
             </ul>
-            <CommentEntry feedItemId={data.id} refresh={this.props.refresh}/>
+            <CommentEntry feedItemId={data.id} refresh={()=>this.commentRefresh()}/>
           </div>
         </div>
       </div>

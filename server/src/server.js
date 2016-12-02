@@ -578,6 +578,7 @@ app.post('/feed/:feeditemid/comment/:userid',function(req,res){
     writeDocument("feedItems",feedData);
     console.log(readDocument("feedItems",feedItemId));
     res.status(201);
+    res.send();
   } else {
     res.status(401).end();
   }
