@@ -203,24 +203,7 @@ export function saveUserData(info, cb) {
 }
 
 
-//------------------------ Schedule Part
-function getScheduleItem(scheduleId) {
-	var schedules = readDocument('schedules', scheduleId);
-	var scheduleData = {
-    //console.log(indexSchedule);
-     _id: scheduleId,
-     completed: schedules.completed,
-     contents: {
-      // ID of the user that the appointment is with
-      author:schedules.contents.author,
-      subscriber : schedules.contents.subscriber,
-      date : schedules.contents.date,
-      time:schedules.contents.time,
-      serviceContents: schedules.contents.serviceContents
-    }
-	};
-	return scheduleData;
-}
+
 
 /*
 function getScheduleItemSync(scheduleItem) {
@@ -233,13 +216,9 @@ function getScheduleItemSync(scheduleItem) {
 */
 
 export function getScheduleData(userId,cb) {
-    // Get the User object with the id "user".
-    var userData = readDocument('users', userId);
-    var scheduleData = userData.schedules.map(function(scheduleId){
-      return getScheduleItem(scheduleId);
-    });
-  //  scheduleData = scheduleData.map(getScheduleItemSync)
-    emulateServerReturn(scheduleData, cb);
+  sendXHR('GET','/schedule/' + userId, undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function postSchedule(contents, cb) {

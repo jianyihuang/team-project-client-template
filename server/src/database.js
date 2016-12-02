@@ -163,94 +163,82 @@ var initialData = {
 
   "schedules":{
     "1":{
-      "index":1,
       "_id": 1,
       "completed": "COMPLETED",
       "contents": {
-        // ID of the user that the appointment is with
-        "party" : 2,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
+        "author": "Tim",
+        "subscriber" : "Karen",
+        "date" : "5/12/2015",
+        "time": "8:00 am - 12am",
         "serviceContents": "CS 250"
       }
     },
     "2":{
-      "index":2,
-      "_id": 1,
+      "_id": 2,
       "completed": "COMPLETED",
       "contents": {
         // ID of the user that the appointment is with
-        "party" : 3,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
+        "author": "Jucong",
+        "subscriber" : "Richards",
+        "date" : "2/6/2011",
+        "time": "8:00 am - 12am",
         "serviceContents": "CS 250"
       }
     },
     "3":{
-      "index":3,
-      "_id": 1,
+      "_id": 3,
       "completed": "COMPLETED",
       "contents": {
         // ID of the user that the appointment is with
-        "party" : 1,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
+        "author": "Karen",
+        "subscriber" : "JianYi",
+        "date" : "12/16/2006",
+        "time": "8:00 am - 12am",
         "serviceContents": "CS 311"
       }
     },
     "4":{
-      "index":4,
-      "_id": 2,
+      "_id": 4,
       "completed": "COMPLETED",
       "contents": {
-        // ID of the user that the appointment is with
-        "party" : 2,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
+        "author": "Karen",
+        "subscriber" : "Xin",
+        "date" : "09/6/2016",
+        "time": "8:00 am - 12am",
         "serviceContents": "CS 121"
       }
     },
     "5":{
-      "index":5,
-      "_id": 2,
+      "_id": 5,
       "completed": "COMPLETED",
       "contents": {
-        // ID of the user that the appointment is with
-        "party" : 2,
+        "author": "Xin",
+        "subscriber" : "Jucong",
         "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
+        "time": "8:00 am - 12am",
         "serviceContents": "CS 121"
       }
     },
     "6":{
-      "index":6,
       "_id": 6,
       "completed": "COMPLETED",
       "contents": {
-        // ID of the user that the appointment is with
-        "party" : 2,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
+        "author": "Karen",
+        "subscriber" : "Thein",
+        "date" : "11/6/2013",
+        "time": "8:00 am - 12am",
         "serviceContents": "CS 121"
       }
     },
     "7":{
-      "index":7,
-      "_id": 1,
+      "_id": 7,
       "completed": "COMPLETED",
       "contents": {
-        // ID of the user that the appointment is with
-        "party" : 2,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
-        "serviceContents": "CS 121"
+        "author": "Thein",
+        "subscriber" : "Jucong",
+        "date" : "10/6/1996",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 220"
       }
     }
   },

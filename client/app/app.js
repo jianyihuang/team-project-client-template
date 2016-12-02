@@ -240,11 +240,23 @@ class ProfilePage extends React.Component {
 }
 
 class SchedulePage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('SchedulePage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return (
       <div>
         <link rel="stylesheet" type="text/css" href="css/schedule.css"/>
-        <Schedule />
+        <Schedule current_user={this.state.current_user}/>
       </div>
       );
   }

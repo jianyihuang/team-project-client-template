@@ -465,6 +465,43 @@ function addScheule(userId,user, time, subscriber,date,serviceContents) {
   return newPost;
 }
 
+//------------------------ Schedule Part
+function getScheduleItem(scheduleId) {
+  var schedules = readDocument('schedules', scheduleId);
+  console.log('Read a single schedule from database: ' + JSON.stringify(schedules));
+  var scheduleData = {
+    //console.log(indexSchedule);
+     _id: scheduleId,
+     completed: schedules.completed,
+     contents: {
+      // ID of the user that the appointment is with
+      author:schedules.contents.author,
+      subscriber : schedules.contents.subscriber,
+      date : schedules.contents.date,
+      time:schedules.contents.time,
+      serviceContents: schedules.contents.serviceContents
+    }
+  };
+  console.log('Server tries to get a single Schedule: ' + JSON.stringify(scheduleData));
+  return scheduleData;
+}
+
+app.get('/schedule/:userid', function(req, res) {
+  var userId = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userId) {
+    // send response
+    // Get the User object with the id "user".
+    var userData = readDocument('users', userId);
+    var scheduleData = userData.schedules.map(function(scheduleId){
+      return getScheduleItem(scheduleId);
+    });
+    console.log('Server reads data for Schedule :: ' + JSON.stringify(scheduleData));
+    res.send(scheduleData);
+  } else {
+    res.status(401).end();
+  }
+});
 
 app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");

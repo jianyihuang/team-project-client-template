@@ -4,12 +4,11 @@ import {getScheduleData} from '../server';
 import {resetDatabase} from '../database';
 import {postSchedule} from '../server';
 
-const initial_user = 1;
 export default class Schedule extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        current_user:initial_user,
+        user_id: props.current_user,
         schedules: [],
         author: "",
         subscriber : "",
@@ -24,10 +23,16 @@ export default class Schedule extends React.Component {
       this.handleServiceContentsChange = this.handleServiceContentsChange.bind(this);
       this.handleAddSchedule = this.handleAddSchedule.bind(this);
       this.refresh = this.refresh.bind(this);
+  }  
+  componentWillReceiveProps(newProps){
+    console.log('Schedule receives new user id:' + newProps.current_user);
+    this.setState({
+      user_id: newProps.current_user
+    });
+    this.refresh(newProps.current_user);
   }
-
-    refresh() {
-      getScheduleData(this.state.current_user, (scheduleData) => {
+  refresh() {
+      getScheduleData(this.state.user_id, (scheduleData) => {
               this.setState({
                 schedules: scheduleData
               });
