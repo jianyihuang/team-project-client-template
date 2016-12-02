@@ -560,6 +560,45 @@ app.get('/config/:userid', function(req, res) {
   }
 });
 
+app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+  console.log("Comment function called");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var content = req.body;
+  if(fromUser === userId) {
+    var time = new Date().getTime();
+    var feedData = readDocument("feedItems",feedItemId);
+    var newComment = {
+      "author":userId,
+      "timestamp":time,
+      "contents":content
+    }
+    addDocument("comments",newComment);
+    feedData.list_of_comments.unshift(newComment._id);
+    writeDocument("feedItems",feedData);
+    console.log(readDocument("feedItems",feedItemId));
+    res.status(201);
+    res.send(newComment);
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/comment/:commentid/:userid',function(req,res){
+  console.log("Comment function called");
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var commentId = parseInt(req.params.commentid,10);
+  if(fromUser === userid) {
+    var comment = readDocument("comments",commentId);
+    comment.author = readDocument("users",comment.author);
+    res.status(201);
+    res.send();
+  } else {
+    res.status(401).end();
+  }
+});
 
 /**
  * Translate JSON Schema Validation failures into error 400s.
