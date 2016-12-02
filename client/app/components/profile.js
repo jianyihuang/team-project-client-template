@@ -3,15 +3,12 @@ import {getUserData, saveUserData, getClassData} from '../server';
 import {resetDatabase} from '../database';
 import {classesTaken} from './classesTaken';
 
-
-
-const intial_user = 1;
 export default class Profile extends React.Component{
       constructor(props){
         super(props);
           this.state = {
+            user_id: props.current_user,
             editing: false,
-            user_id: intial_user,
             first_name: '',
             last_name: '',
             profilepic: '',
@@ -49,40 +46,21 @@ export default class Profile extends React.Component{
 
       }
       handleCancel() {
-        getUserData(this.state.user_id, (user_data) => {
-          console.log(JSON.stringify(user_data));
-          this.setState({
-            editing: false,
-            first_name: user_data.first_name,
-            last_name: user_data.last_name,
-            profilepic: user_data.profilepic,
-            favorite_quote: user_data.favorite_quote,
-            areas_of_interest: user_data.areas_of_interest,
-            classes_taken: user_data.classes_taken,
-            education_level: user_data.education_level,
-            academic_institution: user_data.academic_institution,
-          });
-        });
+        this.refresh(this.state.user_id);
       }
       componentDidMount() {
         console.log('Mounted: ' + this.state.user_id);
-        getUserData(this.state.user_id, (user_data) => {
-          console.log(JSON.stringify(user_data));
-          this.setState({
-            editing: false,
-            first_name: user_data.first_name,
-            last_name: user_data.last_name,
-            profilepic: user_data.profilepic,
-            favorite_quote: user_data.favorite_quote,
-            areas_of_interest: user_data.areas_of_interest,
-            classes_taken: user_data.classes_taken,
-            education_level: user_data.education_level,
-            academic_institution: user_data.academic_institution,
-          });
-        });
+        this.refresh(this.state.user_id);
       }
-      refresh(){
-        getUserData(this.state.user_id, (user_data) => {
+      componentWillReceiveProps(newProps){
+        console.log('Profile receives new user id:' + newProps.current_user);
+        this.setState({
+          user_id: newProps.current_user
+        });
+        this.refresh(newProps.current_user);
+      }
+      refresh(user_id){
+        getUserData(user_id, (user_data) => {
           console.log(JSON.stringify(user_data));
           this.setState({
             editing: false,
@@ -156,9 +134,6 @@ export default class Profile extends React.Component{
       <div className = "container">
         <div className="row">
           <div className="col-md-3">
-            <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
-            <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={intial_user} onChange={this.changeUser}/></p>
-            <p><button type='button' onClick={this.refresh}>Change User</button></p>
           </div>
           <div className="col-md-6">
             <div className="panel panel-default">

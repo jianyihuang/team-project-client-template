@@ -4,30 +4,26 @@ import {Message} from './message_components/message';
 import {MessageEditor} from './message_components/message_editor';
 import {sendMessageServer, getMessageBoxServer, getRecentMessageBoxes, getParticipantProfiles, createMessageBox, joinMessageBox} from '../server';
 import {resetDatabase} from '../server';
-// import server functions here.
 
-const initial_user = 1;
 const n_recent_msgbox = 10;
 
 export default class MessagePanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {user_id: initial_user, messages: [], recent_msgBoxes: []};
+        this.state = {user_id: this.props.current_user, messages: [], recent_msgBoxes: []};
         this.sendMessage = this.sendMessage.bind(this);
-        this.changeUser = this.changeUser.bind(this);
         this.refreshMessageBox = this.refreshMessageBox.bind(this);
         this.refresh = this.refresh.bind(this);
         this.createNewConversation = this.createNewConversation.bind(this);
         this.addNewParticipant = this.addNewParticipant.bind(this);
-        this._userChanged= this._userChanged.bind(this);
         this.loadMessageBox = this.loadMessageBox.bind(this);
     }
     componentDidMount() {
-        this.refresh();
+        this.refresh(this.state.user_id);
     }
-    refresh() {
+    refresh(user_id) {
         // Get recent message boxes.
-        getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+        getRecentMessageBoxes(user_id, n_recent_msgbox, (recent_msg_boxes) => {
             // Get the most recent message box.
             this.loadMessageBox(recent_msg_boxes[0]);
             this.setState({
@@ -82,15 +78,12 @@ export default class MessagePanel extends React.Component {
             this.refreshMessageBox(updatedMsgBox);
         });
     }
-    _userChanged(event) {
-        event.preventDefault();
+    componentWillReceiveProps(newProps){
+        console.log('MessagePanel receives new user id:' + newProps.current_user);
         this.setState({
-            textChangeUser: event.target.value,
-            user_id: Number(event.target.value)
+            user_id: newProps.current_user
         });
-    }
-    changeUser(){
-          this.refresh();
+        this.refresh(newProps.current_user);
     }
   render() {
     return(
@@ -167,9 +160,6 @@ export default class MessagePanel extends React.Component {
     				</div>
     			</div>
     			<div className="col-xs-2">
-                                        <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
-                                        <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={initial_user} value={this.state.textChangeUser} onChange={this._userChanged}/></p>
-                                        <p><button type='button' onClick={this.changeUser}>Change User</button></p>
     			</div>
     		</div>
     	</div>

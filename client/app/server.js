@@ -1,6 +1,13 @@
 import {readDocument, writeDocument, addDocument} from './database.js';
 
 var token = 'eyJpZCI6MX0=';
+
+var users = ['eyJpZCI6MX0=', 'eyJpZCI6Mn0=', 'eyJpZCI6M30=', 'eyJpZCI6NH0=', 'eyJpZCI6NX0=', 'eyJpZCI6Nn0='];
+
+export function changeToken(user_id){
+  token = users[user_id - 1];
+  console.log('User Id::' + user_id + ' Token::' + token);
+}
 /**
  * Properly configure+send an XMLHttpRequest with error handling,
  * authorization token, and other needed properties.
@@ -142,15 +149,20 @@ export function getUserSetting(userId, cb) {
 
 // Update user's setting.
 export function updateUserSetting(data, cb) {
-  sendXHR('PUT','/config/' + data.user_id ,data,(xhr) => {
+  sendXHR('PUT','/config/' + data.user_id, {
+    "userId": data.user_id,
+    "username": data.username,
+    "password": data.password,
+    "email": data.email
+  },(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 
 // Get all information about the user.
-export function getUserData(user, cb) {
-  sendXHR('GET', '/user/1/profile/', undefined, (xhr) => {
+export function getUserData(user_id, cb) {
+  sendXHR('GET', '/user/' + user_id + '/profile/', undefined, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -162,8 +174,30 @@ export function getClassData(classId){
 }
 
 // Save new user profile information.
-export function saveUserData(userid, newInfo, cb) {
-  sendXHR('PUT', '/user/' + userid + '/profile', newInfo, (xhr) => {
+export function saveUserData(info, cb) {
+  // var user = readDocument('users', newUserProfile.user_id);
+  // user.first_name = newUserProfile.first_name,
+  // user.last_name = newUserProfile.last_name,
+  // user.profilepic = newUserProfile.profilepic,
+  // user.favorite_quote = newUserProfile.favorite_quote,
+  // user.areas_of_interest = newUserProfile.areas_of_interest,
+  // user.classes_taken = newUserProfile.classes_taken,
+  // user.education_level = newUserProfile.education_level,
+  // user.academic_institution = newUserProfile.academic_institution,
+  // writeDocument('users', user);
+  // emulateServerReturn(user, cb);
+
+
+  sendXHR('PUT', '/user/' + info.user_id + '/profile', {
+  "first_name" : info.first_name,
+  "last_name" : info.last_name,
+  "profilepic" : info.profilepic,
+  "favorite_quote" : info.favorite_quote,
+  "areas_of_interest" : info.areas_of_interest,
+  "classes_taken" : info.classes_taken,
+  "education_level" : info.education_level,
+  "academic_institution" : info.academic_institution,
+  }, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -285,3 +319,15 @@ export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
   });
 }
+
+export function getCommentData(commentId,userId,cb) {
+  sendXHR('GET','/comment/'+commentId+'/'+userId,undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  })
+ }
+
+ export function postComment(feedItemId,content,userId,cb) {
+   sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,(xhr)=>{
+   cb(JSON.parse(xhr.responseText));
+    })
+  }

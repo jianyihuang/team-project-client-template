@@ -2,13 +2,11 @@ import React from 'react';
 import {updateUserSetting, getUserSetting} from '../server';
 import {resetDatabase} from '../database';
 
-const initial_user = 1;
-
 export default class Config extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user_id: initial_user,
+			user_id: props.current_user,
 			username: '',
 			password: '',
 			email: ''
@@ -22,10 +20,10 @@ export default class Config extends React.Component {
 		this.refresh = this.refresh.bind(this);
 	}
 	componentDidMount() {
-		this.refresh();
+		this.refresh(this.state.user_id);
 	}
-	refresh(){
-		getUserSetting(this.state.user_id, (setting) => {
+	refresh(user_id){
+		getUserSetting(user_id, (setting) => {
 			this.setState(setting);
 		});
 	}
@@ -67,6 +65,13 @@ export default class Config extends React.Component {
 		      user_id: Number(user)
 		  });
 		}
+	}
+	componentWillReceiveProps(newProps){
+		console.log('Config receives new user id:' + newProps.current_user);
+		this.setState({
+			user_id: newProps.current_user
+		});
+		this.refresh(newProps.current_user);
 	}
 	render() {
 		return (
@@ -127,9 +132,6 @@ export default class Config extends React.Component {
 					</div>
 				</div>
 				<div className="col-xs-3">
-					<p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
-				            <p>UserID: <input type='text' size='3' maxLength='1' defaultValue={initial_user} onChange={this.changeUser}/></p>
-				            <p><button type='button' onClick={this.refresh}>Change User</button></p>
 				</div>
 			</div>
 		);
