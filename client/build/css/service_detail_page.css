@@ -61,7 +61,7 @@ body {
 .nav-pills >li > a:focus,
 .list-group > a:hover,
 .dropdown-menu > li > a:hover {
-  background-color: azure;
+  background-color: #EFEBE9;
 }
 /*Name of the website*/
 .navbar-default .navbar-brand{
