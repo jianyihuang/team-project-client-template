@@ -31,8 +31,8 @@ export default class Schedule extends React.Component {
     });
     this.refresh(newProps.current_user);
   }
-  refresh() {
-      getScheduleData(this.state.user_id, (scheduleData) => {
+  refresh(user_id) {
+      getScheduleData(user_id, (scheduleData) => {
               this.setState({
                 schedules: scheduleData
               });
@@ -40,7 +40,7 @@ export default class Schedule extends React.Component {
   }
 
   componentDidMount() {
-      this.refresh()
+      this.refresh(this.state.user_id)
     }
 
 
