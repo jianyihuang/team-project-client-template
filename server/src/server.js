@@ -187,13 +187,8 @@ app.put('/feeditem/:feeditemid',function(req,res) {
 // Like a feed
 app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-<<<<<<< HEAD
   var feedItemId = parseInt(req.params.feeditemid);
   var userId = parseInt(req.params.userid);
-=======
-  var feedItemId = parseInt(req.params.feeditemid,10);
-  var userId = parseInt(req.params.userid,10);
->>>>>>> 57cfac98002b07961ff753d88a804d77eb2cea26
   console.log(feedItemId);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
