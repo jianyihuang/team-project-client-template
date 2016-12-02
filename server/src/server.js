@@ -468,7 +468,6 @@ function addScheule(userId,user, time, subscriber,date,serviceContents) {
 //------------------------ Schedule Part
 function getScheduleItem(scheduleId) {
   var schedules = readDocument('schedules', scheduleId);
-  console.log('Read a single schedule from database: ' + JSON.stringify(schedules));
   var scheduleData = {
     //console.log(indexSchedule);
      _id: scheduleId,
@@ -482,7 +481,6 @@ function getScheduleItem(scheduleId) {
       serviceContents: schedules.contents.serviceContents
     }
   };
-  console.log('Server tries to get a single Schedule: ' + JSON.stringify(scheduleData));
   return scheduleData;
 }
 
