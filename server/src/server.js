@@ -464,7 +464,7 @@ function addScheule(user, time, subscriber,date,serviceContents) {
 }
 
 
-app.post('/schedule/:scheduleId',validate({body:scheduleSchema}),function(req,res) {
+app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
