@@ -189,6 +189,7 @@ app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var feedItemId = parseInt(req.params.feeditemid);
   var userId = parseInt(req.params.userid);
+  console.log(feedItemId);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
       // Normally, we would check if the user already
@@ -213,6 +214,7 @@ app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var userId = parseInt(req.params.userid);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
+    console.log(feedItem);
     var userIndex = feedItem.likeCounter.indexOf(userId);
     // -1 means the user is *not* in the likeCounter,
     // so we can simply avoid updating
@@ -508,22 +510,10 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
-<<<<<<< HEAD
       var user = readDocument('users', user_id);
       user.academic_institution = req.body.academic_institution;
       user.education_level = req.body.education_level;
       user.favorite_quote = req.body.favorite_quote;
-=======
-      var user = readDocument('users', userid);
-      user.first_name = userData.first_name;
-      user.last_name = userData.last_name;
-      user.profilepic = userData.profilepic;
-      user.academic_institution = userData.academic_institution;
-      user.education_level = userData.education_level;
-      user.favorite_quote = userData.favorite_quote;
-      user.areas_of_interest = userData.areas_of_interest;
->>>>>>> ca752abdd8231a800ec7aa2753712b340362209c
-
       writeDocument('users', user);
       res.status(201);
       res.send(user);
@@ -560,6 +550,46 @@ app.get('/config/:userid', function(req, res) {
     res.status(201);
     var userData = readDocument("users", userid);
     res.send(userData);
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+  console.log("Comment function called");
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userId = parseInt(req.params.userid, 10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var content = req.body;
+  if(fromUser === userId) {
+    var time = new Date().getTime();
+    var feedData = readDocument("feedItems",feedItemId);
+    var newComment = {
+      "author":userId,
+      "timestamp":time,
+      "contents":content
+    }
+    addDocument("comments",newComment);
+    feedData.list_of_comments.unshift(newComment._id);
+    writeDocument("feedItems",feedData);
+    console.log(readDocument("feedItems",feedItemId));
+    res.status(201);
+    res.send();
+  } else {
+    res.status(401).end();
+  }
+});
+
+app.get('/comment/:commentid/:userid',function(req,res){
+  console.log("Comment function called");
+  var userid = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var commentId = parseInt(req.params.commentid,10);
+  if(fromUser === userid) {
+    var comment = readDocument("comments",commentId);
+    comment.author = readDocument("users",comment.author);
+    res.status(201);
+    res.send(comment);
   } else {
     res.status(401).end();
   }

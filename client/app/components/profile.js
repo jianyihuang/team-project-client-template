@@ -188,14 +188,17 @@ export default class Profile extends React.Component{
               <div className="form-group">
                 <label className="col-md-3 control-label">Favorite Quote</label>
                 <div className="col-md-7">
-                  <input className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"
+                  <textarea className="form-control expandable" id="quoteInput" type="text" placeholder="What's your favorite quote?"
                     value = {this.state.favorite_quote} onChange={this.handleQuote}/>
                 </div>
               </div>
+
+
+
               <div className="form-group">
                 <label className="col-md-3 control-label"> Areas of Interest</label>
                   <div className="col-md-7">
-                    {this.state.areas_of_interest}
+                    {this.state.areas_of_interest.join(', ')}
                   </div>
                 </div>
               <div className="form-group">
