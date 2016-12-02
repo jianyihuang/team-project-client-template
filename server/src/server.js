@@ -505,10 +505,10 @@ app.get('/user/:userid/profile', function(req, res) {
 
 //update profile
 app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(req,res) {
-  var userid = parseInt(req.params.userid, 10);
+  var user_id = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
-  if(fromUser === userid) {
+  if(fromUser === user_id) {
       //update user info here
       var user = readDocument('users', user_id);
       user.first_name = userData.first_name;
@@ -530,7 +530,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
 
 
 
-app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
+app.put('/config/:userid/profile', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
@@ -548,7 +548,7 @@ app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,
   }
 });
 
-app.get('/config/:userId', function(req, res) {
+app.get('/config/:userid', function(req, res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   if(fromUser === userid) {
@@ -567,6 +567,7 @@ app.get('/config/:userId', function(req, res) {
 */
 app.use(function(err, req, res, next) {
   if (err.name === 'JsonSchemaValidation') {
+    console.log(JSON.stringify(err));
     // Set a bad request http response status
     res.status(400).end();
   } else {

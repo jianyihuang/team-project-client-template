@@ -5,6 +5,7 @@
 .recent-contact {
   height: 400px;
   overflow: scroll;
+  crusor: pointer;
 }
 
 textarea {

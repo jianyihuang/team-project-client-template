@@ -12,10 +12,10 @@ import {searchForFeedItems, deleteFeedItem} from './server';
 import FeedItem from './components/feeditem';
 import ServiceHome from './components/servicehome.js'
 import ErrorBanner from './components/errorbanner';
-import { IndexRoute,Router,Route,browserHistory } from 'react-router';
+import { IndexRoute,Router,Route,hashHistory } from 'react-router';
 
 // Temporarily used until we learn proper way to authenticate.
- 
+import {changeToken} from './server';
 
 /**
  * Search results page.
@@ -107,11 +107,26 @@ class SearchResults extends React.Component {
 }
 
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    var initial_user = 1;
+    this.state = {
+      current_user: initial_user
+    }
+    this.handleChangeUserNavbar = this.handleChangeUserNavbar.bind(this);
+  }
+  handleChangeUserNavbar(user_id) {
+    // Change token.
+    changeToken(user_id);
+    this.setState({
+      current_user: user_id
+    });
+  }
   render() {
     return (
       <div>
-        <Navbar />
-        {this.props.children}
+        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar}/>
+        {React.cloneElement(this.props.children, {current_user: this.state.current_user})}
         <div className="row">
           <div className="col-md-12">
             <ErrorBanner />
@@ -178,22 +193,46 @@ class WelcomePage extends React.Component {
 }
 
 class MessagePage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('MessagePage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return (
       <div>
         <link rel="stylesheet" type="text/css" href="css/message.css"/>
-        <MessagePanel />
+        <MessagePanel current_user={this.state.current_user}/>
       </div>
       );
   }
 }
 
 class ProfilePage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('ProfilePage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return (
       <div>
         <link href="css/user-profile.css" rel="stylesheet"/>
-        <Profile user={1}/>
+        <Profile current_user={this.state.current_user}/>
       </div>
     );
   }
@@ -211,11 +250,23 @@ class SchedulePage extends React.Component {
 }
 
 class ConfigPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('ConfigPage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return (
       <div>
         <link rel="stylesheet" type="text/css" href="css/config.css" />
-          <Config/>
+          <Config current_user={this.state.current_user}/>
       </div>
     );
   }
@@ -223,7 +274,7 @@ class ConfigPage extends React.Component {
 
 
 ReactDOM.render((
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={CategoryBoxPage} />
       <Route path="/login" component={WelcomePage} />
@@ -236,7 +287,7 @@ ReactDOM.render((
       <Route path="/service_detail" component={AcademicDetailPage} />
       <Route path="/categorybox" component={CategoryBoxPage} />
       <Route path="/servicehome" component={ServiceHomePage} />
-      <Route path="search" component={SearchResultsPage} />
+      <Route path="/search" component={SearchResultsPage} />
     </Route>
   </Router>
   ),document.getElementById('App')

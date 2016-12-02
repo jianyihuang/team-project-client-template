@@ -1,6 +1,13 @@
 import {readDocument, writeDocument, addDocument} from './database.js';
 
 var token = 'eyJpZCI6MX0=';
+
+var users = ['eyJpZCI6MX0=', 'eyJpZCI6Mn0=', 'eyJpZCI6M30=', 'eyJpZCI6NH0=', 'eyJpZCI6NX0=', 'eyJpZCI6Nn0='];
+
+export function changeToken(user_id){
+  token = users[user_id - 1];
+  console.log('User Id::' + user_id + ' Token::' + token);
+}
 /**
  * Properly configure+send an XMLHttpRequest with error handling,
  * authorization token, and other needed properties.
@@ -142,15 +149,20 @@ export function getUserSetting(userId, cb) {
 
 // Update user's setting.
 export function updateUserSetting(data, cb) {
-  sendXHR('PUT','/config/' + data.user_id ,data,(xhr) => {
+  sendXHR('PUT','/config/' + data.user_id + '/profile', {
+    "userId": data.user_id,
+    "username": data.username,
+    "password": data.password,
+    "email": data.email
+  },(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 
 // Get all information about the user.
-export function getUserData(user, cb) {
-  sendXHR('GET', '/user/1/profile/', undefined, (xhr) => {
+export function getUserData(user_id, cb) {
+  sendXHR('GET', '/user/' + user_id + '/profile/', undefined, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -179,7 +191,16 @@ export function saveUserData(info, cb) {
   // emulateServerReturn(user, cb);
 
 
-  sendXHR('PUT', '/user/' + info.user_id + '/profile', info, (xhr) => {
+  sendXHR('PUT', '/user/' + info.user_id + '/profile', {
+  "first_name" : info.first_name,
+  "last_name" : info.last_name,
+  "profilepic" : info.profilepic,
+  "favorite_quote" : info.favorite_quote,
+  "areas_of_interest" : info.areas_of_interest,
+  "classes_taken" : info.classes_taken,
+  "education_level" : info.education_level,
+  "academic_institution" : info.academic_institution,
+  }, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }

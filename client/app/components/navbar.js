@@ -1,9 +1,26 @@
 import React from 'react';
 import {Link} from 'react-router';
 import SearchBar from './searchbar';
+import {resetDatabase} from '../server';
 
 export default class Navbar extends React.Component {
-
+constructor(props) {
+	super(props);
+	this.state = {
+		user_id: props.current_user
+	}
+	this._userChanged = this._userChanged.bind(this);
+	this.changeUser = this.changeUser.bind(this);
+}
+_userChanged(event) {
+    event.preventDefault();
+    this.setState({
+        user_id: Number(event.target.value)
+    });
+}
+changeUser(){
+	this.props.onUserChanged(this.state.user_id);
+}
 render() {
 		return(
 
@@ -22,6 +39,9 @@ render() {
 											Service
 										</Link>
 									</li>
+									<li><button type='button' onClick={resetDatabase}> Reset Database</button></li>
+                                    <li>UserID: <input type='text' size='3' maxLength='1' onChange={this._userChanged}/></li>
+                                    <li><button type='button' onClick={this.changeUser}>Change User</button></li>
 								</ul>
 							</div>
 							<div className="nav navbar-nav navbar-right">
