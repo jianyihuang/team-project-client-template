@@ -12,7 +12,7 @@ import {searchForFeedItems, deleteFeedItem} from './server';
 import FeedItem from './components/feeditem';
 import ServiceHome from './components/servicehome.js'
 import ErrorBanner from './components/errorbanner';
-import { IndexRoute,Router,Route,browserHistory } from 'react-router';
+import { IndexRoute,Router,Route,hashHistory } from 'react-router';
 
 // Temporarily used until we learn proper way to authenticate.
 
@@ -224,7 +224,7 @@ class ConfigPage extends React.Component {
 
 
 ReactDOM.render((
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={CategoryBoxPage} />
       <Route path="/login" component={WelcomePage} />
