@@ -2,12 +2,28 @@ import React from 'react';
 import {Schedulebox} from './schedulebox';
 import {getScheduleData} from '../server';
 import {resetDatabase} from '../database';
+import {postSchedule} from '../server';
 
 const initial_user = 1;
 export default class Schedule extends React.Component {
   constructor(props) {
       super(props);
-      this.state = {current_user:initial_user, schedules: []};
+      this.state = {
+        current_user:initial_user,
+        schedules: [],
+        author: "",
+        subscriber : "",
+        date : "",
+        time: "",
+        serviceContents: ""
+      };
+      this.handleAuthorChange = this.handleAuthorChange.bind(this);
+      this.handleSubscriberChange = this.handleSubscriberChange.bind(this);
+      this.handleDateChange = this.handleDateChange.bind(this);
+      this.handleTimeChange = this.handleTimeChange.bind(this);
+      this.handleServiceContentsChange = this.handleServiceContentsChange.bind(this);
+      this.handleAddSchedule = this.handleAddSchedule.bind(this);
+      this.refresh = this.refresh.bind(this);
   }
 
     refresh() {
@@ -22,6 +38,53 @@ export default class Schedule extends React.Component {
       this.refresh()
     }
 
+
+    handleAddSchedule(){
+      postSchedule(this.state,(userInfo)=>{
+        console.log(JSON.stringify(userInfo));
+      });
+    }
+
+
+    handleAuthorChange(event) {
+      event.preventDefault();
+      var newAuthor = event.target.value;
+      this.setState({
+        author: newAuthor
+      });
+    }
+
+    handleSubscriberChange(event) {
+      event.preventDefault();
+      var newSubscriber = event.target.value;
+      this.setState({
+        subscriber: newSubscriber
+      });
+    }
+
+    handleDateChange(event) {
+      event.preventDefault();
+      var newDate = event.target.value;
+      this.setState({
+        date: newDate
+      });
+    }
+
+    handleTimeChange(event) {
+      event.preventDefault();
+      var newTime = event.target.value;
+      this.setState({
+        time: newTime
+      });
+    }
+
+    handleServiceContentsChange(event) {
+      event.preventDefault();
+      var newServiceContents = event.target.value;
+      this.setState({
+        serviceContents: newServiceContents
+      });
+    }
 
   render(){
     return(
@@ -54,7 +117,7 @@ export default class Schedule extends React.Component {
                   </div>
                   <div className= "col-xs-5">
                     <div className="input-style">
-                      <input type="text" className="form-control" value={this.state.username} onChange={this.handleUsernameChange}/>
+                      <input type="text" className="form-control" value={this.state.author} onChange={this.handleAuthorChange}/>
                     </div>
                   </div>
                 </div>
@@ -65,7 +128,7 @@ export default class Schedule extends React.Component {
                   </div>
                   <div className= "col-xs-5">
                     <div className="input-style">
-                      <input type="text" className="form-control" value={this.state.email} onChange={this.handleEmailChange} />
+                      <input type="text" className="form-control" value={this.state.subscriber} onChange={this.handleSubscriberChange} />
                     </div>
                   </div>
                 </div>
@@ -76,7 +139,7 @@ export default class Schedule extends React.Component {
                   </div>
                   <div className= "col-xs-5">
                     <div className="input-style">
-                      <input type="text" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} />
+                      <input type="text" className="form-control" value={this.state.date} onChange={this.handleDateChange} />
                     </div>
                   </div>
                 </div>
@@ -87,7 +150,7 @@ export default class Schedule extends React.Component {
                     </div>
                     <div className= "col-xs-5">
                       <div className="input-style">
-                        <input type="text" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} />
+                        <input type="text" className="form-control" value={this.state.time} onChange={this.handleTimeChange} />
                       </div>
                     </div>
                   </div>
@@ -98,14 +161,14 @@ export default class Schedule extends React.Component {
                 </div>
               <div className= "col-xs-5">
             <div className="input-style">
-                <input type="text" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} />
+                <input type="text" className="form-control" value={this.state.serviceContents} onChange={this.handleServiceContentsChange} />
             </div>
               </div>
             </div>
           <hr />
                 <div className="text-center">
                   <div className="btn-group" role="group">
-                    <button className="button-style" onClick={this.handleSave} >
+                    <button className="button-style" onClick={this.handleAddSchedule} >
                       <span className="glyphicon glyphicon-check"></span>
                       Add to Schedule
                     </button>
