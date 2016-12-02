@@ -115,12 +115,14 @@ cb(JSON.parse(xhr.responseText));
 
 
 export function likeFeedItem(feedItemId, userId, cb) {
+  console.log("This is debugging"+feedItemId);
   sendXHR('PUT','/feeditem/'+feedItemId+'/likelist/'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 export function unlikeFeedItem(feedItemId, userId, cb) {
+  console.log(feedItemId);
   sendXHR('DELETE','/feeditem/'+feedItemId+'/likelist/'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });

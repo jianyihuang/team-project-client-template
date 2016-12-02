@@ -176,7 +176,7 @@ app.post('/resetdb',function(req,res) {
 // Increase view count
 // authorization is done in get feed data
 app.put('/feeditem/:feeditemid',function(req,res) {
-  var feedItemId = parseInt(req.params.feeditemid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
   var feedItem = readDocument("feedItems",feedItemId);
   feedItem.view_count = feedItem.view_count+1;
   writeDocument("feedItems",feedItem);
@@ -187,8 +187,9 @@ app.put('/feeditem/:feeditemid',function(req,res) {
 // Like a feed
 app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var feedItemId = parseInt(req.params.feeditemid);
-  var userId = parseInt(req.params.userid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var userId = parseInt(req.params.userid,10);
+  console.log(feedItemId);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
       // Normally, we would check if the user already
@@ -209,10 +210,11 @@ app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
 // Unlike a feed
 app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var feedItemId = parseInt(req.params.feeditemid);
-  var userId = parseInt(req.params.userid);
+  var feedItemId = parseInt(req.params.feeditemid,10);
+  var userId = parseInt(req.params.userid,10);
   if(fromUser === userId) {
     var feedItem = readDocument('feedItems', feedItemId);
+    console.log(feedItem);
     var userIndex = feedItem.likeCounter.indexOf(userId);
     // -1 means the user is *not* in the likeCounter,
     // so we can simply avoid updating
@@ -259,10 +261,10 @@ res.status(400).end();
 // remove the reference
 app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var userId = parseInt(req.params.userid);
-  var feedItemId = parseInt(req.params.feeditemid);
+  var userId = parseInt(req.params.userid,10);
+  var feedItemId = parseInt(req.params.feeditemid,10);
   var feedItem = readDocument('feedItems', feedItemId);
-  var type = parseInt(req.params.feedtype);
+  var type = parseInt(req.params.feedtype,10);
   if(fromUser === userId) {
     var user = readDocument('users', userId);
     var feedData;
@@ -423,7 +425,7 @@ app.put('/messagebox/create/:user_id', function(req, res) {
 app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
   var userInToken = getUserIdFromToken(req.get('Authorization'));
   var userId = parseInt(req.params.user_id, 10);
-  var box_msg_id = parseInt(req.params.box_msg_id);
+  var box_msg_id = parseInt(req.params.box_msg_id,10);
   var messageBox = readDocument('messageboxes', box_msg_id);
   if (messageBox.list_of_users.indexOf(userInToken) !== -1) {
     // When the invited user is not already in the list of participants, we add him or her in.
@@ -585,7 +587,6 @@ app.post('/feed/:feeditemid/comment/:userid',function(req,res){
     writeDocument("feedItems",feedData);
     console.log(readDocument("feedItems",feedItemId));
     res.status(201);
-    res.send(newComment);
   } else {
     res.status(401).end();
   }
@@ -600,7 +601,7 @@ app.get('/comment/:commentid/:userid',function(req,res){
     var comment = readDocument("comments",commentId);
     comment.author = readDocument("users",comment.author);
     res.status(201);
-    res.send();
+    res.send(comment);
   } else {
     res.status(401).end();
   }

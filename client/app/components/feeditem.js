@@ -27,10 +27,10 @@ export default class FeedItem extends React.Component {
     };
     if (this.didUserLike()) {
     // User clicked 'unlike' button.
-    unlikeFeedItem(this.state._id, 1, callbackFunction);
+    unlikeFeedItem(this.state.id, 1, callbackFunction);
     } else {
       // User clicked 'like' button.
-      likeFeedItem(this.state._id, 1, callbackFunction);
+      likeFeedItem(this.state.id, 1, callbackFunction);
     }
   }
 }
