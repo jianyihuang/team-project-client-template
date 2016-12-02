@@ -512,9 +512,8 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   }
 });
 
-<<<<<<< HEAD
 
-=======
+
 app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
@@ -543,7 +542,7 @@ app.get('/config/:userId', function(req, res) {
     res.status(401).end();
   }
 });
->>>>>>> a6e8e063b4a3d3dd58a6fb6bf3d6b6eabc181c3d
+
 /**
  * Translate JSON Schema Validation failures into error 400s.
 */
