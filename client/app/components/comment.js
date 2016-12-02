@@ -8,6 +8,7 @@ export default class Comment extends React.Component {
       "comment":Object
     }
     getCommentData(props.data,1,(comment)=>{
+      console.log(comment);
        this.setState({"comment":comment})
     })
   }
