@@ -446,7 +446,7 @@ app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
 
 //schedule part ------------
 
-function addScheule(user, time, subscriber,date,serviceContents) {
+function addScheule(userId,user, time, subscriber,date,serviceContents) {
   var newPost = {
     "completed": "COMPLETED",
     "contents": {
@@ -459,7 +459,7 @@ function addScheule(user, time, subscriber,date,serviceContents) {
   }
   console.log(newPost);
   newPost = addDocument('schedules',newPost);
-  var userData = readDocument('users', user);
+  var userData = readDocument('users', userId);
   userData.schedules.unshift(newPost._id);
   //writeDocument('academicfeeds', feedData);
   return newPost;
@@ -470,8 +470,12 @@ app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
-  if(body.author === fromUser) {
-    var newPost = addScheule(body.author,body.time,body.subscriber,body.date,body.serviceContents);
+  //console.log(fromUser);
+//  console.log(body.author);
+  var user = readDocument('users', fromUser);
+  console.log((body.author) == (user.first_name));
+  if((body.author) === (user.first_name)) {
+    var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
     res.status(201);
     res.set('Location','/schedule/'+newPost._id);
     res.send(newPost);
