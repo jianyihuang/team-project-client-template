@@ -82,8 +82,8 @@ export default class FeedItem extends React.Component {
     }
   }
 
-commentRefresh(){
-  this.props.refresh();
+handleCommentPost(listOfComments){
+  this.setState({"listOfComments":listOfComments});
 }
   render() {
     var likeButtonText = "Like";
@@ -145,14 +145,14 @@ commentRefresh(){
           <div className="row">
             <ul className="media-list">
               {
-                data.listOfComments.map((commentId,i) => {
+                data.listOfComments.map((commentId) => {
                   return (
-                    <Comment key={i} data={commentId}/>
+                    <Comment key={commentId} data={commentId}/>
                   );
                 })
               }
             </ul>
-            <CommentEntry feedItemId={data.id} refresh={()=>this.commentRefresh()}/>
+            <CommentEntry feedItemId={data.id} handleCommentPost={(listOfComments)=>this.handleCommentPost(listOfComments)}/>
           </div>
         </div>
       </div>

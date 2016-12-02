@@ -3,7 +3,6 @@ import {getCommentData} from '../server';
 import {unixTimeToString} from '../util';
 export default class Comment extends React.Component {
   constructor(props) {
-    console.log("Comment Id is "+props.data);
     super(props);
     this.state = {
       "comment":Object

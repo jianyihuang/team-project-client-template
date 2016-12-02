@@ -19,8 +19,9 @@ export default class CommentEntry extends React.Component {
       var comment = this.state.value.trim();
       if (comment !== "") {
         // Post comment
-        postComment(this.props.feedItemId,this.state.value,1,()=>{
-          this.props.refresh();
+        postComment(this.props.feedItemId,this.state.value,1,(listOfComments)=>{
+          console.log(listOfComments);
+          this.props.handleCommentPost(listOfComments);
         });
         this.setState({ value: "" });
       }

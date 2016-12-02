@@ -574,11 +574,12 @@ app.post('/feed/:feeditemid/comment/:userid',function(req,res){
       "contents":content
     }
     addDocument("comments",newComment);
+    console.log("Comments before is "+feedData.list_of_comments);
     feedData.list_of_comments.unshift(newComment._id);
     writeDocument("feedItems",feedData);
-    console.log(readDocument("feedItems",feedItemId));
     res.status(201);
-    res.send();
+    console.log("Comments after is "+feedData.list_of_comments);
+    res.send(feedData.list_of_comments);
   } else {
     res.status(401).end();
   }

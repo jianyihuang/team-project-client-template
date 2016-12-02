@@ -294,7 +294,7 @@ export function getCommentData(commentId,userId,cb) {
 }
 
 export function postComment(feedItemId,content,userId,cb) {
-  sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,()=>{
-    cb();
+  sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,(xhr)=>{
+    cb(JSON.parse(xhr.responseText));
   })
 }
