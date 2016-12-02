@@ -62,7 +62,7 @@ export default class Config extends React.Component {
 	}
 	changeUser(event){
 		var user = event.target.value;
-		if(user !== '') {         
+		if(user !== '') {
 		  this.setState({
 		      user_id: Number(user)
 		  });
@@ -105,7 +105,7 @@ export default class Config extends React.Component {
 									</div>
 									<div className= "col-xs-5">
 										<div className="input-style">
-											<input type="text" className="form-control" value={this.state.password} onChange={this.handlePasswordChange} />
+											<input type="text" className="form-control" id="PASS" value={this.state.password} onChange={this.handlePasswordChange} />
 										</div>
 									</div>
 								</div>
