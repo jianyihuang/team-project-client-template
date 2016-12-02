@@ -7,7 +7,7 @@ var database = require('./database');
 var PostUpdateSchema = require('./schemas/postupdate.json');
 var MessageSchema = require('./schemas/message.json');
 var UserProfileSchema = require('./schemas/userprofile.json');
-var ConfigSchema = require('./schemas/config.json');
+var ConfigSchema = require('./schemas/config.json')
 var scheduleSchema = require('./schemas/scheduleSchema.json');
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -96,13 +96,13 @@ function getFeedData(user,type) {
   return feedData;
 }
 
-function postStatusUpdate(user, contents,imgUrl,request,type) {
+function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
   var time = new Date().getTime();
   var newPost = {
     "view_count": 0,
     "likeCounter": [],
     // Taggs are by course_id
-    "tag": 1,
+    "tag": categoryMap[tag],
     "list_of_comments":[],
     "contents": {
       "author": user,
@@ -155,7 +155,7 @@ app.post('/feeditem/:feeditemtype',validate({body:PostUpdateSchema}),function(re
   var body = req.body;
   if(body.author === fromUser) {
     var feedItemType = parseInt(req.params.feeditemtype,10);
-    var newPost = postStatusUpdate(body.author,body.contents,body.imgUrl,body.request,feedItemType);
+    var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
     res.status(201);
     res.set('Location','/feeditem/'+newPost._id);
     res.send(newPost);
@@ -508,10 +508,21 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
+<<<<<<< HEAD
       var user = readDocument('users', user_id);
       user.academic_institution = req.body.academic_institution;
       user.education_level = req.body.education_level;
       user.favorite_quote = req.body.favorite_quote;
+=======
+      var user = readDocument('users', userid);
+      user.first_name = userData.first_name;
+      user.last_name = userData.last_name;
+      user.profilepic = userData.profilepic;
+      user.academic_institution = userData.academic_institution;
+      user.education_level = userData.education_level;
+      user.favorite_quote = userData.favorite_quote;
+      user.areas_of_interest = userData.areas_of_interest;
+>>>>>>> ca752abdd8231a800ec7aa2753712b340362209c
 
       writeDocument('users', user);
       res.status(201);
@@ -524,7 +535,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
 
 
 
-app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,res) {
+app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
@@ -542,7 +553,7 @@ app.put('/config/:userId/profile', validate({body: ConfigSchema}), function(req,
   }
 });
 
-app.get('/config/:userId', function(req, res) {
+app.get('/config/:userid', function(req, res) {
   var userid = parseInt(req.params.userid, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   if(fromUser === userid) {
@@ -553,7 +564,6 @@ app.get('/config/:userId', function(req, res) {
     res.status(401).end();
   }
 });
-
 
 
 /**

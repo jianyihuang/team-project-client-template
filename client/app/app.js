@@ -15,12 +15,13 @@ import ErrorBanner from './components/errorbanner';
 import { IndexRoute,Router,Route,browserHistory } from 'react-router';
 
 // Temporarily used until we learn proper way to authenticate.
- 
+
 
 /**
  * Search results page.
  */
 class SearchResultsPage extends React.Component {
+
   getSearchTerm() {
     // If there's no query input to this page (e.g. /foo instead of /foo?bar=4),
     // query may be undefined. We have to check for this, otherwise
@@ -84,7 +85,7 @@ class SearchResults extends React.Component {
   render() {
     return (
       <div>
-
+        <link href="css/service.css" rel="stylesheet"/>
         {/* <div className={hideElement(this.state.loaded || this.state.invalidSearch)}>Search results are loading...</div>
         <div className={hideElement(!this.state.invalidSearch)}>Invalid search query.</div> */}
         {/* <div className={hideElement(!this.state.loaded)}> */}
