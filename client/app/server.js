@@ -225,7 +225,7 @@ export function getScheduleData(userId,cb) {
 }
 
 export function postSchedule(contents, cb) {
-  console.log(contents);
+//  console.log(contents);
   sendXHR('POST','/schedule/',{
     "completed": "COMPLETED",
     "author": contents.author,
