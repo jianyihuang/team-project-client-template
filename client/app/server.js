@@ -1,4 +1,4 @@
-import {readDocument, writeDocument,addDocument} from './database.js';
+import {readDocument, writeDocument, addDocument} from './database.js';
 
 var token = 'eyJpZCI6MX0=';
 /**
@@ -115,14 +115,12 @@ cb(JSON.parse(xhr.responseText));
 
 
 export function likeFeedItem(feedItemId, userId, cb) {
-  console.log("This is debugging"+feedItemId);
   sendXHR('PUT','/feeditem/'+feedItemId+'/likelist/'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 export function unlikeFeedItem(feedItemId, userId, cb) {
-  console.log(feedItemId);
   sendXHR('DELETE','/feeditem/'+feedItemId+'/likelist/'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
@@ -136,8 +134,8 @@ export function increaseViewCount(feedItemId,cb) {
 
 
 // Get user's setting.
-export function getUserSetting(userid, cb) {
-  sendXHR('GET','/config/'+userid,undefined,(xhr) => {
+export function getUserSetting(userId, cb) {
+  sendXHR('GET','/config/'+userId,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -162,6 +160,7 @@ export function getClassData(classId){
     cb(JSON.parse(xhr.responseText));
   } );
 }
+
 // Save new user profile information.
 export function saveUserData(userid, newInfo, cb) {
   sendXHR('PUT', '/user/' + userid + '/profile', newInfo, (xhr) => {
@@ -211,7 +210,7 @@ export function getScheduleData(userId,cb) {
 
 export function postSchedule(contents, cb) {
 //  console.log(contents);
-  sendXHR('POST','/schedule',{
+  sendXHR('POST','/schedule/',{
     "completed": "COMPLETED",
     "author": contents.author,
     "time": contents.time,
@@ -285,16 +284,4 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
   });
-}
-
-export function getCommentData(commentId,userId,cb) {
-  sendXHR('GET','/comment/'+commentId+'/'+userId,undefined,(xhr) => {
-    cb(JSON.parse(xhr.responseText));
-  })
-}
-
-export function postComment(feedItemId,content,userId,cb) {
-  sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,(xhr)=>{
-    cb(JSON.parse(xhr.responseText));
-  })
 }
