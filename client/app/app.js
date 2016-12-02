@@ -85,7 +85,7 @@ class SearchResults extends React.Component {
   render() {
     return (
       <div>
-        <link href="css/service.css" rel="stylesheet"/>
+        <link href="css/detail_page.css" rel="stylesheet"/>
         {/* <div className={hideElement(this.state.loaded || this.state.invalidSearch)}>Search results are loading...</div>
         <div className={hideElement(!this.state.invalidSearch)}>Invalid search query.</div> */}
         {/* <div className={hideElement(!this.state.loaded)}> */}
