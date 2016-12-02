@@ -510,7 +510,7 @@ app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(r
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
-      var user = readDocument('users', user_id);
+      var user = readDocument('users', userid);
       user.academic_institution = req.body.academic_institution;
       user.education_level = req.body.education_level;
       user.first_name = userData.first_name;
