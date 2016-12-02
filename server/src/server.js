@@ -464,7 +464,7 @@ function addScheule(user, time, subscriber,date,serviceContents) {
 }
 
 
-app.post('/schedule/:scheduleId',validate({body:scheduleSchema}),function(req,res) {
+app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
@@ -499,25 +499,19 @@ app.get('/user/:userid/profile', function(req, res) {
   }
 });
 
-/**
-  End Message Page.
-**/
+
 
 //update profile
 app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(req,res) {
-  var userid = parseInt(req.params.userid, 10);
+  var userid = parseInt(req.params.user_id, 10);
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var userData = req.body;
   if(fromUser === userid) {
       //update user info here
       var user = readDocument('users', user_id);
-      user.first_name = userData.first_name;
-      user.last_name = userData.last_name;
-      user.profilepic = userData.profilepic;
-      user.academic_institution = userData.academic_institution;
-      user.education_level = userData.education_level;
-      user.favorite_quote = userData.favorite_quote;
-      user.areas_of_interest = userData.areas_of_interest;
+      user.academic_institution = req.body.academic_institution;
+      user.education_level = req.body.education_level;
+      user.favorite_quote = req.body.favorite_quote;
 
       writeDocument('users', user);
       res.status(201);
