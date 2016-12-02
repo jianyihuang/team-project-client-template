@@ -224,12 +224,14 @@ app.post('/search', function(req, res) {
   var userData = readDocument('users', fromUser);
   if (typeof(req.body) === 'string') {
     var query = req.body.trim().toLowerCase();
-    var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
+    var feedData = readDocument('academicfeeds', userData.Service_feed).list_of_feeditems;
+    var serviceFeedData = readDocument('academicfeeds',userData.Academic_feed).list_of_feeditems;
+    var newfeedData =feedData.concat(serviceFeedData);//console.log("logging service feeds "+ serviceFeedData.contents.content);
     console.log("query: "+query);
-    console.log("feedData: "+feedData);
-  res.send(feedData.filter((feedItemId) => {
+    console.log("feedData: "+newfeedData);
+  res.send(newfeedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
-    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
+    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
   }).map(getFeedItemSync));
 }
 else{
