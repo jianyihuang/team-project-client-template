@@ -5,13 +5,14 @@ export class Schedulebox extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = this.props
+		this.handleDeleteSchedule = this.handleDeleteSchedule.bind(this)
 	}
 
 	handleDeleteSchedule(clickEvent) {
 		clickEvent.preventDefault();
 		if(clickEvent.button === 0) {
-			deleteSchedule(1,this.props.id,()=>{
-				this.refresh();
+			deleteSchedule(this.props.user_id,this.props.id,()=>{
+				this.props.refresh(this.props.user_id);
 			});
 		}
 	}
