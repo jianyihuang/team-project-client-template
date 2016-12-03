@@ -30,7 +30,7 @@ class SearchResultsPage extends React.Component {
     var searchTerm = "";
     if (queryVars && queryVars.q) {
       searchTerm = queryVars.q;
-      // Remove extraneous whitespace.
+      // Remove extraeous whitespace.
       searchTerm.trim();
     }
     return searchTerm;
@@ -112,22 +112,32 @@ class App extends React.Component {
     super(props);
     var initial_user = 1;
     this.state = {
-      current_user: initial_user
+      current_user: initial_user,
+      isOnDetailPage: true
     }
     this.handleChangeUserNavbar = this.handleChangeUserNavbar.bind(this);
+    this.onDetailPage = this.onDetailPage.bind(this);
+  }
+  onDetailPage(){
+    changeToken(1);
+    this.setState({
+      current_user: 1,
+      isOnDetailPage: true
+    });
   }
   handleChangeUserNavbar(user_id) {
     // Change token.
     changeToken(user_id);
     this.setState({
-      current_user: user_id
+      current_user: user_id,
+      isOnDetailPage: false
     });
   }
   render() {
     return (
       <div>
-        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar}/>
-        {React.cloneElement(this.props.children, {current_user: this.state.current_user})}
+        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar} onDetailPage={this.state.isOnDetailPage} />
+        {React.cloneElement(this.props.children, {current_user: this.state.current_user, forceNavChange: this.onDetailPage})}
         <div className="row">
           <div className="col-md-12">
             <ErrorBanner />
@@ -139,44 +149,98 @@ class App extends React.Component {
 }
 
 class CategoryBoxPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('CategoryBoxPage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return (
       <div>
         <link rel="stylesheet" href="css/academic.css"/>
-        <CategoryBox />
+        <CategoryBox current_user={this.state.current_user}/>
       </div>
     );
   }
 }
 
 class AcademicDetailPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillMount(){
+    this.props.forceNavChange();     
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('AcademicDetailPage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return(
       <div>
         <link href="css/detail_page.css" rel="stylesheet"/>
-        <DetailPage type={1}/>
+        <DetailPage type={1} current_user={this.state.current_user}/>
       </div>
     );
   }
 }
 
 class ServiceHomePage extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('ServiceHomePage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render(){
   return(
     <div>
       <link href="css/service.css" rel="stylesheet"/>
-      <ServiceHome/>
+      <ServiceHome current_user={this.state.current_user}/>
     </div>
     )
   }
 }
 
 class ServiceDetailPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillMount(){
+    this.props.forceNavChange();     
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('ServiceDetailPage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return(
       <div>
         <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <DetailPage type={2}/>
+        <DetailPage type={2} current_user={this.state.current_user}/>
       </div>
     );
   }
