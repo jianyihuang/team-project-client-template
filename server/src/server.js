@@ -460,7 +460,8 @@ function addScheule(userId,user, time, subscriber,date,serviceContents) {
   console.log(newPost);
   newPost = addDocument('schedules',newPost);
   var userData = readDocument('users', userId);
-  userData.schedules.unshift(newPost._id);
+  userData.schedules.push(newPost._id);
+  writeDocument('users', userData);
   //writeDocument('academicfeeds', feedData);
   return newPost;
 }
@@ -494,7 +495,6 @@ app.get('/schedule/:userid', function(req, res) {
     var scheduleData = userData.schedules.map(function(scheduleId){
       return getScheduleItem(scheduleId);
     });
-    console.log('Server reads data for Schedule :: ' + JSON.stringify(scheduleData));
     res.send(scheduleData);
   } else {
     res.status(401).end();
@@ -505,6 +505,7 @@ app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
+  console.log('Server receives POST schedule :: ' + JSON.stringify(body));
   //console.log(fromUser);
 //  console.log(body.author);
   var user = readDocument('users', fromUser);
@@ -512,7 +513,6 @@ app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   if((body.author) === (user.first_name)) {
     var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
     res.status(201);
-    res.set('Location','/schedule/'+newPost._id);
     res.send(newPost);
   }else {
     res.status(401).end();

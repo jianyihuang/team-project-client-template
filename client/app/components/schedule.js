@@ -48,6 +48,7 @@ export default class Schedule extends React.Component {
       postSchedule(this.state,(userInfo)=>{
         console.log(JSON.stringify(userInfo));
       });
+      this.refresh(this.state.user_id);
     }
 
 
@@ -107,7 +108,6 @@ export default class Schedule extends React.Component {
         </div>
 
         <div className="col-xs-3">
-          <p><button type='button' onClick={resetDatabase}> Reset Database</button></p>
         </div>
 
         <div className="col-xs-3"/>
