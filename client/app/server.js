@@ -236,17 +236,9 @@ export function postSchedule(contents, cb) {
 }
 
 export function deleteSchedule(userId,scheduleId,cb) {
-  var user = readDocument('users', userId);
-  var scheduleData = user.schedules;
-  var scheduleIndex = scheduleData.indexOf(scheduleId);
-     //feedData = readDocument('academicfeeds', user.Academic_feed);
-     // 'splice' removes items from an array.
-     //This removes 1 element starting from userIndex.
-     if (scheduleIndex !== -1) {
-      scheduleData.splice(scheduleIndex, 1);
-     }
-  writeDocument('users', user);
-  emulateServerReturn(scheduleData, cb);
+  sendXHR('DELETE','/schedule/'+userId+'/'+scheduleId,undefined,(xhr)=> {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 

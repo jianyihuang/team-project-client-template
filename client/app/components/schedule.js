@@ -23,7 +23,7 @@ export default class Schedule extends React.Component {
       this.handleServiceContentsChange = this.handleServiceContentsChange.bind(this);
       this.handleAddSchedule = this.handleAddSchedule.bind(this);
       this.refresh = this.refresh.bind(this);
-  }  
+  }
   componentWillReceiveProps(newProps){
     console.log('Schedule receives new user id:' + newProps.current_user);
     this.setState({
@@ -33,6 +33,7 @@ export default class Schedule extends React.Component {
   }
   refresh(user_id) {
       getScheduleData(user_id, (scheduleData) => {
+          console.log(JSON.stringify(scheduleData));
               this.setState({
                 schedules: scheduleData
               });
@@ -100,14 +101,11 @@ export default class Schedule extends React.Component {
          return(
            <Schedulebox key = {i} name={scheduleItem.contents.author} postDate={scheduleItem.contents.date}
              serviceContent={scheduleItem.contents.serviceContents} time={scheduleItem.contents.time}
-             subscriber={scheduleItem.contents.subscriber}
-            completed={scheduleItem.completed} id ={scheduleItem.index}   />
+             subscriber={scheduleItem.contents.subscriber} refresh={this.refresh}
+            completed={scheduleItem.completed} id ={scheduleItem._id} user_id={this.state.user_id}  />
         );
       })
     }
-        </div>
-
-        <div className="col-xs-3">
         </div>
 
         <div className="col-xs-3"/>
@@ -118,7 +116,7 @@ export default class Schedule extends React.Component {
                 <font size="5">Add an appointment </font>
                 <div className="row">
                   <div className= "col-xs-3">
-                    <strong>Your Name</strong>
+                    <strong>Your First Name (Upper case with first letter)</strong>
                   </div>
                   <div className= "col-xs-5">
                     <div className="input-style">

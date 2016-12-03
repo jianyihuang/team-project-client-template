@@ -5,13 +5,14 @@ export class Schedulebox extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = this.props
+		this.handleDeleteSchedule = this.handleDeleteSchedule.bind(this)
 	}
 
 	handleDeleteSchedule(clickEvent) {
 		clickEvent.preventDefault();
 		if(clickEvent.button === 0) {
-			deleteSchedule(1,this.props.id,()=>{
-				this.refresh();
+			deleteSchedule(this.props.user_id,this.props.id,()=>{
+				this.props.refresh(this.props.user_id);
 			});
 		}
 	}
@@ -29,8 +30,8 @@ export class Schedulebox extends React.Component {
 							<br /><span className = "taken-by">{this.props.subscriber}</span><br />
 							<hr />
 							<button type="button" className="btn btn-primary completed-button">
-								<a href="#" onClick= {(e) => this.handleDeleteSchedule(e)}>
-								{this.props.completed}</a>
+								<strong onClick= {(e) => this.handleDeleteSchedule(e)}>
+								{this.props.completed}</strong>
 							</button>
 							</div>
 							</div>

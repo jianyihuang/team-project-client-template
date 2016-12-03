@@ -246,7 +246,7 @@ app.post('/search', function(req, res) {
     console.log("feedData: "+feedData);
   res.send(feedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
-    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
+   return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
   }).map(getFeedItemSync));
 }
 else{
@@ -466,7 +466,6 @@ function addScheule(userId,user, time, subscriber,date,serviceContents) {
   return newPost;
 }
 
-//------------------------ Schedule Part
 function getScheduleItem(scheduleId) {
   var schedules = readDocument('schedules', scheduleId);
   var scheduleData = {
@@ -514,6 +513,32 @@ app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
     var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
     res.status(201);
     res.send(newPost);
+  }else {
+    res.status(401).end();
+  }
+});
+
+app.delete('/schedule/:userid/:scheduleid',function(req,res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var scheduleId = parseInt(req.params.scheduleid);
+  var userId = parseInt(req.params.userid);
+  //var userId = parseInt(req.params.userid,10);
+  var user = readDocument('users',fromUser);
+  if(fromUser === userId) {
+    var scheduleItem = readDocument('schedules', scheduleId);
+    console.log(scheduleItem);
+    var scheduleIndex = user.schedules.indexOf(scheduleId);
+    // -1 means the user is *not* in the likeCounter,
+    // so we can simply avoid updating
+    // anything if that is the case: the user already
+    // doesn't like the item.
+    if (scheduleIndex !== -1) {
+      // 'splice' removes items from an array. This
+      // removes 1 element starting from userIndex.
+      user.schedules.splice(scheduleIndex, 1);
+      writeDocument('users', user);
+    }
+    res.status(201);
   }else {
     res.status(401).end();
   }

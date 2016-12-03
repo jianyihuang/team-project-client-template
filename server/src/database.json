@@ -1,1 +1,456 @@
-{"users":{"1":{"_id":1,"first_name":"Karen","last_name":"Zheung","profilepic":"img/cat.jpeg","username":"Karen","password":"123abc","email":"kzheung@umass.edu","favorite_quote":"Anything I say.","areas_of_interest":["Art","Astronomy","Technology"],"classes_taken":[1,2,3],"education_level":"Junior","academic_institution":"Umass Amherst","Academic_feed":1,"Service_feed":1,"schedules":[1,2,3,4,5,6,7],"messageboxes":[1],"Academic_savedlists":1,"Service_savedlists":1},"2":{"_id":2,"first_name":"Thien","last_name":"Dinh","profilepic":"img/kiwi.jpg","username":"Thien","password":"Thien'sPassword","email":"tddinh@umass.edu","favorite_quote":"You become what you think about.","areas_of_interest":["Art","Astronomy","Technology"],"classes_taken":[1,2,3],"education_level":"Junior","academic_institution":"Umass Amherst","Academic_feed":1,"Service_feed":1,"schedules":[1],"messageboxes":[1,2],"Academic_savedlists":1,"Service_savedlists":1},"3":{"_id":3,"first_name":"Timothy","last_name":"Addai","profilepic":"img/cat.jpeg","username":"Tim","password":"Timtimpass","email":"taddai@umass.edu","favorite_quote":"I have a dream.","areas_of_interest":["Art","Astronomy","Technology"],"classes_taken":[1,2,3],"education_level":"Junior","academic_institution":"Umass Amherst","Academic_feed":1,"Service_feed":1,"schedules":[1],"messageboxes":[1],"Academic_savedlists":1,"Service_savedlists":1},"4":{"_id":4,"first_name":"Jucong","last_name":"He","profilepic":"img/pug.jpg","username":"Jucong","password":"123abc","email":"juconghe@umass.edu","favorite_quote":"CSS Expert has nothing to say.","areas_of_interest":["Art","Astronomy","Technology"],"classes_taken":[1,2,3],"education_level":"Junior","academic_institution":"Umass Amherst","Academic_feed":1,"Service_feed":1,"schedules":[1],"messageboxes":[1,3],"Academic_savedlists":1,"Service_savedlists":1},"5":{"_id":5,"first_name":"Xin","last_name":"Liu","profilepic":"img/cat.jpeg","username":"Xin","password":"XinPass","email":"xliu0@umass.edu","favorite_quote":"Scheduling like a boss.","areas_of_interest":["Art","Astronomy","Technology"],"classes_taken":[1,2,3],"education_level":"Junior","academic_institution":"Umass Amherst","Academic_feed":1,"Service_feed":1,"schedules":[1],"messageboxes":[1],"Academic_savedlists":1,"Service_savedlists":1},"6":{"_id":6,"first_name":"Jianyi","last_name":"Huang","profilepic":"img/pug.jpg","username":"JianYi","password":"HuangJianyi!@#","email":"jianyihuang@umass.edu","favorite_quote":"You only live once.","areas_of_interest":["Art","Astronomy","Technology"],"classes_taken":[1,2,3],"education_level":"Junior","academic_institution":"Umass Amherst","Academic_feed":1,"Service_feed":1,"schedules":[1],"messageboxes":[1],"Academic_savedlists":1,"Service_savedlists":1}},"tasks":{"1":{"_id":1,"completed":false,"contents":{"party":3,"date":"10/6/2016","timestamp_start":"8:00 am","timestamp_end":"12:00 pm","contents":"MATH411"}},"2":{"_id":2,"completed":false,"contents":{"party":2,"date":"10/6/2016","timestamp_start":"8:00 am","timestamp_end":"12:00 pm","contents":"CS 250"}}},"schedules":{"1":{"_id":1,"completed":"COMPLETED","contents":{"author":"Tim","subscriber":"Karen","date":"5/12/2015","time":"8:00 am - 12am","serviceContents":"CS 250"}},"2":{"_id":2,"completed":"COMPLETED","contents":{"author":"Jucong","subscriber":"Richards","date":"2/6/2011","time":"8:00 am - 12am","serviceContents":"CS 250"}},"3":{"_id":3,"completed":"COMPLETED","contents":{"author":"Karen","subscriber":"JianYi","date":"12/16/2006","time":"8:00 am - 12am","serviceContents":"CS 311"}},"4":{"_id":4,"completed":"COMPLETED","contents":{"author":"Karen","subscriber":"Xin","date":"09/6/2016","time":"8:00 am - 12am","serviceContents":"CS 121"}},"5":{"_id":5,"completed":"COMPLETED","contents":{"author":"Xin","subscriber":"Jucong","date":"10/6/2016","time":"8:00 am - 12am","serviceContents":"CS 121"}},"6":{"_id":6,"completed":"COMPLETED","contents":{"author":"Karen","subscriber":"Thein","date":"11/6/2013","time":"8:00 am - 12am","serviceContents":"CS 121"}},"7":{"_id":7,"completed":"COMPLETED","contents":{"author":"Thein","subscriber":"Jucong","date":"10/6/1996","time":"8:00 am - 12am","serviceContents":"CS 220"}}},"messageboxes":{"1":{"_id":1,"list_of_users":[6,3,5,4,1,2],"list_of_messages_by_users_in_box":[{"user_id":6,"timestamp":1479148390962,"content":"the current homepage we have wont count as a page. It would make sense that after the user logs in they are directed to the academic or academic subject page but someone is doing those pages already"},{"user_id":3,"timestamp":1479148390962,"content":"is the academic page the one with the grids. I know but I gotta study for interview,so im trynna get basic in then improve upon it"},{"user_id":5,"timestamp":1479148390962,"content":"how are you guys doing I am considering adding some material design concept in UI"},{"user_id":4,"timestamp":1479148390962,"content":"good job, Jucong. You may create a writeup document for the team if you want."},{"user_id":5,"timestamp":1479148390962,"content":"I only have time after 5 tmr"},{"user_id":4,"timestamp":1479148390962,"content":"ok ok ok guys, it's fine. We'll figure this out."},{"user_id":5,"timestamp":1479148390962,"content":"If possible, can you guys all implement the floating effect ? It's very straight forward"},{"user_id":1,"timestamp":1479148390962,"content":"I changed the config if you are satisfied with that I will add the css"},{"user_id":2,"timestamp":1479148390962,"content":"I thought someone else is doing that one. I can do that too."},{"user_id":2,"timestamp":1480734536446,"content":"Karen"},{"user_id":1,"timestamp":1480734561710,"content":"Karen"},{"user_id":1,"timestamp":1480734622722,"content":"Krwa"},{"user_id":2,"timestamp":1480734631391,"content":"saf"},{"user_id":1,"timestamp":1480734908752,"content":"sef"}],"creation_timestamp":1479148390962},"2":{"list_of_users":[2],"list_of_messages_by_users_in_box":[{"user_id":2,"timestamp":1480736099478,"content":"Thien"}],"creation_timestamp":1480736094779,"_id":2},"3":{"list_of_users":[4],"list_of_messages_by_users_in_box":[{"user_id":4,"timestamp":1480736178369,"content":"Only Jucong"}],"creation_timestamp":1480736172777,"_id":3}},"classes":{"1":{"_id":1,"course_id":"CS311","course_title":"Introduction to Algorithms"},"2":{"_id":2,"course_id":"CS250","course_title":"Introduction to Computation"},"3":{"_id":3,"course_id":"MATH132","course_title":"Calculus 2"}},"Academic_savedlists":{"1":{"_id":1,"list_of_feeditems":[1]}},"Service_savedlists":{"1":{"_id":1,"list_of_posts":[1]}},"feedItems":{"1":{"_id":1,"view_count":41,"likeCounter":[1],"tag":1,"list_of_comments":[1,2],"contents":{"author":1,"timestamp":1453668480000,"request":"Oh god! CS311 homework is too hard! PlZZZ help","contents":"sending hugs your way","imgUrl":"img/question_img.jpeg"}},"2":{"_id":2,"view_count":18,"likeCounter":[1],"tag":1,"list_of_comments":[1,2],"contents":{"author":1,"timestamp":1453668480000,"request":"Oh god! Chinese homework is too hard! PlZZZ help","contents":"呵呵呵呵呵呵呵呵呵呵","imgUrl":"img/history.jpg"}},"3":{"_id":3,"view_count":1,"likeCounter":[1],"tag":1,"list_of_comments":[1,2],"contents":{"author":1,"timestamp":1453668480000,"request":"Oh god! My toilet was stucked! PlZZZ help","contents":"呵呵呵呵呵呵呵呵呵呵","imgUrl":"img/toilet_stuck.jpg"}},"4":{"view_count":16,"likeCounter":[],"tag":1,"list_of_comments":[],"contents":{"author":1,"timestamp":1480732538417,"request":"cewcew","contents":"ewfew","imgUrl":""},"_id":4},"5":{"view_count":16,"likeCounter":[],"tag":2,"list_of_comments":[],"contents":{"author":1,"timestamp":1480732559488,"request":"few","contents":"fsdfew","imgUrl":""},"_id":5},"6":{"view_count":16,"likeCounter":[],"tag":3,"list_of_comments":[],"contents":{"author":1,"timestamp":1480732582587,"request":"dqw","contents":"df","imgUrl":""},"_id":6},"7":{"view_count":15,"likeCounter":[],"tag":2,"list_of_comments":[],"contents":{"author":1,"timestamp":1480734601869,"request":"gesgeg","contents":"ggsdg","imgUrl":""},"_id":7},"8":{"view_count":15,"likeCounter":[],"tag":3,"list_of_comments":[],"contents":{"author":1,"timestamp":1480734614419,"request":"123","contents":"321","imgUrl":""},"_id":8},"9":{"view_count":14,"likeCounter":[],"tag":1,"list_of_comments":[],"contents":{"author":1,"timestamp":1480734651359,"request":"fine","contents":"fine","imgUrl":""},"_id":9},"10":{"view_count":13,"likeCounter":[],"tag":3,"list_of_comments":[],"contents":{"author":1,"timestamp":1480735013669,"request":"fdasdf","contents":"faefw","imgUrl":""},"_id":10},"11":{"view_count":3,"likeCounter":[],"tag":2,"list_of_comments":[],"contents":{"author":1,"timestamp":1480736125672,"request":"LOL","contents":"Done","imgUrl":""},"_id":11},"12":{"view_count":1,"likeCounter":[],"tag":7,"list_of_comments":[],"contents":{"author":1,"timestamp":1480736147412,"request":"Fixed","contents":"Got fixed","imgUrl":""},"_id":12}},"comments":{"1":{"_id":1,"author":1,"timestamp":1453668480000,"contents":"I can help!"},"2":{"_id":2,"author":1,"timestamp":1453668480000,"contents":"I can help!"}},"servicefeeds":{"1":{"_id":1,"list_of_feeditems":[12,3]}},"academicfeeds":{"1":{"_id":1,"list_of_feeditems":[11,10,9,8,7,6,5,4,1,2]}},"servicetags":{"1":{"_id":1,"type_of_service":"Computer Science"},"2":{"_id":2,"type_of_service":"Math"},"3":{"_id":3,"type_of_service":"Music"},"4":{"_id":4,"type_of_service":"History"},"5":{"_id":5,"type_of_service":"Physics"},"6":{"_id":6,"type_of_service":"English"},"7":{"_id":7,"type_of_service":"Pet Related"},"8":{"_id":8,"type_of_service":"Home Improvement"},"9":{"_id":9,"type_of_service":"Travel"},"10":{"_id":10,"type_of_service":"Yard"},"11":{"_id":11,"type_of_service":"Plumer"},"12":{"_id":12,"type_of_service":"Car Pool"}},"likelists":{"1":{"_id":1,"list_of_users":[1,2]}}}
+{
+  "users":{
+    "1":{
+      "_id":1,
+      "first_name": "Karen",
+      "last_name":"Zheung",
+      "profilepic": 'img/cat.jpeg',
+      "username": "Karen",
+      "password": "123abc",
+      "email": "kzheung@umass.edu",
+      "favorite_quote": "Anything I say.",
+      "areas_of_interest":["Art", "Astronomy", "Technology"],
+      "classes_taken":[1, 2, 3],
+      "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
+      //start of references
+      "Academic_feed": 1,
+      "Service_feed": 1,
+      "schedules": [1,2,3,4,5,6,7],
+      "messageboxes":[1],
+      "Academic_savedlists": 1,
+      "Service_savedlists": 1
+    },
+
+    "2":{
+      "_id":2,
+      "first_name": "Thien",
+      "last_name":"Dinh",
+      "profilepic": 'img/kiwi.jpg',
+      "username": "Thien",
+      "password": "Thien'sPassword",
+      "email": "tddinh@umass.edu",
+      "favorite_quote": "You become what you think about.",
+      "areas_of_interest":["Art", "Astronomy", "Technology"],
+      "classes_taken":[1, 2, 3],
+      "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
+      //start of references
+      "Academic_feed": 1,
+      "Service_feed": 1,
+      "schedules": [1],
+      "messageboxes":[1],
+      "Academic_savedlists": 1,
+      "Service_savedlists": 1
+    },
+
+    "3":{
+      "_id":3,
+      "first_name": "Timothy",
+      "last_name":"Addai",
+      "profilepic": 'img/cat.jpeg',
+      "username": "Tim",
+      "password": "Timtimpass",
+      "email": "taddai@umass.edu",
+      "favorite_quote": "I have a dream.",
+      "areas_of_interest":["Art", "Astronomy", "Technology"],
+      "classes_taken":[1, 2, 3],
+      "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
+      //start of references
+      "Academic_feed": 1,
+      "Service_feed": 1,
+      "schedules": [1],
+      "messageboxes":[1],
+      "Academic_savedlists": 1,
+      "Service_savedlists": 1
+    },
+
+    "4":{
+      "_id":4,
+      "first_name": "Jucong",
+      "last_name":"He",
+      "profilepic": 'img/pug.jpg',
+      "username": "Jucong",
+      "password": "123abc",
+      "email": "juconghe@umass.edu",
+      "favorite_quote": "CSS Expert has nothing to say.",
+      "areas_of_interest":["Art", "Astronomy", "Technology"],
+      "classes_taken":[1, 2, 3],
+      "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
+      //start of references
+      "Academic_feed": 1,
+      "Service_feed": 1,
+      "schedules": [1],
+      "messageboxes":[1],
+      "Academic_savedlists": 1,
+      "Service_savedlists": 1
+    },
+
+    "5":{
+      "_id":5,
+      "first_name": "Xin",
+      "last_name":"Liu",
+      "profilepic": 'img/cat.jpeg',
+      "username": "Xin",
+      "password": "XinPass",
+      "email": "xliu0@umass.edu",
+      "favorite_quote": "Scheduling like a boss.",
+      "areas_of_interest":["Art", "Astronomy", "Technology"],
+      "classes_taken":[1, 2, 3],
+      "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
+      //start of references
+      "Academic_feed": 1,
+      "Service_feed": 1,
+      "schedules": [1],
+      "messageboxes":[1],
+      "Academic_savedlists": 1,
+      "Service_savedlists": 1
+    },
+
+    "6":{
+      "_id":6,
+      "first_name": "Jianyi",
+      "last_name":"Huang",
+      "profilepic": 'img/pug.jpg',
+      "username": "JianYi",
+      "password": "HuangJianyi!@#",
+      "email": "jianyihuang@umass.edu",
+      "favorite_quote": "You only live once.",
+      "areas_of_interest":["Art", "Astronomy", "Technology"],
+      "classes_taken":[1, 2, 3],
+      "education_level": "Junior",
+      "academic_institution": "Umass Amherst",
+      //start of references
+      "Academic_feed": 1,
+      "Service_feed": 1,
+      "schedules": [1],
+      "messageboxes":[1],
+      "Academic_savedlists": 1,
+      "Service_savedlists": 1
+      }
+    },
+
+  "tasks":{
+    "1":{
+    "_id": 1,
+    "completed": false,
+    "contents": {
+      //ID of the user that the appointment is with
+      "party" : 3,
+      "date" : "10/6/2016",
+      "timestamp_start": "8:00 am",
+      "timestamp_end": "12:00 pm",
+      "contents": "MATH411"
+    }
+  },
+    "2":{
+      "_id": 2,
+      "completed": false,
+      "contents": {
+        // ID of the user that the appointment is with
+        "party" : 2,
+        "date" : "10/6/2016",
+        "timestamp_start": "8:00 am",
+        "timestamp_end": "12:00 pm",
+        "contents": "CS 250"
+      }
+    }
+  },
+
+  "schedules":{
+    "1":{
+      "_id": 1,
+      "completed": "COMPLETED",
+      "contents": {
+        "author": "Tim",
+        "subscriber" : "Karen",
+        "date" : "5/12/2015",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 250"
+      }
+    },
+    "2":{
+      "_id": 2,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "author": "Jucong",
+        "subscriber" : "Richards",
+        "date" : "2/6/2011",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 250"
+      }
+    },
+    "3":{
+      "_id": 3,
+      "completed": "COMPLETED",
+      "contents": {
+        // ID of the user that the appointment is with
+        "author": "Karen",
+        "subscriber" : "JianYi",
+        "date" : "12/16/2006",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 311"
+      }
+    },
+    "4":{
+      "_id": 4,
+      "completed": "COMPLETED",
+      "contents": {
+        "author": "Karen",
+        "subscriber" : "Xin",
+        "date" : "09/6/2016",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 121"
+      }
+    },
+    "5":{
+      "_id": 5,
+      "completed": "COMPLETED",
+      "contents": {
+        "author": "Xin",
+        "subscriber" : "Jucong",
+        "date" : "10/6/2016",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 121"
+      }
+    },
+    "6":{
+      "_id": 6,
+      "completed": "COMPLETED",
+      "contents": {
+        "author": "Karen",
+        "subscriber" : "Thein",
+        "date" : "11/6/2013",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 121"
+      }
+    },
+    "7":{
+      "_id": 7,
+      "completed": "COMPLETED",
+      "contents": {
+        "author": "Thein",
+        "subscriber" : "Jucong",
+        "date" : "10/6/1996",
+        "time": "8:00 am - 12am",
+        "serviceContents": "CS 220"
+      }
+    }
+  },
+
+  "messageboxes":{
+    "1":{
+      "_id": 1,
+      "list_of_users":[6, 3, 5, 4, 1, 2],
+      "list_of_messages_by_users_in_box":[
+          {
+          user_id: 6, timestamp: 1479148390962, content: 'the current homepage we have wont count as a page. It would make sense that after the user logs in they are directed to the academic or academic subject page but someone is doing those pages already'
+          },
+          {
+          user_id: 3, timestamp: 1479148390962, content: 'is the academic page the one with the grids. I know but I gotta study for interview,so im trynna get basic in then improve upon it'
+          },
+          {
+          user_id: 5, timestamp: 1479148390962, content: 'how are you guys doing I am considering adding some material design concept in UI'
+          },
+          {
+          user_id: 4, timestamp: 1479148390962, content: 'good job, Jucong. You may create a writeup document for the team if you want.'
+          },
+          {
+          user_id: 5, timestamp: 1479148390962, content: 'I only have time after 5 tmr'
+          },
+          {
+          user_id: 4, timestamp: 1479148390962, content: 'ok ok ok guys, it\'s fine. We\'ll figure this out.'
+          },
+          {
+          user_id: 5, timestamp: 1479148390962, content: 'If possible, can you guys all implement the floating effect ? It\'s very straight forward'
+          },
+          {
+          user_id: 1, timestamp: 1479148390962, content: 'I changed the config if you are satisfied with that I will add the css'
+          },
+          {
+          user_id: 2, timestamp: 1479148390962, content: 'I thought someone else is doing that one. I can do that too.'
+          }
+        ],
+        "creation_timestamp": 1479148390962
+    }
+  },
+
+  "classes":{
+    "1":{
+      "_id": 1,
+      "course_id": "CS311",
+      "course_title": "Introduction to Algorithms"
+    },
+    "2":{
+      "_id": 2,
+      "course_id": "CS250",
+      "course_title": "Introduction to Computation"
+    },
+    "3":{
+      "_id": 3,
+      "course_id": "MATH132",
+      "course_title": "Calculus 2"
+    }
+  },
+
+  "Academic_savedlists":{
+    "1":{
+      "_id": 1,
+      "list_of_feeditems":[1]
+    }
+  },
+
+  "Service_savedlists":{
+    "1":{
+      "_id": 1,
+      "list_of_posts":[1]
+    }
+  },
+
+  "feedItems":{
+    "1":{
+      "_id": 1,
+      // references post item for content
+      "view_count": 25,
+      "likeCounter": [1],
+      // Taggs are by course_id
+      "tag": 1,
+      "list_of_comments":[1,2],
+      "contents": {
+        "author": 1,
+        "timestamp": 1453668480000,
+        "request": "Oh god! CS311 homework is too hard! PlZZZ help",
+        "contents": "sending hugs your way",
+        "imgUrl":"img/question_img.jpeg"
+      }
+    },
+    "2":{
+      "_id": 2,
+      // references post item for content
+      "view_count": 2,
+      "likeCounter": [1],
+      // Taggs are by course_id
+      "tag": 1,
+      "list_of_comments":[1,2],
+      "contents": {
+        "author": 1,
+        "timestamp": 1453668480000,
+        "request": "Oh god! Chinese homework is too hard! PlZZZ help",
+        "contents": "呵呵呵呵呵呵呵呵呵呵",
+        "imgUrl":"img/history.jpg"
+      }
+    },
+    "3":{
+      "_id": 3,
+      // references post item for content
+      "view_count": 0,
+      "likeCounter": [1],
+      // Taggs are by course_id
+      "tag": 1,
+      "list_of_comments":[1,2],
+      "contents": {
+        "author": 1,
+        "timestamp": 1453668480000,
+        "request": "Oh god! My toilet was stucked! PlZZZ help",
+        "contents": "呵呵呵呵呵呵呵呵呵呵",
+        "imgUrl":"img/toilet_stuck.jpg"
+      }
+    }
+  },
+
+  "comments":{
+    "1":{
+      "_id": 1,
+      "author": 1,
+      "timestamp": 1453668480000,
+      "contents": "I can help!"
+    },
+    "2":{
+      "_id": 2,
+      "author": 1,
+      "timestamp": 1453668480000,
+      "contents": "I can help!"
+    }
+  },
+
+  "servicefeeds":{
+    // service feed for user 1, Karen
+    "1":{
+      "_id": 1,
+      // references to the ids of the post(s) in feed 1
+      "list_of_feeditems":[3]
+    }
+  },
+
+  "academicfeeds":{
+    // academic feed for karen
+    "1":{
+      "_id": 1,
+      "list_of_feeditems":[1,2]
+    }
+  },
+
+  "servicetags":{
+    "1":{
+      "_id": 1,
+      "type_of_service": "Computer Science"
+    },
+    "2":{
+      "_id": 2,
+      "type_of_service": "Math"
+    },
+    "3":{
+      "_id": 3,
+      "type_of_service": "Music"
+    },
+    "4":{
+      "_id": 4,
+      "type_of_service": "History"
+    },
+    "5":{
+      "_id": 5,
+      "type_of_service": "Physics"
+    },
+    "6":{
+      "_id": 6,
+      "type_of_service": "English"
+    },
+    "7":{
+      "_id": 7,
+      "type_of_service": "Pet Related"
+    },
+    "8":{
+      "_id": 8,
+      "type_of_service": "Home Improvement"
+    },
+    "9":{
+      "_id": 9,
+      "type_of_service": "Travel"
+    },
+    "10":{
+      "_id": 10,
+      "type_of_service": "Yard"
+    },
+    "11":{
+      "_id": 11,
+      "type_of_service": "Plumer"
+    },
+    "12":{
+      "_id": 12,
+      "type_of_service": "Car Pool"
+    }
+  },
+
+
+  "likelists":{
+    "1":{
+      "_id": 1,
+      "list_of_users":[1, 2]
+    }
+  }
+
+}
