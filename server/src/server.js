@@ -518,12 +518,13 @@ app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   }
 });
 
-app.delete('/schedule/:scheduleid',function(req,res) {
+app.delete('/schedule/:userid/:scheduleid',function(req,res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var scheduleId = parseInt(req.params.scheduleid);
+  var userId = parseInt(req.params.userid);
   //var userId = parseInt(req.params.userid,10);
   var user = readDocument('users',fromUser);
-  if(fromUser === fromUser) {
+  if(fromUser === userId) {
     var scheduleItem = readDocument('schedules', scheduleId);
     console.log(scheduleItem);
     var scheduleIndex = user.schedules.indexOf(scheduleId);

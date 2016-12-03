@@ -236,7 +236,7 @@ export function postSchedule(contents, cb) {
 }
 
 export function deleteSchedule(userId,scheduleId,cb) {
-  sendXHR('DELETE','/schedule/'+scheduleId,undefined,(xhr)=> {
+  sendXHR('DELETE','/schedule/'+userId+'/'+scheduleId,undefined,(xhr)=> {
     cb(JSON.parse(xhr.responseText));
   });
 }
