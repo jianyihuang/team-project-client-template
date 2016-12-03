@@ -30,8 +30,8 @@ export class Schedulebox extends React.Component {
 							<br /><span className = "taken-by">{this.props.subscriber}</span><br />
 							<hr />
 							<button type="button" className="btn btn-primary completed-button">
-								<a href="#" onClick= {(e) => this.handleDeleteSchedule(e)}>
-								{this.props.completed}</a>
+								<strong onClick= {(e) => this.handleDeleteSchedule(e)}>
+								{this.props.completed}</strong>
 							</button>
 							</div>
 							</div>

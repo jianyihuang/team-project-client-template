@@ -108,9 +108,6 @@ export default class Schedule extends React.Component {
     }
         </div>
 
-        <div className="col-xs-3">
-        </div>
-
         <div className="col-xs-3"/>
         <div className="col-xs-6">
           <div className="panel panel-default">
@@ -119,7 +116,7 @@ export default class Schedule extends React.Component {
                 <font size="5">Add an appointment </font>
                 <div className="row">
                   <div className= "col-xs-3">
-                    <strong>Your Name</strong>
+                    <strong>Your First Name (Upper case with first letter)</strong>
                   </div>
                   <div className= "col-xs-5">
                     <div className="input-style">
