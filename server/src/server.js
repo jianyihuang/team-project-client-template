@@ -538,7 +538,7 @@ app.delete('/schedule/:userid/:scheduleid',function(req,res) {
       user.schedules.splice(scheduleIndex, 1);
       writeDocument('users', user);
     }
-    res.status(201);
+    res.status(201).end();
   }else {
     res.status(401).end();
   }
