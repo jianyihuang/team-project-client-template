@@ -9,7 +9,7 @@ var initialData = {
       "username": "Karen",
       "password": "123abc",
       "email": "kzheung@umass.edu",
-      "favorite_quote": "Anything I say.",
+      "favorite_quote": "Meow meow",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
       "classes_taken":[1, 2, 3],
       "education_level": "Junior",
@@ -224,7 +224,7 @@ var initialData = {
       "completed": "COMPLETED",
       "contents": {
         "author": "Karen",
-        "subscriber" : "Thein",
+        "subscriber" : "Thien",
         "date" : "11/6/2013",
         "time": "8:00 am - 12am",
         "serviceContents": "CS 121"
@@ -234,7 +234,7 @@ var initialData = {
       "_id": 7,
       "completed": "COMPLETED",
       "contents": {
-        "author": "Thein",
+        "author": "Thien",
         "subscriber" : "Jucong",
         "date" : "10/6/1996",
         "time": "8:00 am - 12am",
