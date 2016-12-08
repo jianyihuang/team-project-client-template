@@ -179,7 +179,7 @@ class AcademicDetailPage extends React.Component {
     }
   }
   componentWillMount(){
-    this.props.forceNavChange();     
+    // this.props.forceNavChange();     
   }
   componentWillReceiveProps(newProps) {
     console.log('AcademicDetailPage receives new user id: ' + newProps.current_user);
@@ -228,7 +228,7 @@ class ServiceDetailPage extends React.Component {
     }
   }
   componentWillMount(){
-    this.props.forceNavChange();     
+    // this.props.forceNavChange();     
   }
   componentWillReceiveProps(newProps) {
     console.log('ServiceDetailPage receives new user id: ' + newProps.current_user);

@@ -22,10 +22,10 @@ export default class MessagePanel extends React.Component {
     }
     componentDidMount() {
         this.refresh(this.state.user_id);
-        this.timer = window.setInterval(() => this.refresh(this.state.user_id), 200);
+        // this.timer = setInterval(() => this.refresh(this.state.user_id), 200);
     }
     componentWillUnmount(){
-        window.clearInterval(this.timer);
+        // clearInterval(this.timer);
     }
     refresh(user_id) {
         // Get recent message boxes.

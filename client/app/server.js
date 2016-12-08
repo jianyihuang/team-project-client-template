@@ -86,7 +86,8 @@ function emulateServerReturn(data, cb) {
 }
 
 export function getFeedData(user,type, cb) {
-  sendXHR('GET','/user/1/feed/'+type,undefined,(xhr) => {
+  console.log('getFeedData is called with ' + user + ', ' + type);
+  sendXHR('GET','/user/'+user+'/feed/'+type,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -237,7 +238,7 @@ export function postSchedule(contents, cb) {
 
 export function deleteSchedule(userId,scheduleId,cb) {
   sendXHR('DELETE','/schedule/'+userId+'/'+scheduleId,undefined,(xhr)=> {
-    cb(JSON.parse(xhr.responseText));
+    cb();
   });
 }
 

@@ -12,6 +12,7 @@ export class Schedulebox extends React.Component {
 		clickEvent.preventDefault();
 		if(clickEvent.button === 0) {
 			deleteSchedule(this.props.user_id,this.props.id,()=>{
+				console.log('Schedule deletion called!');
 				this.props.refresh(this.props.user_id);
 			});
 		}
