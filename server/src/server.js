@@ -676,32 +676,6 @@ function resolveUserObjects(userList, callback) {
       }
     });
 
-
-
-    //update profile
-    app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(req,res) {
-      var user_id = parseInt(req.params.userid, 10);
-      var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var userData = req.body;
-      if(fromUser === user_id) {
-          //update user info here
-
-          var user = readDocument('users', user_id);
-          user.academic_institution = req.body.academic_institution;
-          user.education_level = req.body.education_level;
-          user.favorite_quote = req.body.favorite_quote;
-
-          writeDocument('users', user);
-          res.status(201);
-          res.send(user);
-
-      } else {
-        res.status(401).end();
-      }
-    });
-
-
-
     app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
       var userid = parseInt(req.params.userid, 10);
       var fromUser = getUserIdFromToken(req.get('Authorization'));
@@ -715,43 +689,6 @@ function resolveUserObjects(userList, callback) {
           res.status(201);
           res.send(user);
 
-      } else {
-        res.status(401).end();
-      }
-    });
-
-    app.get('/config/:userid', function(req, res) {
-      var userid = parseInt(req.params.userid, 10);
-      var fromUser = getUserIdFromToken(req.get('Authorization'));
-      if(fromUser === userid) {
-        res.status(201);
-        var userData = readDocument("users", userid);
-        res.send(userData);
-      } else {
-        res.status(401).end();
-      }
-    });
-    app.post('/feed/:feeditemid/comment/:userid',function(req,res){
-      console.log("Comment function called");
-      var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var userId = parseInt(req.params.userid, 10);
-      var feedItemId = parseInt(req.params.feeditemid,10);
-      var content = req.body;
-      if(fromUser === userId) {
-        var time = new Date().getTime();
-        var feedData = readDocument("feedItems",feedItemId);
-        var newComment = {
-          "author":userId,
-          "timestamp":time,
-          "contents":content
-        }
-        addDocument("comments",newComment);
-        // console.log("Comments before is "+feedData.list_of_comments);
-        feedData.list_of_comments.unshift(newComment._id);
-        writeDocument("feedItems",feedData);
-        res.status(201);
-        // console.log("Comments after is "+feedData.list_of_comments);
-        res.send(feedData.list_of_comments);
       } else {
         res.status(401).end();
       }
@@ -788,44 +725,49 @@ function resolveUserObjects(userList, callback) {
      });
 
     app.post('/feed/:feeditemid/comment/:userid',function(req,res){
-      console.log("Comment function called");
       var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var userId = parseInt(req.params.userid, 10);
-      var feedItemId = parseInt(req.params.feeditemid,10);
+      var userId = req.params.userid;
+      var feedItemId = req.params.feeditemid;
       var content = req.body;
+      console.log(fromUser);
       if(fromUser === userId) {
         var time = new Date().getTime();
-        var feedData = readDocument("feedItems",feedItemId);
         var newComment = {
           "author":userId,
           "timestamp":time,
           "contents":content
         }
-        addDocument("comments",newComment);
-        feedData.list_of_comments.unshift(newComment._id);
-        writeDocument("feedItems",feedData);
-        console.log(readDocument("feedItems",feedItemId));
-        res.status(201);
-        res.send();
-      } else {
-        res.status(401).end();
-      }
-    });
+        db.collection('comments').insertOne(newComment,function(err,result) {
+          if (err) {
+            res.status(500).send("Database error: "+err);
+          } else {
+            newComment._id = result.insertedId;
+            db.collection('feedItems').updateOne({_id:new ObjectID(feedItemId)},
+            {$push:{list_of_comments:{$each:[newComment._id],$position:0}}},
+            function(err) {
+              if (err) {
+                console.log("Error!!!");
+                res.status(500).send("Database error: "+err);
+              } else {
+                db.collection('feedItems').findOne({_id:new ObjectID(feedItemId)},
+                function(err,feedItem) {
+                  if (err) {
+                    res.status(500).send("Database error: "+err);
+                  } else if (feedItem === null) {
+                    res.status(400).send("Could not find feed item: "+feedItemId);
+                  } else {
+                    res.status(201).send(feedItem.list_of_comments);
+                  }
+                })
+              }
+            });
+          }
+        });
+        } else {
+          res.status(401).end();
+        }
+      });
 
-    app.get('/comment/:commentid/:userid',function(req,res){
-      console.log("Comment function called");
-      var userid = parseInt(req.params.userid, 10);
-      var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var commentId = parseInt(req.params.commentid,10);
-      if(fromUser === userid) {
-        var comment = readDocument("comments",commentId);
-        comment.author = readDocument("users",comment.author);
-        res.status(201);
-        res.send(comment);
-      } else {
-        res.status(401).end();
-      }
-    });
     /**
      * Translate JSON Schema Validation failures into error 400s.
     */
