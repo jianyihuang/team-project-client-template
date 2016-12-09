@@ -1,6 +1,4 @@
-import {readDocument, writeDocument, addDocument} from './database.js';
-
-var token = 'eyJpZCI6MX0=';
+var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9';
 
 var users = ['eyJpZCI6MX0=', 'eyJpZCI6Mn0=', 'eyJpZCI6M30=', 'eyJpZCI6NH0=', 'eyJpZCI6NX0=', 'eyJpZCI6Nn0='];
 
