@@ -117,7 +117,7 @@ MongoClient.connect(url,function(err,db) {
                 callback(err);
               } else {
                 feedData.list_of_feeditems = resolvedContents;
-                console.log(feedData);
+                // console.log(feedData);
                 callback(null,feedData);
               }
             });
@@ -136,7 +136,7 @@ MongoClient.connect(url,function(err,db) {
                 callback(err);
               } else {
                 feedData.list_of_feeditems = resolvedContents;
-                console.log(feedData);
+                // console.log(feedData);
                 callback(null,feedData);
               }
             });
@@ -654,22 +654,23 @@ function resolveUserObjects(userList, callback) {
       }
     });
 
-    // user profile part
-    // get user profile data
-    function getUserData(user, type) {
-      console.log("Get called");
-      var userData = readDocument("users", user);
-      return userData;
-    }
-
     //display user profile for particular user
     app.get('/user/:userid/profile', function(req, res) {
-      var userid = parseInt(req.params.userid, 10);
+      var userid = req.params.userid;
       var fromUser = getUserIdFromToken(req.get('Authorization'));
       if(fromUser === userid) {
         // send response
-        res.status(201);
-        res.send(getUserData(userid));
+        db.collection('users').findOne({_id:new ObjectID(userid)},function(err,userData) {
+          if (err) {
+            res.status(500).send("Database error: "+err);
+          } else if (userData === null){
+            res.status(400).send("Could not find User: "+userid);
+          } else {
+            // console.log(userData);
+            res.status(201);
+            res.send(userData);
+          }
+        });
       } else {
         res.status(401).end();
       }
@@ -745,11 +746,11 @@ function resolveUserObjects(userList, callback) {
           "contents":content
         }
         addDocument("comments",newComment);
-        console.log("Comments before is "+feedData.list_of_comments);
+        // console.log("Comments before is "+feedData.list_of_comments);
         feedData.list_of_comments.unshift(newComment._id);
         writeDocument("feedItems",feedData);
         res.status(201);
-        console.log("Comments after is "+feedData.list_of_comments);
+        // console.log("Comments after is "+feedData.list_of_comments);
         res.send(feedData.list_of_comments);
       } else {
         res.status(401).end();
@@ -757,19 +758,34 @@ function resolveUserObjects(userList, callback) {
     });
 
     app.get('/comment/:commentid/:userid',function(req,res){
-      console.log("Comment function called");
-      var userid = parseInt(req.params.userid, 10);
+      var userid = req.params.userid;
       var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var commentId = parseInt(req.params.commentid,10);
+      var commentId = new ObjectID(req.params.commentid);
       if(fromUser === userid) {
-        var comment = readDocument("comments",commentId);
-        comment.author = readDocument("users",comment.author);
-        res.status(201);
-        res.send(comment);
-      } else {
-        res.status(401).end();
-      }
-    });
+        db.collection('comments').findOne({_id:commentId},
+          function(err,comment) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else if (comment === null) {
+              res.status(400).send("Could not found comment: "+commentId);
+            } else {
+              db.collection('users').findOne({_id: new ObjectID(comment.author)},function(err,user) {
+                if (err) {
+                  res.status(500).send("Database error: "+err);
+                } else if(user === null){
+                  res.status(400).send("Could not found user: "+comment.author);
+                } else {
+                  comment.author = user
+                  res.status(201);
+                  res.send(comment);
+                }
+              });
+            }
+          });
+        } else {
+         res.status(401).end();
+       }
+     });
 
     app.post('/feed/:feeditemid/comment/:userid',function(req,res){
       console.log("Comment function called");
