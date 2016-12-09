@@ -4,10 +4,13 @@ export class MessageEditor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			entered_text: ''
+			entered_text: '',
+			is_checked: true
 		};
 		this.handleMessageSend = this.handleMessageSend.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.handleEnterSelected = this.handleEnterSelected.bind(this);
+		this.handleCheckClicked = this.handleCheckClicked.bind(this);
 	}
 	handleMessageSend(event) {
 		event.preventDefault();
@@ -28,6 +31,16 @@ export class MessageEditor extends React.Component {
 		var value = event.target.value;
 		console.log((new Date(value)).getTime());
 	}
+	handleCheckClicked(event) {
+		event.preventDefault();
+		this.setState({
+			is_checked: !this.state.is_checked
+		});
+	}
+	handleClickChanged(event){
+		event.preventDefault();		
+		this.setState({is_checked: !this.state.is_checked});	
+	}
 	render() {
 		return (
 			<div>
@@ -39,7 +52,7 @@ export class MessageEditor extends React.Component {
 							Send
 						</button>
 						<span className="input-group-addon">
-							<input type="checkbox" name="enter_send" />
+							<input type="checkbox" name="enter_send" checked={this.state.is_checked} onClick={this.handleCheckClicked} onChange={this.handleClickChanged} />
 							Press Enter to send.
 						</span>
 						<div className="btn-group pull-right footer-btn">

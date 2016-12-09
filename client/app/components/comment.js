@@ -5,9 +5,10 @@ export default class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      current_user: props.current_user,
       "comment":Object
     }
-    getCommentData(props.data,1,(comment)=>{
+    getCommentData(props.data, props.current_user,(comment)=>{
       console.log(comment);
        this.setState({"comment":comment})
     })

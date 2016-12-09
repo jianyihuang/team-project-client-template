@@ -2,6 +2,18 @@ import React from 'react';
 import Feed from './feed';
 
 export default class DetailPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log('DetailPage receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
   render() {
     return (
       <div className = "container">
@@ -14,7 +26,7 @@ export default class DetailPage extends React.Component {
                 Newest Requests
               </div>
             </div>
-            <Feed user={1} type={this.props.type}/>
+            <Feed current_user={this.state.current_user} type={this.props.type}/>
           </div>
           <div className="col-md-1" />
         </div>

@@ -4,6 +4,7 @@ export default class CommentEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      current_user: props.current_user,
       value: ""
     };
   }
@@ -19,13 +20,19 @@ export default class CommentEntry extends React.Component {
       var comment = this.state.value.trim();
       if (comment !== "") {
         // Post comment
-        postComment(this.props.feedItemId,this.state.value,1,(listOfComments)=>{
-          console.log(listOfComments);
+        postComment(this.props.feedItemId,this.state.value, this.state.current_user,(listOfComments)=>{
+          // console.log(listOfComments);
           this.props.handleCommentPost(listOfComments);
         });
         this.setState({ value: "" });
       }
     }
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      current_user: newProps.current_user
+    });
   }
 
   render() {

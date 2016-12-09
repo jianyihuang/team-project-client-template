@@ -86,7 +86,8 @@ function emulateServerReturn(data, cb) {
 }
 
 export function getFeedData(user,type, cb) {
-  sendXHR('GET','/user/1/feed/'+type,undefined,(xhr) => {
+  console.log('getFeedData is called with ' + user + ', ' + type);
+  sendXHR('GET','/user/'+user+'/feed/'+type,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
@@ -203,24 +204,7 @@ export function saveUserData(info, cb) {
 }
 
 
-//------------------------ Schedule Part
-function getScheduleItem(scheduleId) {
-	var schedules = readDocument('schedules', scheduleId);
-	var scheduleData = {
-    //console.log(indexSchedule);
-     _id: scheduleId,
-     completed: schedules.completed,
-     contents: {
-      // ID of the user that the appointment is with
-      author:schedules.contents.author,
-      subscriber : schedules.contents.subscriber,
-      date : schedules.contents.date,
-      time:schedules.contents.time,
-      serviceContents: schedules.contents.serviceContents
-    }
-	};
-	return scheduleData;
-}
+
 
 /*
 function getScheduleItemSync(scheduleItem) {
@@ -233,18 +217,14 @@ function getScheduleItemSync(scheduleItem) {
 */
 
 export function getScheduleData(userId,cb) {
-    // Get the User object with the id "user".
-    var userData = readDocument('users', userId);
-    var scheduleData = userData.schedules.map(function(scheduleId){
-      return getScheduleItem(scheduleId);
-    });
-  //  scheduleData = scheduleData.map(getScheduleItemSync)
-    emulateServerReturn(scheduleData, cb);
+  sendXHR('GET','/schedule/' + userId, undefined,(xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function postSchedule(contents, cb) {
 //  console.log(contents);
-  sendXHR('POST','/schedule/',{
+  sendXHR('POST','/schedule',{
     "completed": "COMPLETED",
     "author": contents.author,
     "time": contents.time,
@@ -257,17 +237,9 @@ export function postSchedule(contents, cb) {
 }
 
 export function deleteSchedule(userId,scheduleId,cb) {
-  var user = readDocument('users', userId);
-  var scheduleData = user.schedules;
-  var scheduleIndex = scheduleData.indexOf(scheduleId);
-     //feedData = readDocument('academicfeeds', user.Academic_feed);
-     // 'splice' removes items from an array.
-     //This removes 1 element starting from userIndex.
-     if (scheduleIndex !== -1) {
-      scheduleData.splice(scheduleIndex, 1);
-     }
-  writeDocument('users', user);
-  emulateServerReturn(scheduleData, cb);
+  sendXHR('DELETE','/schedule/'+userId+'/'+scheduleId,undefined,(xhr)=> {
+    cb();
+  });
 }
 
 

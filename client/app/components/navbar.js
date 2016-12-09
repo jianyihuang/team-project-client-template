@@ -7,14 +7,23 @@ export default class Navbar extends React.Component {
 constructor(props) {
 	super(props);
 	this.state = {
+		text: String(props.current_user),
 		user_id: props.current_user
 	}
 	this._userChanged = this._userChanged.bind(this);
 	this.changeUser = this.changeUser.bind(this);
 }
+componentWillReceiveProps(newProps){
+	if(newProps.onDetailPage){
+		this.setState({
+		  text: '1'
+		});
+	}
+}
 _userChanged(event) {
     event.preventDefault();
     this.setState({
+    	text: event.target.value,
         user_id: Number(event.target.value)
     });
 }
@@ -40,7 +49,7 @@ render() {
 										</Link>
 									</li>
 									<li><button type='button' onClick={resetDatabase}> Reset Database</button></li>
-                                    <li>UserID: <input type='text' size='3' maxLength='1' onChange={this._userChanged}/></li>
+                                    <li>UserID: <input type='text' size='3' maxLength='1' value={this.state.text} onChange={this._userChanged}/></li>
                                     <li><button type='button' onClick={this.changeUser}>Change User</button></li>
 								</ul>
 							</div>

@@ -41,7 +41,7 @@ handleSearchButtonClick(e) {
     return(
       <form onSubmit={(evt) => evt.preventDefault()} className="navbar-form navbar-left" role="search">
         <div className="input-group">
-          <input type="text" className="form-control exSer-search" placeholder="Search for service feed" value={this.state.searchTerm} onChange={(e) => this.handleChange(e)} onKeyUp={(e) => this.handleKeyUp(e)}  />
+          <input type="text" className="form-control exSer-search" placeholder="Search for feed" value={this.state.searchTerm} onChange={(e) => this.handleChange(e)} onKeyUp={(e) => this.handleKeyUp(e)}  />
           <span className="input-group-btn">
             <button type="submit" className="btn btn-default" onClick={(e) => this.handleSearchButtonClick(e)}>
               <span className="glyphicon glyphicon-search"></span>

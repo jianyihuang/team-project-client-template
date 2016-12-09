@@ -246,7 +246,7 @@ app.post('/search', function(req, res) {
     console.log("feedData: "+feedData);
   res.send(feedData.filter((feedItemId) => {
     var feedItem = readDocument('feedItems',feedItemId);
-    return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1;
+   return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
   }).map(getFeedItemSync));
 }
 else{
@@ -446,7 +446,7 @@ app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
 
 //schedule part ------------
 
-function addScheule(user, time, subscriber,date,serviceContents) {
+function addScheule(userId,user, time, subscriber,date,serviceContents) {
   var newPost = {
     "completed": "COMPLETED",
     "contents": {
@@ -459,22 +459,86 @@ function addScheule(user, time, subscriber,date,serviceContents) {
   }
   console.log(newPost);
   newPost = addDocument('schedules',newPost);
-  var userData = readDocument('users', user);
-  userData.schedules.unshift(newPost._id);
+  var userData = readDocument('users', userId);
+  userData.schedules.push(newPost._id);
+  writeDocument('users', userData);
   //writeDocument('academicfeeds', feedData);
   return newPost;
 }
 
+function getScheduleItem(scheduleId) {
+  var schedules = readDocument('schedules', scheduleId);
+  var scheduleData = {
+    //console.log(indexSchedule);
+     _id: scheduleId,
+     completed: schedules.completed,
+     contents: {
+      // ID of the user that the appointment is with
+      author:schedules.contents.author,
+      subscriber : schedules.contents.subscriber,
+      date : schedules.contents.date,
+      time:schedules.contents.time,
+      serviceContents: schedules.contents.serviceContents
+    }
+  };
+  return scheduleData;
+}
+
+app.get('/schedule/:userid', function(req, res) {
+  var userId = parseInt(req.params.userid, 10);
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  if(fromUser === userId) {
+    // send response
+    // Get the User object with the id "user".
+    var userData = readDocument('users', userId);
+    var scheduleData = userData.schedules.map(function(scheduleId){
+      return getScheduleItem(scheduleId);
+    });
+    res.send(scheduleData);
+  } else {
+    res.status(401).end();
+  }
+});
 
 app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
   console.log("Get post scheduleItem");
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var body = req.body;
-  if(body.author === fromUser) {
-    var newPost = addScheule(body.author,body.time,body.subscriber,body.date,body.serviceContents);
+  console.log('Server receives POST schedule :: ' + JSON.stringify(body));
+  //console.log(fromUser);
+//  console.log(body.author);
+  var user = readDocument('users', fromUser);
+  console.log((body.author) == (user.first_name));
+  if((body.author) === (user.first_name)) {
+    var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
     res.status(201);
-    res.set('Location','/schedule/'+newPost._id);
     res.send(newPost);
+  }else {
+    res.status(401).end();
+  }
+});
+
+app.delete('/schedule/:userid/:scheduleid',function(req,res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var scheduleId = parseInt(req.params.scheduleid);
+  var userId = parseInt(req.params.userid);
+  //var userId = parseInt(req.params.userid,10);
+  var user = readDocument('users',fromUser);
+  if(fromUser === userId) {
+    var scheduleItem = readDocument('schedules', scheduleId);
+    console.log(scheduleItem);
+    var scheduleIndex = user.schedules.indexOf(scheduleId);
+    // -1 means the user is *not* in the likeCounter,
+    // so we can simply avoid updating
+    // anything if that is the case: the user already
+    // doesn't like the item.
+    if (scheduleIndex !== -1) {
+      // 'splice' removes items from an array. This
+      // removes 1 element starting from userIndex.
+      user.schedules.splice(scheduleIndex, 1);
+      writeDocument('users', user);
+    }
+    res.status(201).end();
   }else {
     res.status(401).end();
   }

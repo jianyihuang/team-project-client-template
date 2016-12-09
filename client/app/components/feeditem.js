@@ -1,5 +1,5 @@
 import React from 'react';
-import {deleteFeed,unlikeFeedItem,likeFeedItem,increaseViewCount} from '../server';
+import {deleteFeed,unlikeFeedItem,likeFeedItem,increaseViewCount, getUserData} from '../server';
 import Comment from './comment';
 import Contents from './contents';
 import CommentEntry from './commententry';
@@ -7,6 +7,7 @@ export default class FeedItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      current_user: props.current_user,
       "id":props.data._id,
       "contents":props.data.contents,
       "likeCounter":props.data.likeCounter,
@@ -18,7 +19,19 @@ export default class FeedItem extends React.Component {
     }
     this.increaseFeedItemViewCount();
   }
-
+  componentWillReceiveProps(newProps) {
+    console.log('FeedItem receives new user id: ' + newProps.current_user);
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
+  componentDidMount(){
+    getUserData(this.state.current_user, (user_data) => {
+      this.setState({
+        "user_img": user_data.profilepic
+      });      
+    });
+  }
   handleLikeClick(clickEvent) {
     clickEvent.preventDefault();
     if (clickEvent.button === 0) {
@@ -27,10 +40,10 @@ export default class FeedItem extends React.Component {
     };
     if (this.didUserLike()) {
     // User clicked 'unlike' button.
-    unlikeFeedItem(this.state.id, 1, callbackFunction);
+    unlikeFeedItem(this.state.id, this.state.current_user, callbackFunction);
     } else {
       // User clicked 'like' button.
-      likeFeedItem(this.state.id, 1, callbackFunction);
+      likeFeedItem(this.state.id, this.state.current_user, callbackFunction);
     }
   }
 }
@@ -41,7 +54,7 @@ export default class FeedItem extends React.Component {
   // Look for a likeCounter entry with userId 4 -- which is the
   // current user.
   for (var i = 0; i < likeCounter.length; i++) {
-    if (likeCounter[i]._id === 1) {
+    if (likeCounter[i]._id === this.state.current_user) {
     liked = true;
     break;
     }
@@ -52,7 +65,7 @@ export default class FeedItem extends React.Component {
   handleDeleteFeed(clickEvent) {
     clickEvent.preventDefault();
     if(clickEvent.button === 0) {
-      deleteFeed(1,this.state.id,this.props.type,()=>{
+      deleteFeed(this.state.current_user,this.state.id,this.props.type,()=>{
         this.props.refresh();
       });
     }
@@ -98,7 +111,10 @@ handleCommentPost(listOfComments){
             <div className="col-md-12">
               <div className="media">
                 <div className="media-left media-top">
-                  <img className="media-object img-rounded" src="img/jucong_back.jpg" width="64" height="64" />
+                  <img className="media-object img-rounded"
+                   src={this.props.data.contents.author.profilepic}
+                   title={this.props.data.contents.author.username}
+                   width="64" height="64" />
                 </div>
                 <div className="media-body">
                   Form Category: {data.tag.type_of_service}
@@ -147,12 +163,12 @@ handleCommentPost(listOfComments){
               {
                 data.listOfComments.map((commentId) => {
                   return (
-                    <Comment key={commentId} data={commentId}/>
+                    <Comment current_user={this.state.current_user} key={commentId} data={commentId}/>
                   );
                 })
               }
             </ul>
-            <CommentEntry feedItemId={data.id} handleCommentPost={(listOfComments)=>this.handleCommentPost(listOfComments)}/>
+            <CommentEntry current_user={this.state.current_user} feedItemId={data.id} handleCommentPost={(listOfComments)=>this.handleCommentPost(listOfComments)}/>
           </div>
         </div>
       </div>
