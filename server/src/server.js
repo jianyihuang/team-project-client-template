@@ -60,53 +60,111 @@ MongoClient.connect(url,function(err,db) {
         var tokenObj = JSON.parse(regularString);
         var id = tokenObj['id'];
         // Check that id is a number.
-        if (typeof id === 'number') {
+        if (typeof id === 'string') {
         return id;
         } else {
         // Not a number. Return -1, an invalid ID.
-        return -1;
+        return "";
         }
       } catch (e) {
     // Return an invalid ID.
-    return -1;
+    return "";
     }
     }
 
-    /**
-     * Given a feed item ID, returns a FeedItem object with references resolved.
-     * Internal to the server, since it's synchronous.
-     */
-    function getFeedItemSync(feedItemId) {
-      var feedItem = readDocument('feedItems', feedItemId);
-      // Resolve 'like' counter.
-      feedItem.likeCounter =
-        feedItem.likeCounter.map((id) => readDocument('users', id));
-        // Assuming a StatusUpdate. If we had other types of
-        // FeedItems in the DB, we would
-        // need to check the type and have logic for each type.
-        feedItem.contents.author =
-          readDocument('users', feedItem.contents.author);
-        feedItem.tag = readDocument("servicetags",feedItem.tag);
-        return feedItem;
+    function getFeedItem(feedItemId,callback) {
+      db.collection('feedItems').findOne({_id:feedItemId},function(err,feedItem){
+        if (err) {
+          return callback(err);
+        } else if (feedItem === null){
+          return callback(null,null);
+        }
+
+        var userList = [feedItem.contents.author];
+        userList = userList.concat(feedItem.likeCounter);
+        resolveUserObjects(userList,function(err,userMap) {
+          if (err) {
+            callback(err);
+          } else {
+            feedItem.likeCounter.map((id) => userMap[id]);
+            feedItem.contents.author = userMap[feedItem.contents.author];
+            callback(null,feedItem);
+          }
+        });
+      });
     }
 
-    function getFeedData(user,type) {
+    function getFeedData(user,type,callback) {
       console.log("Get called");
-      // Get the User object with the id "user".
-      var userData = readDocument('users', user);
-      // Get the Feed object for the user.
-      var feedData;
-      if(type === 1) {
-         feedData = readDocument('academicfeeds', userData.Academic_feed);
-      }else {
-         feedData = readDocument('servicefeeds', userData.Service_feed);
+      db.collection('users').findOne({_id: user},function(err,userData) {
+        // console.log(userData);
+        if (err) {
+          return callback(err);
+        } else if(userData === null) {
+          return callback(null,null);
+        }
+
+        if (type === 1) {
+          db.collection('academicfeeds').findOne({_id:userData.Academic_feed},
+          function (err,feedData) {
+            if (err) {
+              return callback(err)
+            } else if (feedData === null){
+              return callback(null,null);
+            }
+            processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
+              if (err) {
+                callback(err);
+              } else {
+                feedData.list_of_feeditems = resolvedContents;
+                console.log(feedData);
+                callback(null,feedData);
+              }
+            });
+          });
+         } else {
+          db.collection('servicefeeds').findOne({_id:userData.Service_feed},
+          function (err,feedData) {
+            console.log("Service_feed");
+            if (err) {
+              return callback(err)
+            } else if (feedData === null){
+              return callback(null,null);
+            }
+            processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
+              if (err) {
+                callback(err);
+              } else {
+                feedData.list_of_feeditems = resolvedContents;
+                console.log(feedData);
+                callback(null,feedData);
+              }
+            });
+          });
+         }
+       });
       }
-      // Map the Feed's FeedItem references to actual FeedItem objects.
-      // Note: While map takes a callback function as an argument, it is
-      // synchronous, not asynchronous. It calls the callback immediately.
-      feedData.list_of_feeditems = feedData.list_of_feeditems.map(getFeedItemSync);
-      return feedData;
-    }
+      function processNextFeedItem(i,feedItems,resolvedContents,callback) {
+        // Asynchronously resolve a feed item.
+        getFeedItem(feedItems[i], function(err, feedItem) {
+          if (err) {
+            // Pass an error to the callback.
+            callback(err);
+          } else {
+            // Success!
+            // console.log(feedItem);
+            resolvedContents.push(feedItem);
+            if (resolvedContents.length === feedItems.length) {
+              // I am the final feed item; all others are resolved.
+              // Pass the resolved feed document back to the callback.
+              callback(null,resolvedContents);
+            } else {
+              // Process the next feed item.
+              processNextFeedItem(i + 1,feedItems,resolvedContents,callback);
+            }
+          }
+        });
+      }
 
     function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
       var time = new Date().getTime();
@@ -140,19 +198,60 @@ MongoClient.connect(url,function(err,db) {
       }
       return newPost;
     }
+
+    /**
+ * Resolves a list of user objects. Returns an object that maps user IDs to
+ * user objects.
+ */
+function resolveUserObjects(userList, callback) {
+  // Special case: userList is empty.
+  // It would be invalid to query the database with a logical OR
+  // query with an empty array.
+  if (userList.length === 0) {
+    callback(null, {});
+  } else {
+    // Build up a MongoDB "OR" query to resolve all of the user objects
+    // in the userList.
+    var query = {
+      $or: userList.map((id) => { return {_id: id } })
+    };
+    // Resolve 'like' counter
+    db.collection('users').find(query).toArray(function(err, users) {
+      if (err) {
+        return callback(err);
+      }
+      // Build a map from ID to user object.
+      // (so userMap["4"] will give the user with ID 4)
+      var userMap = {};
+      users.forEach((user) => {
+        userMap[user._id] = user;
+      });
+      callback(null, userMap);
+    });
+  }
+}
     /**
      * Get the feed data for a particular user.
      1 is academic feed
      2 is Service feed
     */
     app.get('/user/:userid/feed/:feedtype', function(req, res) {
-      var userid =  parseInt(req.params.userid,10);
+      var userid =  req.params.userid;
       var feedType = parseInt(req.params.feedtype,10);
       var fromUser = getUserIdFromToken(req.get('Authorization'));
       if(fromUser === userid){
         // Send response.
-        res.status(201);
-        res.send(getFeedData(userid,feedType));
+        getFeedData(new ObjectID(userid),feedType,function(err,feedData) {
+          // console.log(feedData);
+          if (err) {
+            res.status(500).send("Database error: "+err);
+          } else if (feedData === null) {
+            res.status(400).send("Could not look up feed for user " + userid);
+          } else {
+            res.status(201);
+            res.send(feedData);
+          }
+        })
       }
       else{
         // 401: Unauthorized request.
@@ -179,10 +278,9 @@ MongoClient.connect(url,function(err,db) {
     //Rest database.
     app.post('/resetdb',function(req,res) {
       console.log("Resetting database");
-      // This is a debug route, so don't do any Validation.
-      database.resetDatabase();
-      // res.send() sends an empty response with status code 200
-      res.send();
+      ResetDatabase(db, function() {
+            res.send();
+      });
     });
 
     // Increase view count
@@ -728,5 +826,4 @@ MongoClient.connect(url,function(err,db) {
     app.listen(3000,function() {
       console.log('Example app listening on port 3000');
     });
-  }
-});
+  });
