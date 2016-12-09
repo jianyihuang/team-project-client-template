@@ -56,7 +56,7 @@ function sendXHR(verb, resource, body, cb) {
     switch (typeof(body)) {
       case 'undefined':
         // No body to send.
-        console.log("body is undefined");
+        // console.log("body is undefined");
         xhr.send();
         break;
       case 'string':

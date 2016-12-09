@@ -4,13 +4,11 @@ export class MessageEditor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			entered_text: '',
-			is_checked: true
+			entered_text: ''
 		};
 		this.handleMessageSend = this.handleMessageSend.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-		this.handleEnterSelected = this.handleEnterSelected.bind(this);
-		this.handleCheckClicked = this.handleCheckClicked.bind(this);
+		this.handleKeyUp = this.handleKeyUp.bind(this);
 	}
 	handleMessageSend(event) {
 		event.preventDefault();
@@ -31,31 +29,26 @@ export class MessageEditor extends React.Component {
 		var value = event.target.value;
 		console.log((new Date(value)).getTime());
 	}
-	handleCheckClicked(event) {
+	handleKeyUp(event) {
 		event.preventDefault();
-		this.setState({
-			is_checked: !this.state.is_checked
-		});
-	}
-	handleClickChanged(event){
-		event.preventDefault();		
-		this.setState({is_checked: !this.state.is_checked});	
+		if(event.key === "Enter"){
+			this.props.onMessageSend(this.state.entered_text);
+			this.setState({
+				entered_text: ''
+			});
+		}
 	}
 	render() {
 		return (
 			<div>
-				<textarea placeholder="Enter text to reply" value={this.state.entered_text} onChange={this.handleChange}></textarea>
+				<textarea placeholder="Enter text to reply" value={this.state.entered_text} onKeyUp={this.handleKeyUp} onChange={this.handleChange}></textarea>
 				<div className="btn-toolbar">
 					<div className="input-group">
-						<button className="form-control btn btn-primary" onClick={this.handleMessageSend}>
+						<button className="form-control pull-left btn btn-primary" onClick={this.handleMessageSend}>
 							<span className="glyphicon glyphicon-pencil"></span>
 							Send
 						</button>
 						<span className="input-group-addon">
-							<input type="checkbox" name="enter_send" checked={this.state.is_checked} onClick={this.handleCheckClicked} onChange={this.handleClickChanged} />
-							Press Enter to send.
-						</span>
-						<div className="btn-group pull-right footer-btn">
 							<button className="btn btn-default" data-toggle="modal" data-target="#mySchedule"><span className="glyphicon glyphicon-calendar"></span>Add Appointment</button>
                                 <div id="mySchedule" className="modal fade" role="dialog">
                                     <div className="modal-dialog">
@@ -73,7 +66,8 @@ export class MessageEditor extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-						</div>
+						</span>
+						
 					</div>
 				</div>
 			</div>
