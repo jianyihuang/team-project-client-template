@@ -47,7 +47,7 @@ export default class Schedule extends React.Component {
 
     handleAddSchedule(){
       postSchedule(this.state,(userInfo)=>{
-        console.log(JSON.stringify(userInfo));
+        // console.log(JSON.stringify(userInfo));
       });
       this.refresh(this.state.user_id);
     }
@@ -110,75 +110,82 @@ export default class Schedule extends React.Component {
 
         <div className="col-xs-3"/>
         <div className="col-xs-6">
-          <div className="panel panel-default">
-            <div className= "panel-color">
-              <div className="panel-body">
-                <font size="5">Add an appointment </font>
-                <div className="row">
-                  <div className= "col-xs-3">
-                    <strong>Your First Name (Upper case with first letter)</strong>
-                  </div>
-                  <div className= "col-xs-5">
-                    <div className="input-style">
-                      <input type="text" className="form-control" value={this.state.author} onChange={this.handleAuthorChange}/>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className= "col-xs-3">
-                    <strong>Date(e.g. 10/6/2016)</strong>
-                  </div>
-                  <div className= "col-xs-5">
-                    <div className="input-style">
-                      <input type="text" className="form-control" value={this.state.subscriber} onChange={this.handleSubscriberChange} />
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className= "col-xs-3">
-                    <strong>Service(e.g. CS121)</strong>
-                  </div>
-                  <div className= "col-xs-5">
-                    <div className="input-style">
-                      <input type="text" className="form-control" value={this.state.date} onChange={this.handleDateChange} />
-                    </div>
-                  </div>
-                </div>
-                <hr />
-              <div className="row">
-                    <div className= "col-xs-3">
-                      <strong>Time(e.g. 9AM-12AM)</strong>
-                    </div>
-                    <div className= "col-xs-5">
-                      <div className="input-style">
-                        <input type="text" className="form-control" value={this.state.time} onChange={this.handleTimeChange} />
+          <button className="btn btn-default" data-toggle="modal" data-target="#mySchedule"><span className="glyphicon glyphicon-calendar"></span>Add to Schedule</button>
+          <div id="mySchedule" className="modal fade" role="dialog">
+              <div className="modal-dialog">
+                  <div className="modal-content">
+                      <div className="modal-header">
+                          <button type="button" className="close" data-dismiss="modal">&times;</button>
+                          <font size="5">Add an appointment </font>
                       </div>
-                    </div>
+                      <div className="modal-body">
+                        <div className="panel panel-default">
+                          <div className= "panel-color">
+                            <div className="panel-body">
+                              <div className="row">
+                                <div className= "col-xs-3">
+                                  <strong>Your First Name (Upper case with first letter)</strong>
+                                </div>
+                                <div className= "col-xs-5">
+                                  <div className="input-style">
+                                    <input type="text" className="form-control" value={this.state.author} onChange={this.handleAuthorChange}/>
+                                  </div>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="row">
+                                <div className= "col-xs-3">
+                                  <strong>Date(e.g. 10/6/2016)</strong>
+                                </div>
+                                <div className= "col-xs-5">
+                                  <div className="input-style">
+                                    <input type="text" className="form-control" value={this.state.subscriber} onChange={this.handleSubscriberChange} />
+                                  </div>
+                                </div>
+                              </div>
+                              <hr />
+                              <div className="row">
+                                <div className= "col-xs-3">
+                                  <strong>Service(e.g. CS121)</strong>
+                                </div>
+                                <div className= "col-xs-5">
+                                  <div className="input-style">
+                                    <input type="text" className="form-control" value={this.state.date} onChange={this.handleDateChange} />
+                                  </div>
+                                </div>
+                              </div>
+                              <hr />
+                            <div className="row">
+                                  <div className= "col-xs-3">
+                                    <strong>Time(e.g. 9AM-12AM)</strong>
+                                  </div>
+                                  <div className= "col-xs-5">
+                                    <div className="input-style">
+                                      <input type="text" className="form-control" value={this.state.time} onChange={this.handleTimeChange} />
+                                    </div>
+                                  </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                            <div className= "col-xs-3">
+                            <strong>Subscriber</strong>
+                              </div>
+                            <div className= "col-xs-5">
+                          <div className="input-style">
+                              <input type="text" className="form-control" value={this.state.serviceContents} onChange={this.handleServiceContentsChange} />
+                          </div>
+                            </div>
+                          </div>
+                        <hr />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="modal-footer text-center">
+                          <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleAddSchedule}>Add to Schedule</button>
+                      </div>
                   </div>
-                  <hr />
-                  <div className="row">
-              <div className= "col-xs-3">
-              <strong>Subscriber</strong>
-                </div>
-              <div className= "col-xs-5">
-            <div className="input-style">
-                <input type="text" className="form-control" value={this.state.serviceContents} onChange={this.handleServiceContentsChange} />
-            </div>
               </div>
-            </div>
-          <hr />
-                <div className="text-center">
-                  <div className="btn-group" role="group">
-                    <button className="button-style" onClick={this.handleAddSchedule} >
-                      <span className="glyphicon glyphicon-check"></span>
-                      Add to Schedule
-                    </button>
-                  </div>
-              </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

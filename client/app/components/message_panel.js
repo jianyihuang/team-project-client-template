@@ -40,7 +40,7 @@ export default class MessagePanel extends React.Component {
     sendMessage(entered_text) {
         // Send the message to the server.
         sendMessageServer(this.state.msg_box_id, this.state.user_id, entered_text, (updatedMsgBox) => {
-            console.log(JSON.stringify(updatedMsgBox));
+            // console.log(JSON.stringify(updatedMsgBox));
             // Refresh the message box.
             this.setState({
                 messages: updatedMsgBox.list_of_messages_by_users_in_box
