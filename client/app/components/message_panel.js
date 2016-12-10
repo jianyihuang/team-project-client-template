@@ -22,7 +22,7 @@ export default class MessagePanel extends React.Component {
     }
     componentDidMount() {
         this.refresh(this.state.user_id);
-        this.timer = setInterval(() => this.refresh(this.state.user_id), 200);
+        this.timer = setInterval(() => this.loadMessageBox(this.state.msg_box_id), 200);
     }
     componentWillUnmount(){
         clearInterval(this.timer);
@@ -127,10 +127,10 @@ export default class MessagePanel extends React.Component {
                                                                     <div className="modal-content">
                                                                         <div className="modal-header">
                                                                             <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                                                            <h4 className="modal-title">Search and Select Participants</h4>
+                                                                            <h4 className="modal-title">Enter Participant ID</h4>
                                                                         </div>
                                                                         <div className="modal-body">
-                                                                            User ID :: <input ref="invitedUser" type="text"/>
+                                                                            Participant ID :: <input ref="invitedUser" type="text"/>
                                                                         </div>
                                                                         <div className="modal-footer">
                                                                             <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.addNewParticipant}>Add</button>
