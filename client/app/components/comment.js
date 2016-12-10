@@ -9,7 +9,7 @@ export default class Comment extends React.Component {
       "comment":Object
     }
     getCommentData(props.data, props.current_user,(comment)=>{
-      console.log(comment);
+      // console.log(comment);
        this.setState({"comment":comment})
     })
   }
