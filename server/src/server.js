@@ -86,7 +86,7 @@ MongoClient.connect(url,function(err,db) {
           if (err) {
             callback(err);
           } else {
-            feedItem.likeCounter.map((id) => userMap[id]);
+            feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
             feedItem.contents.author = userMap[feedItem.contents.author];
             callback(null,feedItem);
           }
@@ -248,6 +248,7 @@ function resolveUserObjects(userList, callback) {
           } else if (feedData === null) {
             res.status(400).send("Could not look up feed for user " + userid);
           } else {
+            // console.log(feedData.likeCounter);
             res.status(201);
             res.send(feedData);
           }
@@ -286,64 +287,71 @@ function resolveUserObjects(userList, callback) {
     // Increase view count
     // authorization is done in get feed data
     app.put('/feeditem/:feeditemid',function(req,res) {
-      var feedItemId = parseInt(req.params.feeditemid,10);
-      var feedItem = readDocument("feedItems",feedItemId);
-      feedItem.view_count = feedItem.view_count+1;
-      writeDocument("feedItems",feedItem);
-      res.status(201);
-      res.send(JSON.stringify(feedItem.view_count));
-    });
+      var feedItemId = new ObjectID(req.params.feeditemid);
+      db.collection('feedItems').updateOne({_id:feedItemId},
+      {$inc:{view_count:1}},function(err) {
+        if (err) {
+          res.status(500).send("Database error: "+err);
+        } else {
+          db.collection('feedItems').findOne({_id:feedItemId},function(err,feedItem) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else {
+              res.status(201).send(JSON.stringify(feedItem.view_count));
+            }
+          });
+        }});
+      });
 
     // Like a feed
     app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
+      console.log("like feed Item");
       var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var feedItemId = parseInt(req.params.feeditemid);
-      var userId = parseInt(req.params.userid);
-      console.log(feedItemId);
+      var feedItemId = new ObjectID(req.params.feeditemid);
+      var userId = req.params.userid;
       if(fromUser === userId) {
-        var feedItem = readDocument('feedItems', feedItemId);
-          // Normally, we would check if the user already
-        // liked this comment. But we will not do that
-        // in this mock server. ('push' modifies the array
-        // by adding userId to the end)
-        feedItem.likeCounter.push(userId);
-        writeDocument('feedItems', feedItem);
-        // Return a resolved version of the likeCounter
-        res.status(201);
-        res.send(feedItem.likeCounter.map((userId) =>
-                              readDocument('users', userId)));
-      }else {
-        res.status(401).end();
-      }
-    });
+        db.collection('feedItems').updateOne({_id:feedItemId},
+          {$push:{likeCounter:{$each:[new ObjectID(userId)],$position:0}}},function(err) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else {
+              getFeedItem(feedItemId,function(err,feedItem) {
+                if (err) {
+                  res.status(500).send("Database error: "+err);
+                } else {
+                  res.status(201).send(feedItem.likeCounter);
+                }
+              })
+            }
+          });
+        }else {
+          res.status(401).end();
+        }
+      });
 
     // Unlike a feed
     app.delete('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
       var fromUser = getUserIdFromToken(req.get('Authorization'));
-      var feedItemId = parseInt(req.params.feeditemid,10);
-      var userId = parseInt(req.params.userid,10);
+      var feedItemId = new ObjectID(req.params.feeditemid);
+      var userId = req.params.userid;
       if(fromUser === userId) {
-        var feedItem = readDocument('feedItems', feedItemId);
-        console.log(feedItem);
-        var userIndex = feedItem.likeCounter.indexOf(userId);
-        // -1 means the user is *not* in the likeCounter,
-        // so we can simply avoid updating
-        // anything if that is the case: the user already
-        // doesn't like the item.
-        if (userIndex !== -1) {
-          // 'splice' removes items from an array. This
-          // removes 1 element starting from userIndex.
-          feedItem.likeCounter.splice(userIndex, 1);
-          writeDocument('feedItems', feedItem);
-        }
-        res.status(201);
-        // Return a resolved version of the likeCounter
-        res.send(feedItem.likeCounter.map((userId) =>
-                              readDocument('users', userId)));
-      }else {
-        res.status(401).end();
-      }
-    });
+        db.collection('feedItems').updateOne({_id:feedItemId},
+          {$pull:{likeCounter:new ObjectID(userId)}},function(err) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else {
+              getFeedItem(feedItemId,function(err,feedItem) {
+                if (err) {
+                  res.status(500).send("Database error: "+err);
+                } else {
+                    res.status(201).send(feedItem.likeCounter);
+                }
+              });
+            }});
+          }else {
+            res.status(401).end();
+          }
+        });
 
     // Search for feed item
     app.post('/search', function(req, res) {
@@ -729,7 +737,6 @@ function resolveUserObjects(userList, callback) {
       var userId = req.params.userid;
       var feedItemId = req.params.feeditemid;
       var content = req.body;
-      console.log(fromUser);
       if(fromUser === userId) {
         var time = new Date().getTime();
         var newComment = {
