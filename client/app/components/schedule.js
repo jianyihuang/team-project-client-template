@@ -33,7 +33,7 @@ export default class Schedule extends React.Component {
   }
   refresh(user_id) {
       getScheduleData(user_id, (scheduleData) => {
-          console.log(JSON.stringify(scheduleData));
+          // console.log(JSON.stringify(scheduleData));
               this.setState({
                 schedules: scheduleData
               });

@@ -116,14 +116,6 @@ class App extends React.Component {
       isOnDetailPage: true
     }
     this.handleChangeUserNavbar = this.handleChangeUserNavbar.bind(this);
-    this.onDetailPage = this.onDetailPage.bind(this);
-  }
-  onDetailPage(){
-    changeToken(1);
-    this.setState({
-      current_user: 1,
-      isOnDetailPage: true
-    });
   }
   handleChangeUserNavbar(user_id) {
     // Change token.
@@ -136,8 +128,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar} onDetailPage={this.state.isOnDetailPage} />
-        {React.cloneElement(this.props.children, {current_user: this.state.current_user, forceNavChange: this.onDetailPage})}
+        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar}/>
+        {React.cloneElement(this.props.children, {current_user: this.state.current_user})}
         <div className="row">
           <div className="col-md-12">
             <ErrorBanner />
@@ -178,9 +170,6 @@ class AcademicDetailPage extends React.Component {
       current_user: this.props.current_user
     }
   }
-  componentWillMount(){
-    // this.props.forceNavChange();     
-  }
   componentWillReceiveProps(newProps) {
     console.log('AcademicDetailPage receives new user id: ' + newProps.current_user);
     this.setState({
@@ -211,12 +200,12 @@ class ServiceHomePage extends React.Component{
     });
   }
   render(){
-  return(
-    <div>
-      <link href="css/service.css" rel="stylesheet"/>
-      <ServiceHome current_user={this.state.current_user}/>
-    </div>
-    )
+    return(
+      <div>
+        <link href="css/service.css" rel="stylesheet"/>
+        <ServiceHome current_user={this.state.current_user}/>
+      </div>
+      )
   }
 }
 
@@ -226,9 +215,6 @@ class ServiceDetailPage extends React.Component {
     this.state = {
       current_user: this.props.current_user
     }
-  }
-  componentWillMount(){
-    // this.props.forceNavChange();     
   }
   componentWillReceiveProps(newProps) {
     console.log('ServiceDetailPage receives new user id: ' + newProps.current_user);

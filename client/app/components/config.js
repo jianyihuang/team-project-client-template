@@ -29,7 +29,7 @@ export default class Config extends React.Component {
 	}
 	handleSave(){
 		updateUserSetting(this.state, (userInfo) => {
-			console.log(JSON.stringify(userInfo));
+			// console.log(JSON.stringify(userInfo));
 		});
 	}
 	handleCancel(){

@@ -27,7 +27,8 @@ componentWillReceiveProps(newProps){
 	getUserData(newProps.current_user, (user_profile) => {
 		this.setState({
 		  text: newProps.current_user,
-		  user_name: user_profile.username
+		  user_name: user_profile.username,
+		  profile_pic: user_profile.profilepic,
 		});
 	});
 }
