@@ -772,6 +772,24 @@ function resolveUserObjects(userList, callback) {
     }
   });
 
+  app.get('/config/:userid', function(req,res) {
+    var userid = req.params.userid;
+    var fromUser = getUserIdFromToken(req.get('Authorization'));
+    if(fromUser === userid) {
+      db.collection('users').findOne({_id:new ObjectID(userid)},
+      function(err, userData){
+        if (err){
+          res.status(500).send(err);
+        }
+        else{
+          res.status(201);
+          res.send(userData);
+        }
+      })
+    } else {
+      res.status(401).end();
+    }
+  });
   app.get('/comment/:commentid/:userid',function(req,res){
     var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
