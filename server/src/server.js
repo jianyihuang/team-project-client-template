@@ -22,18 +22,18 @@ var MongoClient = MongoDB.MongoClient;
 var ObjectID = MongoDB.ObjectID;
 var url = 'mongodb://localhost:27017/exser';
 var categoryMap = {
-  "Computer Science":1,
-  "Math":2,
-  "Music":3,
-  "History":4,
-  "Physics":5,
-  "English":6,
-  "Pet Related":7,
-  "Home Improvement":8,
-  "Travel":9,
-  "Yard":10,
-  "Plumer":11,
-  "Car Pool":12
+  "Computer Science":"000000000000000000000001",
+  "Math":"000000000000000000000002",
+  "Music":"000000000000000000000003",
+  "History":"000000000000000000000004",
+  "Physics":"000000000000000000000005",
+  "English":"000000000000000000000006",
+  "Pet Related":"000000000000000000000007",
+  "Home Improvement":"000000000000000000000008",
+  "Travel":"000000000000000000000009",
+  "Yard":"0000000000000000000000010",
+  "Plumer":"000000000000000000000011",
+  "Car Pool":"000000000000000000000012"
  }
 // listening on port 3000
 // Implement your server in this file.
@@ -86,9 +86,19 @@ MongoClient.connect(url,function(err,db) {
         if (err) {
           callback(err);
         } else {
-          feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
-          feedItem.contents.author = userMap[feedItem.contents.author];
-          callback(null,feedItem);
+          db.collection('servicetags').findOne({_id:new ObjectID(feedItem.tag)},
+          function(err,tag) {
+            if (err) {
+              callback(err)
+            } else if(tag === null) {
+              callback(null,null);
+            } else {
+              feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
+              feedItem.contents.author = userMap[feedItem.contents.author];
+              feedItem.tag = tag
+              callback(null,feedItem);
+            }
+          });
         }
       });
     });
@@ -233,37 +243,63 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
       });
     }
 
-  function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
+  function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
     var time = new Date().getTime();
+    console.log(tag);
     var newPost = {
       "view_count": 0,
       "likeCounter": [],
       // Taggs are by course_id
-      "tag": categoryMap[tag],
+      "tag": new ObjectID(categoryMap[tag]),
       "list_of_comments":[],
       "contents": {
-        "author": user,
+        "author": new ObjectID(user),
         "timestamp": time,
         "request": request,
         "contents": contents,
         "imgUrl":imgUrl
       }
     }
-    console.log(contents);
-    console.log(newPost);
-    newPost = addDocument('feedItems',newPost);
-    var userData = readDocument('users', user);
-    var feedData;
-    if(type === 1) {
-       feedData = readDocument('academicfeeds', userData.Academic_feed);
-       feedData.list_of_feeditems.unshift(newPost._id);
-       writeDocument('academicfeeds', feedData);
-    }else {
-       feedData = readDocument('servicefeeds', userData.Service_feed);
-       feedData.list_of_feeditems.unshift(newPost._id);
-       writeDocument('servicefeeds', feedData);
-    }
-    return newPost;
+    // console.log(contents);
+    // console.log(newPost);
+    db.collection('feedItems').insertOne(newPost, function(err,result) {
+      if (err) {
+        callback(err);
+      } else {
+        db.collection('users').findOne({_id:new ObjectID(user)},
+          function(err, user) {
+            if (err) {
+              callback(err);
+            } else if (user === null){
+              callback(null,null);
+            } else {
+              if (type === 1) {
+                db.collection('academicfeeds').updateOne(
+                  {_id:new ObjectID(user.Academic_feed)},
+                  {$push:{list_of_feeditems:{$each:[result.insertedId],$position:0}}},
+                  function(err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null,newPost);
+                    }
+                  });
+              } else {
+                db.collection('servicefeeds').updateOne(
+                  {_id:new ObjectID(user.Academic_feed)},
+                  {$push:{list_of_feeditems:{$each:[result.insertedId],$position:0}}},
+                  function(err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null,newPost);
+                    }
+                  });
+              }
+            }
+          });
+        }
+    });
   }
 
   /**
@@ -316,6 +352,7 @@ function resolveUserObjects(userList, callback) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
           res.status(201);
+          console.log(feedData);
           res.send(feedData);
         }
       })
@@ -333,10 +370,17 @@ function resolveUserObjects(userList, callback) {
     var body = req.body;
     if(body.author === fromUser) {
       var feedItemType = parseInt(req.params.feeditemtype,10);
-      var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
-      res.status(201);
-      res.set('Location','/feeditem/'+newPost._id);
-      res.send(newPost);
+      postStatusUpdate(body.author,body.category,body.contents,
+        body.imgUrl,body.request,feedItemType,function(err,newPost) {
+          if (err) {
+            res.status(500).send("Database error: "+err);
+          } else {
+            res.status(201);
+            res.set('Location','/feeditem/'+newPost._id);
+            console.log(newPost);
+            res.send(newPost);
+          }
+        });
     }else {
       res.status(401).end();
     }
@@ -365,7 +409,6 @@ function resolveUserObjects(userList, callback) {
               if (err) {
                 res.status(500).send("Database error: "+err);
               } else {
-                console.log(feedItem.likeCounter);
                 res.status(201).send(feedItem.likeCounter);
               }
             })
@@ -391,7 +434,6 @@ function resolveUserObjects(userList, callback) {
               if (err) {
                 res.status(500).send("Database error: "+err);
               } else {
-                console.log(feedItem.likeCounter);
                   res.status(201).send(feedItem.likeCounter);
               }
             });
@@ -420,46 +462,87 @@ function resolveUserObjects(userList, callback) {
   }
   });
 
+function deleteFeed(userId,feedItemId,type,callback) {
+  db.collection('feedItems').findOne(
+    {_id:feedItemId},
+    function(err, feedItem) {
+      if (err) {
+        callback(err);
+      } else if(feedItem == null){
+        callback(null,null)
+      } else {
+        // console.log(feedItem.contents.author);
+        // console.log(userId);
+        if(feedItem.contents.author.equals(userId)) {
+          db.collection('feedItems').remove({_id:feedItemId},
+            function(err) {
+              if (err) {
+                callback(err);
+              } else {
+                db.collection(type).updateMany(
+                  {list_of_feeditems:feedItemId},
+                  {$pull:{list_of_feeditems:feedItemId}},
+                  function(err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null,feedItem)
+                    }
+                  });
+              }
+            });
+        } else {
+          console.log("I am not the author");
+          db.collection(type).updateOne(
+            {_id:userId},
+            {$pull:{list_of_feeditems:feedItemId}},
+            function(err) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null,feedItem)
+              }
+            });
+          }
+        }
+      });
+    }
   // Delete a feed
   // If the user is the author of that feed remove it from feedItem otherwise just
   // remove the reference
   app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
+    console.log("Delete called");
     var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var userId = parseInt(req.params.userid,10);
-    var feedItemId = parseInt(req.params.feeditemid,10);
-    var feedItem = readDocument('feedItems', feedItemId);
+    var userId = req.params.userid;
+    var feedItemId = new ObjectID(req.params.feeditemid);
     var type = parseInt(req.params.feedtype,10);
     if(fromUser === userId) {
-      var user = readDocument('users', userId);
-      var feedData;
-      var feedItemIndex;
       if(type === 1) {
-         feedData = readDocument('academicfeeds', user.Academic_feed);
-         feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-         if (feedItemIndex !== -1) {
-           // 'splice' removes items from an array. This
-           // removes 1 element starting from userIndex.
-           feedData.list_of_feeditems.splice(feedItemIndex, 1);
-         }
-         writeDocument('academicfeeds', feedData);
-         if(fromUser === feedItem.contents.author) {
-           database.deleteDocument('feedItems',feedItemId);
-         }
-      }else {
-         feedData = readDocument('servicefeeds', user.Service_feed);
-         feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-         if (feedItemIndex !== -1) {
-           // 'splice' removes items from an array. This
-           // removes 1 element starting from userIndex.
-           feedData.list_of_feeditems.splice(feedItemIndex, 1);
-         }
-         writeDocument('servicefeeds', feedData);
-         if(fromUser === feedItem.contents.author) {
-           database.deleteDocument('feedItems',feedItemId);
-         }
+        deleteFeed(new ObjectID(userId),feedItemId,"academicfeeds",
+          function(err,result) {
+            if (err) {
+              console.log("error !!");
+              res.status(500).send("Database error: "+err);
+            } else if (result === null) {
+              console.log("result is null");
+              res.status(400).send("Could not find feed: "+result);
+            } else {
+              console.log(result);
+              res.status(201).send(result);
+            }
+          });
+      } else {
+        deleteFeed(new ObjectID(userId),feedItemId,"servicefeeds",
+          function(err,result) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else if (result === null) {
+              res.status(400).send("Could not find feed: "+result);
+            } else {
+              res.status(201).send(result);
+            }
+          });
       }
-      res.status(201);
-      res.send(feedData);
     } else {
       res.status(401).end();
     }
@@ -775,23 +858,51 @@ function resolveUserObjects(userList, callback) {
   });
 
   app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
-    var userid = parseInt(req.params.userid, 10);
+    var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var userData = req.body;
+    var newUser = new ObjectID(userid);
     if(fromUser === userid) {
-        var user = readDocument('users', userid);
-        user.username = userData.username;
-        user.password = userData.password;
-        user.email = userData.email;
-        writeDocument('users', user);
-        res.status(201);
-        res.send(user);
-
+      db.collection('users').updateOne(
+        {_id: newUser},
+         {$set:
+           {username : userData.username,
+            password :userData.password,
+           email :userData.email}
+         },
+      function(err){
+        if (err){
+          res.status(500).send(err);
+        }
+        else{
+          res.status(201);
+          res.send(newUser);
+        }
+      })
     } else {
       res.status(401).end();
     }
   });
 
+
+  app.get('/config/:userid', function(req,res) {
+    var userid = req.params.userid;
+    var fromUser = getUserIdFromToken(req.get('Authorization'));
+    if(fromUser === userid) {
+      db.collection('users').findOne({_id:new ObjectID(userid)},
+      function(err, userData){
+        if (err){
+          res.status(500).send(err);
+        }
+        else{
+          res.status(201);
+          res.send(userData);
+        }
+      })
+    } else {
+      res.status(401).end();
+    }
+  });
   app.get('/comment/:commentid/:userid',function(req,res){
     var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
@@ -830,7 +941,7 @@ function resolveUserObjects(userList, callback) {
      if(fromUser === userId) {
        var time = new Date().getTime();
        var newComment = {
-         "author":userId,
+         "author":new ObjectID(userId),
          "timestamp":time,
          "contents":content
        }

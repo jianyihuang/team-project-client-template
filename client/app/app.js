@@ -165,6 +165,7 @@ class CategoryBoxPage extends React.Component {
     return (
       <div>
         <link rel="stylesheet" href="css/academic.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet"/>
         <CategoryBox current_user={this.state.current_user}/>
       </div>
     );
@@ -214,6 +215,7 @@ class ServiceHomePage extends React.Component{
     return(
       <div>
         <link href="css/service.css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet"/>
         <ServiceHome current_user={this.state.current_user}/>
       </div>
       )
