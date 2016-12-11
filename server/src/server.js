@@ -450,46 +450,87 @@ function resolveUserObjects(userList, callback) {
   }
   });
 
+function deleteFeed(userId,feedItemId,type,callback) {
+  db.collection('feedItems').findOne(
+    {_id:feedItemId},
+    function(err, feedItem) {
+      if (err) {
+        callback(err);
+      } else if(feedItem == null){
+        callback(null,null)
+      } else {
+        // console.log(feedItem.contents.author);
+        // console.log(userId);
+        if(feedItem.contents.author.equals(userId)) {
+          db.collection('feedItems').remove({_id:feedItemId},
+            function(err) {
+              if (err) {
+                callback(err);
+              } else {
+                db.collection(type).updateMany(
+                  {list_of_feeditems:feedItemId},
+                  {$pull:{list_of_feeditems:feedItemId}},
+                  function(err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null,feedItem)
+                    }
+                  });
+              }
+            });
+        } else {
+          console.log("I am not the author");
+          db.collection(type).updateOne(
+            {_id:userId},
+            {$pull:{list_of_feeditems:feedItemId}},
+            function(err) {
+              if (err) {
+                callback(err);
+              } else {
+                callback(null,feedItem)
+              }
+            });
+          }
+        }
+      });
+    }
   // Delete a feed
   // If the user is the author of that feed remove it from feedItem otherwise just
   // remove the reference
   app.delete('/user/:userid/feed/:feedtype/:feeditemid',function(req,res) {
+    console.log("Delete called");
     var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var userId = parseInt(req.params.userid,10);
-    var feedItemId = parseInt(req.params.feeditemid,10);
-    var feedItem = readDocument('feedItems', feedItemId);
+    var userId = req.params.userid;
+    var feedItemId = new ObjectID(req.params.feeditemid);
     var type = parseInt(req.params.feedtype,10);
     if(fromUser === userId) {
-      var user = readDocument('users', userId);
-      var feedData;
-      var feedItemIndex;
       if(type === 1) {
-         feedData = readDocument('academicfeeds', user.Academic_feed);
-         feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-         if (feedItemIndex !== -1) {
-           // 'splice' removes items from an array. This
-           // removes 1 element starting from userIndex.
-           feedData.list_of_feeditems.splice(feedItemIndex, 1);
-         }
-         writeDocument('academicfeeds', feedData);
-         if(fromUser === feedItem.contents.author) {
-           database.deleteDocument('feedItems',feedItemId);
-         }
-      }else {
-         feedData = readDocument('servicefeeds', user.Service_feed);
-         feedItemIndex = feedData.list_of_feeditems.indexOf(feedItemId);
-         if (feedItemIndex !== -1) {
-           // 'splice' removes items from an array. This
-           // removes 1 element starting from userIndex.
-           feedData.list_of_feeditems.splice(feedItemIndex, 1);
-         }
-         writeDocument('servicefeeds', feedData);
-         if(fromUser === feedItem.contents.author) {
-           database.deleteDocument('feedItems',feedItemId);
-         }
+        deleteFeed(new ObjectID(userId),feedItemId,"academicfeeds",
+          function(err,result) {
+            if (err) {
+              console.log("error !!");
+              res.status(500).send("Database error: "+err);
+            } else if (result === null) {
+              console.log("result is null");
+              res.status(400).send("Could not find feed: "+result);
+            } else {
+              console.log(result);
+              res.status(201).send(result);
+            }
+          });
+      } else {
+        deleteFeed(new ObjectID(userId),feedItemId,"servicefeeds",
+          function(err,result) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else if (result === null) {
+              res.status(400).send("Could not find feed: "+result);
+            } else {
+              res.status(201).send(result);
+            }
+          });
       }
-      res.status(201);
-      res.send(feedData);
     } else {
       res.status(401).end();
     }
