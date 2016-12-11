@@ -1,7 +1,7 @@
 import React from 'react';
 import {getUserData, saveUserData, getClassData} from '../server';
 import {resetDatabase} from '../database';
-import {classesTaken} from './classesTaken';
+
 
 export default class Profile extends React.Component{
       constructor(props){
