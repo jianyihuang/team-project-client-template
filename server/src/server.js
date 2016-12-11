@@ -22,18 +22,18 @@ var MongoClient = MongoDB.MongoClient;
 var ObjectID = MongoDB.ObjectID;
 var url = 'mongodb://localhost:27017/exser';
 var categoryMap = {
-  "Computer Science":1,
-  "Math":2,
-  "Music":3,
-  "History":4,
-  "Physics":5,
-  "English":6,
-  "Pet Related":7,
-  "Home Improvement":8,
-  "Travel":9,
-  "Yard":10,
-  "Plumer":11,
-  "Car Pool":12
+  "Computer Science":"000000000000000000000001",
+  "Math":"000000000000000000000002",
+  "Music":"000000000000000000000003",
+  "History":"000000000000000000000004",
+  "Physics":"000000000000000000000005",
+  "English":"000000000000000000000006",
+  "Pet Related":"000000000000000000000007",
+  "Home Improvement":"000000000000000000000008",
+  "Travel":"000000000000000000000009",
+  "Yard":"0000000000000000000000010",
+  "Plumer":"000000000000000000000011",
+  "Car Pool":"000000000000000000000012"
  }
 // listening on port 3000
 // Implement your server in this file.
@@ -86,9 +86,19 @@ MongoClient.connect(url,function(err,db) {
         if (err) {
           callback(err);
         } else {
-          feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
-          feedItem.contents.author = userMap[feedItem.contents.author];
-          callback(null,feedItem);
+          db.collection('servicetags').findOne({_id:new ObjectID(feedItem.tag)},
+          function(err,tag) {
+            if (err) {
+              callback(err)
+            } else if(tag === null) {
+              callback(null,null);
+            } else {
+              feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
+              feedItem.contents.author = userMap[feedItem.contents.author];
+              feedItem.tag = tag
+              callback(null,feedItem);
+            }
+          });
         }
       });
     });
@@ -235,11 +245,12 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 
   function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
     var time = new Date().getTime();
+    console.log(tag);
     var newPost = {
       "view_count": 0,
       "likeCounter": [],
       // Taggs are by course_id
-      "tag": categoryMap[tag],
+      "tag": new ObjectID(categoryMap[tag]),
       "list_of_comments":[],
       "contents": {
         "author": new ObjectID(user),
@@ -341,6 +352,7 @@ function resolveUserObjects(userList, callback) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
           res.status(201);
+          console.log(feedData);
           res.send(feedData);
         }
       })
