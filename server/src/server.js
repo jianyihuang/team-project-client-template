@@ -767,19 +767,6 @@ function deleteFeed(userId,feedItemId,type,callback) {
           if (err) {
             console.log("error1");
           } else {
-            //console.log(userData);
-          // var scheduleData = [];
-          // db.collection('schedules').find({
-          //   _id: {$in: userData.schedules}
-          // }, function(err, scheduleData){
-          //   console.log(JSON.stringify(scheduleData));
-          //   res.send(scheduleData);
-          // });
-          // userData.schedules.forEach(function(scheduleId){
-          //   getScheduleItem(scheduleId, (data) => {
-          //     scheduleData.push(data);
-          //   });
-          // });
           resolveScheduleObject(userData.schedules,function(err, scheduleData){
             console.log(scheduleData);
             res.send(scheduleData);
