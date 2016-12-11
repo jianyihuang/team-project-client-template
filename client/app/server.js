@@ -53,7 +53,6 @@ function sendXHR(verb, resource, body, cb) {
 
     switch (typeof(body)) {
       case 'undefined':
-        // No body to send.
         xhr.send();
         break;
       case 'string':
@@ -182,7 +181,7 @@ export function saveUserData(info, cb) {
   "areas_of_interest" : info.areas_of_interest,
   "classes_taken" : info.classes_taken,
   "education_level" : info.education_level,
-  "academic_institution" : info.academic_institution,
+  "academic_institution" : info.academic_institution
   }, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
@@ -259,7 +258,7 @@ export function getRecentMessageBoxes(userId, numberOfBoxes, cb) {
 
 // Create a new message box.
 export function createMessageBox(userId, cb) {
-  console.log("Created!!!");
+  // console.log("Created!!!");
   sendXHR('PUT','/messagebox/create/' + userId, undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
@@ -274,6 +273,7 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
+    location.reload(true);
   });
 }
 

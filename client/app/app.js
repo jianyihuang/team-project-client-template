@@ -136,8 +136,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar} onDetailPage={this.state.isOnDetailPage} />
-        {React.cloneElement(this.props.children, {current_user: this.state.current_user, forceNavChange: this.onDetailPage})}
+        <Navbar current_user={this.state.current_user} onUserChanged={this.handleChangeUserNavbar}/>
+        {React.cloneElement(this.props.children, {current_user: this.state.current_user})}
         <div className="row">
           <div className="col-md-12">
             <ErrorBanner />
@@ -211,12 +211,12 @@ class ServiceHomePage extends React.Component{
     });
   }
   render(){
-  return(
-    <div>
-      <link href="css/service.css" rel="stylesheet"/>
-      <ServiceHome current_user={this.state.current_user}/>
-    </div>
-    )
+    return(
+      <div>
+        <link href="css/service.css" rel="stylesheet"/>
+        <ServiceHome current_user={this.state.current_user}/>
+      </div>
+      )
   }
 }
 

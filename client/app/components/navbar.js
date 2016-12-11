@@ -1,24 +1,36 @@
 import React from 'react';
 import {Link} from 'react-router';
 import SearchBar from './searchbar';
-import {resetDatabase} from '../server';
+import {resetDatabase, getUserData} from '../server';
 
 export default class Navbar extends React.Component {
 constructor(props) {
 	super(props);
 	this.state = {
 		text: String(props.current_user),
-		user_id: props.current_user
+		user_id: props.current_user,
+		user_name: '',
+		profile_pic: ''
 	}
 	this._userChanged = this._userChanged.bind(this);
 	this.changeUser = this.changeUser.bind(this);
 }
-componentWillReceiveProps(newProps){
-	if(newProps.onDetailPage){
+componentDidMount(){
+	getUserData(this.state.user_id, (user_profile) => {
 		this.setState({
-		  text: '1'
+			user_name: user_profile.username,
+			profile_pic: user_profile.profilepic,
 		});
-	}
+	});
+}
+componentWillReceiveProps(newProps){
+	getUserData(newProps.current_user, (user_profile) => {
+		this.setState({
+		  text: newProps.current_user,
+		  user_name: user_profile.username,
+		  profile_pic: user_profile.profilepic,
+		});
+	});
 }
 _userChanged(event) {
     event.preventDefault();
@@ -68,7 +80,7 @@ render() {
 										</Link>
 										<button type="button" className="btn navbar-btn btn-default dropdown-toggle "
 											data-toggle="dropdown">
-											User
+											{this.state.user_name} <img src={this.state.profile_pic}  className="img-circle" width='15px' height='15px'/>
 											<span className="caret"></span>
 										</button>
 										<ul className="dropdown-menu">
