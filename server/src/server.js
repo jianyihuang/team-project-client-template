@@ -340,6 +340,16 @@ app.get('/messagebox/:box_msg_id', function(req, res) {
   var box_msg_id = parseInt(req.params.box_msg_id, 10);
   var messageBox = readDocument('messageboxes', box_msg_id);
   if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
+    // Update recent msg box.
+    // Read the user from the database.
+    // var user = readDocument('users', fromUser);
+    // // Get the last numberOfBoxes in the messageboxes.
+    // var index_of_requested_box = user.messageboxes.indexOf(box_msg_id);
+    // if(index_of_requested_box !== -1) {
+    //   var sliced_out = user.messageboxes.slice(index_of_requested_box, index_of_requested_box + 1);
+    //   user.messageboxes.push(sliced_out);
+    //   writeDocument('users', user);
+    // }
     res.send(messageBox);
   }
   else {

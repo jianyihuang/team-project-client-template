@@ -49,12 +49,12 @@ export default class MessagePanel extends React.Component {
     }
     createNewConversation() {
         createMessageBox(this.state.user_id, (msg_box) => {
-            this.refreshMessageBox(msg_box);
-            getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
-                this.setState({
-                    recent_msgBoxes: recent_msg_boxes
+            this.refreshMessageBox(msg_box, ()=>{
+                getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+                    this.setState({
+                        recent_msgBoxes: recent_msg_boxes
+                    });
                 });
-                console.log('New message box: ' + JSON.stringify(this.state));
             });
         });
     }
@@ -70,19 +70,26 @@ export default class MessagePanel extends React.Component {
                 });
             });
     }
-    refreshMessageBox(updatedMsgBox) {
+    refreshMessageBox(updatedMsgBox, cb) {
                 getParticipantProfiles(updatedMsgBox._id, (profiles) => {
                     this.setState({
                         msg_box_id: updatedMsgBox._id,
                         messages: updatedMsgBox.list_of_messages_by_users_in_box,
                         participant_profiles: profiles
                     });
+                    cb();
                 });
     }
     addNewParticipant(){
         var invitedUserId = Number(this.refs.invitedUser.value);
         joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {
-            this.refreshMessageBox(updatedMsgBox);
+            this.refreshMessageBox(updatedMsgBox, () => {
+                getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+                    this.setState({
+                        recent_msgBoxes: recent_msg_boxes
+                    });
+                });
+            });
         });
     }
     componentWillReceiveProps(newProps){
@@ -106,7 +113,7 @@ export default class MessagePanel extends React.Component {
     							<ul className="list-group">
                                     {
                                         this.state.recent_msgBoxes.map((boxId, i) => {
-                                            return <MessageBox key={boxId} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
+                                            return <MessageBox key={i} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
                                         })
                                     }
     							</ul>
@@ -120,7 +127,7 @@ export default class MessagePanel extends React.Component {
                                                     <div className="panel-heading">
                                                         <h4><span className="glyphicon glyphicon-book"></span>Message Box {this.state.msg_box_id}
                                                             <br/>{this.state.participant_profiles.map((profile, o) => {
-                                                                return <img src={profile.profilepic} key={o} width="15px" height="15px"/>
+                                                                return <img src={profile.profilepic} key={o}  className="img-circle" width="15px" height="15px"/>
                                                             })}</h4>
                                                         <div className="btn-group footer-btn">
                                                             <button className="btn btn-default" onClick={this.createNewConversation}><span className="glyphicon glyphicon-calendar"></span>New Conversation</button>

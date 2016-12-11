@@ -80,7 +80,7 @@ render() {
 										</Link>
 										<button type="button" className="btn navbar-btn btn-default dropdown-toggle "
 											data-toggle="dropdown">
-											{this.state.user_name} <img src={this.state.profile_pic} width='15px' height='15px'/>
+											{this.state.user_name} <img src={this.state.profile_pic}  className="img-circle" width='15px' height='15px'/>
 											<span className="caret"></span>
 										</button>
 										<ul className="dropdown-menu">

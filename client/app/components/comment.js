@@ -18,8 +18,12 @@ export default class Comment extends React.Component {
     if(comment.contents !== undefined){
       return (
         <li className="media">
-          <div className="media-left media-top" />
-          <div className="meida-body">
+          <div className="media-left media-top">
+            <a href="#">
+              <img className="media-object" src={comment.author.profilepic} height="40px" width="40px"/>
+            </a>
+          </div>
+          <div className="media-body">
             <a href="#">{comment.author.username}</a>
               {" "+comment.contents}
               <br/>

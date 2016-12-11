@@ -289,6 +289,7 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
+    location.reload(true);
   });
 }
 

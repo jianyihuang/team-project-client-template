@@ -17,15 +17,25 @@ export class MessageBox extends React.Component {
             });
         });
 	}
+	componentWillReceiveProps(newProps) {
+		// console.log("New props:" + JSON.stringify(newProps));
+		getParticipantProfiles(newProps.boxId, (profiles) => {
+            // console.log(JSON.stringify(profiles));
+            this.setState({
+                participant_profiles: profiles
+            });
+        });
+	}
 	clicked() {
 		this.props.onRecentBoxMsgClicked(this.props.boxId);
 	}
 	render() {
 		return (
-				<li className="list-group-item active" onClick={this.clicked}>
-					<small>Message Box ID {this.props.boxId} {this.state.participant_profiles.map((profile, i) => {
-                                                                return <img src={profile.profilepic} key={i} width="15px" height="15px"/>
+				<li className="list-group-item active recent-conv" onClick={this.clicked}>
+					<small>Message Box ID {this.props.boxId} <br/> {this.state.participant_profiles.map((profile, i) => {
+                                                                return <img src={profile.profilepic} key={i}  className="img-circle" width="15px" height="15px"/>
                                                             })}</small>
+					<br/>
 				</li>
 			);
 	}
