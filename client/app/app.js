@@ -110,12 +110,20 @@ class SearchResults extends React.Component {
 class App extends React.Component {
   constructor(props){
     super(props);
-    var initial_user = 1;
+    var initial_user = '000000000000000000000001';
     this.state = {
       current_user: initial_user,
       isOnDetailPage: true
     }
     this.handleChangeUserNavbar = this.handleChangeUserNavbar.bind(this);
+    this.onDetailPage = this.onDetailPage.bind(this);
+  }
+  onDetailPage(){
+    changeToken(1);
+    this.setState({
+      current_user: '000000000000000000000001',
+      isOnDetailPage: true
+    });
   }
   handleChangeUserNavbar(user_id) {
     // Change token.
@@ -171,6 +179,9 @@ class AcademicDetailPage extends React.Component {
       current_user: this.props.current_user
     }
   }
+  componentWillMount(){
+    // this.props.forceNavChange();
+  }
   componentWillReceiveProps(newProps) {
     console.log('AcademicDetailPage receives new user id: ' + newProps.current_user);
     this.setState({
@@ -216,6 +227,9 @@ class ServiceDetailPage extends React.Component {
     this.state = {
       current_user: this.props.current_user
     }
+  }
+  componentWillMount(){
+    // this.props.forceNavChange();
   }
   componentWillReceiveProps(newProps) {
     console.log('ServiceDetailPage receives new user id: ' + newProps.current_user);
