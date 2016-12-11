@@ -136,24 +136,29 @@ app.get('/messagebox/:box_msg_id', function(req, res) {
 
 // Handle sendMessageServer from client.
 app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
-var fromUser = getUserIdFromToken(req.get('Authorization'));
-// Get the current time.
-var time = new Date().getTime();
-var user_id = parseInt(req.params.user_id, 10);
-var box_msg_id = parseInt(req.params.box_msg_id, 10);
-var messageBox = readDocument('messageboxes', box_msg_id);
-var content = req.body.content;
-// Check if the user is already in the conversation.
-if(messageBox.list_of_users.indexOf(fromUser) !== -1
-  && user_id === fromUser) {
-      // Push the message into the conversation box.
-      messageBox.list_of_messages_by_users_in_box.push({
-        'user_id': user_id,
-        'timestamp': time,
-        'content': content
-      });
-    }
-  });
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  // Get the current time.
+  var time = new Date().getTime();
+  var user_id = parseInt(req.params.user_id, 10);
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  var content = req.body.content;
+  // Check if the user is already in the conversation.
+  if(messageBox.list_of_users.indexOf(fromUser) !== -1
+    && user_id === fromUser) {
+        // Push the message into the conversation box.
+        messageBox.list_of_messages_by_users_in_box.push({
+          'user_id': user_id,
+          'timestamp': time,
+          'content': content
+        });
+        writeDocument('messageboxes', messageBox);
+        res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+});
 
   function getFeedData(user,type,callback) {
     console.log("Get called");
@@ -345,25 +350,6 @@ function resolveUserObjects(userList, callback) {
     });
   });
 
-  // Increase view count
-  // authorization is done in get feed data
-  app.put('/feeditem/:feeditemid',function(req,res) {
-    var feedItemId = new ObjectID(req.params.feeditemid);
-    db.collection('feedItems').updateOne({_id:feedItemId},
-    {$inc:{view_count:1}},function(err) {
-      if (err) {
-        res.status(500).send("Database error: "+err);
-      } else {
-        db.collection('feedItems').findOne({_id:feedItemId},function(err,feedItem) {
-          if (err) {
-            res.status(500).send("Database error: "+err);
-          } else {
-            res.status(201).send(JSON.stringify(feedItem.view_count));
-          }
-        });
-      }});
-    });
-
   // Like a feed
   app.put('/feeditem/:feeditemid/likelist/:userid',function(req,res) {
     var fromUser = getUserIdFromToken(req.get('Authorization'));
@@ -495,6 +481,24 @@ function resolveUserObjects(userList, callback) {
     };
     return profile;
   }
+    // Increase view count
+    // authorization is done in get feed data
+    app.put('/feeditem/:feeditemid',function(req,res) {
+      var feedItemId = new ObjectID(req.params.feeditemid);
+      db.collection('feedItems').updateOne({_id:feedItemId},
+      {$inc:{view_count:1}},function(err) {
+        if (err) {
+          res.status(500).send("Database error: "+err);
+        } else {
+          db.collection('feedItems').findOne({_id:feedItemId},function(err,feedItem) {
+            if (err) {
+              res.status(500).send("Database error: "+err);
+            } else {
+              res.status(201).send(JSON.stringify(feedItem.view_count));
+            }
+          });
+        }});
+      });
 
   // Handle getParticipantProfiles
   app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
@@ -521,32 +525,6 @@ function resolveUserObjects(userList, callback) {
     var messageBox = readDocument('messageboxes', box_msg_id);
     if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
       res.send(messageBox);
-    }
-    else {
-      res.status(401).end();
-    }
-  });
-
-  // Handle sendMessageServer from client.
-  app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    // Get the current time.
-    var time = new Date().getTime();
-    var user_id = parseInt(req.params.user_id, 10);
-    var box_msg_id = parseInt(req.params.box_msg_id, 10);
-    var messageBox = readDocument('messageboxes', box_msg_id);
-    var content = req.body.content;
-    // Check if the user is already in the conversation.
-    if(messageBox.list_of_users.indexOf(fromUser) !== -1
-      && user_id === fromUser) {
-          // Push the message into the conversation box.
-          messageBox.list_of_messages_by_users_in_box.push({
-            'user_id': user_id,
-            'timestamp': time,
-            'content': content
-          });
-          writeDocument('messageboxes', messageBox);
-          res.send(messageBox);
     }
     else {
       res.status(401).end();
@@ -794,50 +772,48 @@ function resolveUserObjects(userList, callback) {
      }
    });
 
-  app.post('/feed/:feeditemid/comment/:userid',function(req,res){
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var userId = req.params.userid;
-    var feedItemId = req.params.feeditemid;
-    var content = req.body;
-    console.log(fromUser);
-    if(fromUser === userId) {
-      var time = new Date().getTime();
-      var newComment = {
-        "author":userId,
-        "timestamp":time,
-        "contents":content
-      }
-      db.collection('comments').insertOne(newComment,function(err,result) {
-        if (err) {
-          res.status(500).send("Database error: "+err);
-        } else {
-          newComment._id = result.insertedId;
-          db.collection('feedItems').updateOne({_id:new ObjectID(feedItemId)},
-          {$push:{list_of_comments:{$each:[newComment._id],$position:0}}},
-          function(err) {
-            if (err) {
-              console.log("Error!!!");
-              res.status(500).send("Database error: "+err);
-            } else {
-              db.collection('feedItems').findOne({_id:new ObjectID(feedItemId)},
-              function(err,feedItem) {
-                if (err) {
-                  res.status(500).send("Database error: "+err);
-                } else if (feedItem === null) {
-                  res.status(400).send("Could not find feed item: "+feedItemId);
-                } else {
-                  res.status(201).send(feedItem.list_of_comments);
-                }
-              })
-            }
-          });
-        }
-      });
-      } else {
-        res.status(401).end();
-      }
-    });
-
+   app.post('/feed/:feeditemid/comment/:userid',function(req,res){
+     var fromUser = getUserIdFromToken(req.get('Authorization'));
+     var userId = req.params.userid;
+     var feedItemId = req.params.feeditemid;
+     var content = req.body;
+     if(fromUser === userId) {
+       var time = new Date().getTime();
+       var newComment = {
+         "author":userId,
+         "timestamp":time,
+         "contents":content
+       }
+       db.collection('comments').insertOne(newComment,function(err,result) {
+         if (err) {
+           res.status(500).send("Database error: "+err);
+         } else {
+           newComment._id = result.insertedId;
+           db.collection('feedItems').updateOne({_id:new ObjectID(feedItemId)},
+           {$push:{list_of_comments:{$each:[newComment._id],$position:0}}},
+           function(err) {
+             if (err) {
+               console.log("Error!!!");
+               res.status(500).send("Database error: "+err);
+             } else {
+               db.collection('feedItems').findOne({_id:new ObjectID(feedItemId)},
+               function(err,feedItem) {
+                 if (err) {
+                   res.status(500).send("Database error: "+err);
+                 } else if (feedItem === null) {
+                   res.status(400).send("Could not find feed item: "+feedItemId);
+                 } else {
+                   res.status(201).send(feedItem.list_of_comments);
+                 }
+               })
+             }
+           });
+         }
+       });
+       } else {
+         res.status(401).end();
+       }
+     });
   /**
    * Translate JSON Schema Validation failures into error 400s.
   */
