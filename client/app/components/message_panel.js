@@ -12,7 +12,7 @@ const n_recent_msgbox = 10;
 export default class MessagePanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {user_id: this.props.current_user, messages: [], recent_msgBoxes: []};
+        this.state = {user_id: this.props.current_user, messages: [], recent_msgBoxes: [], participant_profiles: []};
         this.sendMessage = this.sendMessage.bind(this);
         this.refreshMessageBox = this.refreshMessageBox.bind(this);
         this.refresh = this.refresh.bind(this);
@@ -22,7 +22,7 @@ export default class MessagePanel extends React.Component {
     }
     componentDidMount() {
         this.refresh(this.state.user_id);
-        // this.timer = setInterval(() => this.refresh(this.state.user_id), 200);
+        // this.timer = setInterval(() => this.loadMessageBox(this.state.msg_box_id), 200);
     }
     componentWillUnmount(){
         // clearInterval(this.timer);
@@ -40,7 +40,7 @@ export default class MessagePanel extends React.Component {
     sendMessage(entered_text) {
         // Send the message to the server.
         sendMessageServer(this.state.msg_box_id, this.state.user_id, entered_text, (updatedMsgBox) => {
-            console.log(JSON.stringify(updatedMsgBox));
+            // console.log(JSON.stringify(updatedMsgBox));
             // Refresh the message box.
             this.setState({
                 messages: updatedMsgBox.list_of_messages_by_users_in_box
@@ -49,18 +49,19 @@ export default class MessagePanel extends React.Component {
     }
     createNewConversation() {
         createMessageBox(this.state.user_id, (msg_box) => {
-            this.refreshMessageBox(msg_box);
-            getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
-                this.setState({
-                    recent_msgBoxes: recent_msg_boxes
+            this.refreshMessageBox(msg_box, ()=>{
+                getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+                    this.setState({
+                        recent_msgBoxes: recent_msg_boxes
+                    });
                 });
-                console.log('New message box: ' + JSON.stringify(this.state));
             });
         });
     }
     loadMessageBox(msg_box_id) {
         getMessageBoxServer(msg_box_id, (msg_box) => {
                 getParticipantProfiles(msg_box._id, (profiles) => {
+                    // console.log(JSON.stringify(profiles));
                     this.setState({
                         msg_box_id: msg_box._id,
                         messages: msg_box.list_of_messages_by_users_in_box,
@@ -69,19 +70,26 @@ export default class MessagePanel extends React.Component {
                 });
             });
     }
-    refreshMessageBox(updatedMsgBox) {
+    refreshMessageBox(updatedMsgBox, cb) {
                 getParticipantProfiles(updatedMsgBox._id, (profiles) => {
                     this.setState({
                         msg_box_id: updatedMsgBox._id,
                         messages: updatedMsgBox.list_of_messages_by_users_in_box,
                         participant_profiles: profiles
                     });
+                    cb();
                 });
     }
     addNewParticipant(){
         var invitedUserId = Number(this.refs.invitedUser.value);
         joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {
-            this.refreshMessageBox(updatedMsgBox);
+            this.refreshMessageBox(updatedMsgBox, () => {
+                getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+                    this.setState({
+                        recent_msgBoxes: recent_msg_boxes
+                    });
+                });
+            });
         });
     }
     componentWillReceiveProps(newProps){
@@ -103,11 +111,11 @@ export default class MessagePanel extends React.Component {
     						</div>
     						<div className="panel-body recent-contact">
     							<ul className="list-group">
-                                                                            {
-                                                                                this.state.recent_msgBoxes.map((boxId, i) => {
-                                                                                    return <MessageBox key={i} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
-                                                                                })
-                                                                            }
+                                    {
+                                        this.state.recent_msgBoxes.map((boxId, i) => {
+                                            return <MessageBox key={i} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
+                                        })
+                                    }
     							</ul>
     						</div>
     					</div>
@@ -117,7 +125,10 @@ export default class MessagePanel extends React.Component {
     			<div className="col-xs-8">
     				<div className="panel panel-default">
                                                     <div className="panel-heading">
-                                                        <h4><span className="glyphicon glyphicon-book"></span>{this.state.msg_box_id}</h4>
+                                                        <h4><span className="glyphicon glyphicon-book"></span>Message Box {this.state.msg_box_id}
+                                                            <br/>{this.state.participant_profiles.map((profile, o) => {
+                                                                return <img src={profile.profilepic} key={o}  className="img-circle" width="15px" height="15px"/>
+                                                            })}</h4>
                                                         <div className="btn-group footer-btn">
                                                             <button className="btn btn-default" onClick={this.createNewConversation}><span className="glyphicon glyphicon-calendar"></span>New Conversation</button>
 
@@ -127,10 +138,10 @@ export default class MessagePanel extends React.Component {
                                                                     <div className="modal-content">
                                                                         <div className="modal-header">
                                                                             <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                                                            <h4 className="modal-title">Search and Select Participants</h4>
+                                                                            <h4 className="modal-title">Enter Participant ID</h4>
                                                                         </div>
                                                                         <div className="modal-body">
-                                                                            User ID :: <input ref="invitedUser" type="text"/>
+                                                                            Participant ID <input ref="invitedUser" type="text"/>
                                                                         </div>
                                                                         <div className="modal-footer">
                                                                             <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.addNewParticipant}>Add</button>

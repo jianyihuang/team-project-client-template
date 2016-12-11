@@ -56,7 +56,7 @@ function sendXHR(verb, resource, body, cb) {
     switch (typeof(body)) {
       case 'undefined':
         // No body to send.
-        console.log("body is undefined");
+        // console.log("body is undefined");
         xhr.send();
         break;
       case 'string':
@@ -86,14 +86,14 @@ function emulateServerReturn(data, cb) {
 }
 
 export function getFeedData(user,type, cb) {
-  console.log('getFeedData is called with ' + user + ', ' + type);
+  // console.log('getFeedData is called with ' + user + ', ' + type);
   sendXHR('GET','/user/'+user+'/feed/'+type,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 export function postStatusUpdate(user, contents,type, cb) {
-  console.log(contents);
+  // console.log(contents);
   sendXHR('POST','/feeditem/'+type,{
     "author": user,
     "request": contents.title,
@@ -274,7 +274,7 @@ export function getRecentMessageBoxes(userId, numberOfBoxes, cb) {
 
 // Create a new message box.
 export function createMessageBox(userId, cb) {
-  console.log("Created!!!");
+  // console.log("Created!!!");
   sendXHR('PUT','/messagebox/create/' + userId, undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
@@ -289,6 +289,7 @@ export function joinMessageBox(box_msg_id, userId, cb) {
 
 export function resetDatabase() {
   sendXHR('POST',"/resetdb",undefined,()=>{
+    location.reload(true);
   });
 }
 

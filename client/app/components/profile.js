@@ -61,7 +61,7 @@ export default class Profile extends React.Component{
       }
       refresh(user_id){
         getUserData(user_id, (user_data) => {
-          console.log(JSON.stringify(user_data));
+          // console.log(JSON.stringify(user_data));
           this.setState({
             editing: false,
             first_name: user_data.first_name,
