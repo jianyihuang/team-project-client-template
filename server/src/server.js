@@ -796,23 +796,51 @@ function deleteFeed(userId,feedItemId,type,callback) {
   });
 
   app.put('/config/:userid', validate({body: ConfigSchema}), function(req,res) {
-    var userid = parseInt(req.params.userid, 10);
+    var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var userData = req.body;
+    var newUser = new ObjectID(userid);
     if(fromUser === userid) {
-        var user = readDocument('users', userid);
-        user.username = userData.username;
-        user.password = userData.password;
-        user.email = userData.email;
-        writeDocument('users', user);
-        res.status(201);
-        res.send(user);
-
+      db.collection('users').updateOne(
+        {_id: newUser},
+         {$set:
+           {username : userData.username,
+            password :userData.password,
+           email :userData.email}
+         },
+      function(err){
+        if (err){
+          res.status(500).send(err);
+        }
+        else{
+          res.status(201);
+          res.send(newUser);
+        }
+      })
     } else {
       res.status(401).end();
     }
   });
 
+
+  app.get('/config/:userid', function(req,res) {
+    var userid = req.params.userid;
+    var fromUser = getUserIdFromToken(req.get('Authorization'));
+    if(fromUser === userid) {
+      db.collection('users').findOne({_id:new ObjectID(userid)},
+      function(err, userData){
+        if (err){
+          res.status(500).send(err);
+        }
+        else{
+          res.status(201);
+          res.send(userData);
+        }
+      })
+    } else {
+      res.status(401).end();
+    }
+  });
   app.get('/comment/:commentid/:userid',function(req,res){
     var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
