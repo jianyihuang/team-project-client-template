@@ -157,6 +157,7 @@ class CategoryBoxPage extends React.Component {
     return (
       <div>
         <link rel="stylesheet" href="css/academic.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:200" rel="stylesheet"/>
         <CategoryBox current_user={this.state.current_user}/>
       </div>
     );
