@@ -624,35 +624,85 @@ function resolveUserObjects(userList, callback) {
     return newPost;
   }
 
-  function getScheduleItem(scheduleId) {
-    var schedules = readDocument('schedules', scheduleId);
-    var scheduleData = {
-      //console.log(indexSchedule);
-       _id: scheduleId,
-       completed: schedules.completed,
-       contents: {
-        // ID of the user that the appointment is with
-        author:schedules.contents.author,
-        subscriber : schedules.contents.subscriber,
-        date : schedules.contents.date,
-        time:schedules.contents.time,
-        serviceContents: schedules.contents.serviceContents
-      }
-    };
-    return scheduleData;
+  function resolveScheduleObject(scheduleList, callback) {
+    // Special case: userList is empty.
+    // It would be invalid to query the database with a logical OR
+    // query with an empty array.
+    if (scheduleList.length === 0) {
+      callback(null, {});
+    } else {
+      // Build up a MongoDB "OR" query to resolve all of the user objects
+      // in the userList.
+      var query = {
+        $or: scheduleList.map((id) => { return {_id: id } })
+      };
+      // Resolve 'like' counter
+      db.collection('schedules').find(query).toArray(function(err, schedules) {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, schedules);
+      });
+    }
+  }
+
+  function getScheduleItem(scheduleId, cb) {
+     db.collection('schedules').findOne({
+        _id: new ObjectID (scheduleId)
+      }, function(err, schedules) {
+        if (err) {
+          // An error occurred.
+          console.log(err);
+        } else{
+          var scheduleData = {
+            //console.log(indexSchedule);
+             _id: new ObjectID(scheduleId),
+             completed: schedules.completed,
+             contents: {
+              // ID of the user that the appointment is with
+              author:schedules.contents.author,
+              subscriber : schedules.contents.subscriber,
+              date : schedules.contents.date,
+              time:schedules.contents.time,
+              serviceContents: schedules.contents.serviceContents
+            }
+          };
+          cb(scheduleData);
+        }
+      });
   }
 
   app.get('/schedule/:userid', function(req, res) {
-    var userId = parseInt(req.params.userid, 10);
+    var userId = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     if(fromUser === userId) {
       // send response
       // Get the User object with the id "user".
-      var userData = readDocument('users', userId);
-      var scheduleData = userData.schedules.map(function(scheduleId){
-        return getScheduleItem(scheduleId);
-      });
-      res.send(scheduleData);
+       db.collection('users').findOne({
+          _id: new ObjectID(userId)
+        }, function(err, userData){
+          if (err) {
+            console.log("error1");
+          } else {
+            //console.log(userData);
+          // var scheduleData = [];
+          // db.collection('schedules').find({
+          //   _id: {$in: userData.schedules}
+          // }, function(err, scheduleData){
+          //   console.log(JSON.stringify(scheduleData));
+          //   res.send(scheduleData);
+          // });
+          // userData.schedules.forEach(function(scheduleId){
+          //   getScheduleItem(scheduleId, (data) => {
+          //     scheduleData.push(data);
+          //   });
+          // });
+          resolveScheduleObject(userData.schedules,function(err, scheduleData){
+            console.log(scheduleData);
+            res.send(scheduleData);
+          })
+          }
+        });
     } else {
       res.status(401).end();
     }
