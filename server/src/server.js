@@ -233,7 +233,7 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
       });
     }
 
-  function postStatusUpdate(user,tag,contents,imgUrl,request,type) {
+  function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
     var time = new Date().getTime();
     var newPost = {
       "view_count": 0,
@@ -242,28 +242,53 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
       "tag": categoryMap[tag],
       "list_of_comments":[],
       "contents": {
-        "author": user,
+        "author": new ObjectID(user),
         "timestamp": time,
         "request": request,
         "contents": contents,
         "imgUrl":imgUrl
       }
     }
-    console.log(contents);
-    console.log(newPost);
-    newPost = addDocument('feedItems',newPost);
-    var userData = readDocument('users', user);
-    var feedData;
-    if(type === 1) {
-       feedData = readDocument('academicfeeds', userData.Academic_feed);
-       feedData.list_of_feeditems.unshift(newPost._id);
-       writeDocument('academicfeeds', feedData);
-    }else {
-       feedData = readDocument('servicefeeds', userData.Service_feed);
-       feedData.list_of_feeditems.unshift(newPost._id);
-       writeDocument('servicefeeds', feedData);
-    }
-    return newPost;
+    // console.log(contents);
+    // console.log(newPost);
+    db.collection('feedItems').insertOne(newPost, function(err,result) {
+      if (err) {
+        callback(err);
+      } else {
+        db.collection('users').findOne({_id:new ObjectID(user)},
+          function(err, user) {
+            if (err) {
+              callback(err);
+            } else if (user === null){
+              callback(null,null);
+            } else {
+              if (type === 1) {
+                db.collection('academicfeeds').updateOne(
+                  {_id:new ObjectID(user.Academic_feed)},
+                  {$push:{list_of_feeditems:{$each:[result.insertedId],$position:0}}},
+                  function(err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null,newPost);
+                    }
+                  });
+              } else {
+                db.collection('servicefeeds').updateOne(
+                  {_id:new ObjectID(user.Academic_feed)},
+                  {$push:{list_of_feeditems:{$each:[result.insertedId],$position:0}}},
+                  function(err) {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null,newPost);
+                    }
+                  });
+              }
+            }
+          });
+        }
+    });
   }
 
   /**
@@ -333,10 +358,17 @@ function resolveUserObjects(userList, callback) {
     var body = req.body;
     if(body.author === fromUser) {
       var feedItemType = parseInt(req.params.feeditemtype,10);
-      var newPost = postStatusUpdate(body.author,body.category,body.contents,body.imgUrl,body.request,feedItemType);
-      res.status(201);
-      res.set('Location','/feeditem/'+newPost._id);
-      res.send(newPost);
+      postStatusUpdate(body.author,body.category,body.contents,
+        body.imgUrl,body.request,feedItemType,function(err,newPost) {
+          if (err) {
+            res.status(500).send("Database error: "+err);
+          } else {
+            res.status(201);
+            res.set('Location','/feeditem/'+newPost._id);
+            console.log(newPost);
+            res.send(newPost);
+          }
+        });
     }else {
       res.status(401).end();
     }
@@ -365,7 +397,6 @@ function resolveUserObjects(userList, callback) {
               if (err) {
                 res.status(500).send("Database error: "+err);
               } else {
-                console.log(feedItem.likeCounter);
                 res.status(201).send(feedItem.likeCounter);
               }
             })
@@ -391,7 +422,6 @@ function resolveUserObjects(userList, callback) {
               if (err) {
                 res.status(500).send("Database error: "+err);
               } else {
-                console.log(feedItem.likeCounter);
                   res.status(201).send(feedItem.likeCounter);
               }
             });
@@ -780,7 +810,7 @@ function resolveUserObjects(userList, callback) {
      if(fromUser === userId) {
        var time = new Date().getTime();
        var newComment = {
-         "author":userId,
+         "author":new ObjectID(userId),
          "timestamp":time,
          "contents":content
        }

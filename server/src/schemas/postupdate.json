@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "author": {
-      "type": "integer",
+      "type": "string",
       "id": "author"
     },
     "request": {
