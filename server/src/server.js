@@ -103,75 +103,9 @@ MongoClient.connect(url,function(err,db) {
       });
     });
   }
-// Handle getParticipantProfiles
-app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var box_msg_id = parseInt(req.params.box_msg_id, 10);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  var participantList = messageBox.list_of_users;
-  // The requesting user is in the participant list, which should be allowed.
-  if (participantList.indexOf(fromUser) !== -1) {
-    var participantProfiles = participantList.map(function(user_id) {
-      return getShortProfile(user_id);
-    });
-    res.send(participantProfiles);
-  }
-  else {
-    res.status(401).end();
-  }
-});
-
-// Handle getMessageBoxServer.
-app.get('/messagebox/:box_msg_id', function(req, res) {
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var box_msg_id = parseInt(req.params.box_msg_id, 10);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
-    // Update recent msg box.
-    // Read the user from the database.
-    // var user = readDocument('users', fromUser);
-    // // Get the last numberOfBoxes in the messageboxes.
-    // var index_of_requested_box = user.messageboxes.indexOf(box_msg_id);
-    // if(index_of_requested_box !== -1) {
-    //   var sliced_out = user.messageboxes.slice(index_of_requested_box, index_of_requested_box + 1);
-    //   user.messageboxes.push(sliced_out);
-    //   writeDocument('users', user);
-    // }
-    res.send(messageBox);
-  }
-  else {
-    res.status(401).end();
-  }
-});
-
-// Handle sendMessageServer from client.
-app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  // Get the current time.
-  var time = new Date().getTime();
-  var user_id = parseInt(req.params.user_id, 10);
-  var box_msg_id = parseInt(req.params.box_msg_id, 10);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  var content = req.body.content;
-  // Check if the user is already in the conversation.
-  if(messageBox.list_of_users.indexOf(fromUser) !== -1
-    && user_id === fromUser) {
-        // Push the message into the conversation box.
-        messageBox.list_of_messages_by_users_in_box.push({
-          'user_id': user_id,
-          'timestamp': time,
-          'content': content
-        });
-        writeDocument('messageboxes', messageBox);
-        res.send(messageBox);
-  }
-  else {
-    res.status(401).end();
-  }
-});
 
   function getFeedData(user,type,callback) {
-    console.log("Get called");
+    // console.log("Get called");
     db.collection('users').findOne({_id: user},function(err,userData) {
       // console.log(userData);
       if (err) {
@@ -184,22 +118,22 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
         db.collection('academicfeeds').findOne({_id:userData.Academic_feed},
         function (err,feedData) {
           if (err) {
-            console.log("Error getting feed");
+            // console.log("Error getting feed");
               callback(err)
           } else if (feedData === null){
-            console.log("Empty feed");
+            // console.log("Empty feed");
               callback(null,null);
+          } else {
+            // console.log(feedData.list_of_feeditems);
+            processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
+              if (err) {
+                 callback(err);
+              } else {
+                feedData.list_of_feeditems = resolvedContents;
+                 callback(null,feedData);
+              }
+            });
           }
-          console.log(feedData.list_of_feeditems);
-          processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
-            if (err) {
-               callback(err);
-            } else {
-              feedData.list_of_feeditems = resolvedContents;
-              // console.log(feedData);
-               callback(null,feedData);
-            }
-          });
         });
        } else {
         db.collection('servicefeeds').findOne({_id:userData.Service_feed},
@@ -252,7 +186,7 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 
   function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
     var time = new Date().getTime();
-    console.log(tag);
+    // console.log(tag);
     var newPost = {
       "view_count": 0,
       "likeCounter": [],
@@ -358,6 +292,7 @@ function resolveUserObjects(userList, callback) {
         } else if (feedData === null) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
+          console.log(feedData);
           res.status(201).send(feedData);
         }
       })
@@ -559,16 +494,37 @@ function deleteFeed(userId,feedItemId,type,callback) {
   **/
 
   // Get the user's short profile.
-  function getShortProfile(userId) {
-    var user = readDocument('users', userId);
-    var profile = {
-      user_id: userId,
-      username: user.username,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      profilepic: user.profilepic
+  function getShortProfiles(list_userId, callback) {
+    // Special case: userList is empty.
+  // It would be invalid to query the database with a logical OR
+  // query with an empty array.
+  if (list_userId.length === 0) {
+    callback(null, {});
+  } else {
+    // Build up a MongoDB "OR" query to resolve all of the user objects
+    // in the userList.
+    var query = {
+      $or: list_userId.map((id) => { return {_id: new ObjectID(id) } })
     };
-    return profile;
+    db.collection('users').find(query).toArray(function(err, users) {
+      if (err) {
+        return callback(err);
+      }
+      // Build a map from ID to user object.
+      // (so userMap["4"] will give the user with ID 4)
+      var profiles = users.map((user) => {
+        var profile = {
+          user_id: user._id,
+          username: user.username,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          profilepic: user.profilepic
+        };
+        return profile;
+      });
+      callback(null, profiles);
+    });
+  }
   }
     // Increase view count
     // authorization is done in get feed data
@@ -588,50 +544,111 @@ function deleteFeed(userId,feedItemId,type,callback) {
           });
         }});
       });
-
-  // Handle getParticipantProfiles
-  app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var box_msg_id = parseInt(req.params.box_msg_id, 10);
-    var messageBox = readDocument('messageboxes', box_msg_id);
-    var participantList = messageBox.list_of_users;
+//------------------------------------------------------------
+// Handle getParticipantProfiles
+app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var box_msg_id = req.params.box_msg_id;
+  console.log(box_msg_id);
+  db.collection('messageboxes').findOne({
+    _id: new ObjectID(box_msg_id)
+  }, (err, messageBox) => {
+    if(err) {
+      res.status(500).end();
+    }
+    // console.log('getParticipantProfiles');
+    // console.log(messageBox);
+    var participantList = messageBox.list_of_users.map((id) => {return id.toString();});
     // The requesting user is in the participant list, which should be allowed.
     if (participantList.indexOf(fromUser) !== -1) {
-      var participantProfiles = participantList.map(function(user_id) {
-        return getShortProfile(user_id);
+      getShortProfiles(participantList, (err, profiles) => {
+        // console.log(profiles);
+        res.send(profiles);
       });
-      res.send(participantProfiles);
+    }
+    else {
+      res.status(401).end();
+    }
+  });
+});
+
+// Handle getMessageBoxServer.
+app.get('/messagebox/:box_msg_id', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var box_msg_id = req.params.box_msg_id;
+  db.collection('messageboxes').findOne({
+    _id: new ObjectID(box_msg_id)
+  }, (err, messageBox) => {
+    if(err) {
+      res.status(500).end();
+    }
+    else {
+      // console.log(messageBox);
+      if(messageBox.list_of_users.map((user)=>{return user.toString();}).indexOf(fromUser) !== -1) {
+        res.send(messageBox);
+      }
+      else {
+        res.status(401).end();
+      }
+    }
+  });
+});
+
+// Handle sendMessageServer from client.
+app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  // Get the current time.
+  var time = new Date().getTime();
+  var user_id = req.params.user_id;
+  var box_msg_id = req.params.box_msg_id;
+  db.collection('messageboxes').findOne({
+    _id: new ObjectID(box_msg_id)
+  }, (err, messageBox) => {
+    var content = req.body.content;
+    // Check if the user is already in the conversation.
+    if(messageBox.list_of_users.map((user_id)=>{ return user_id.toString();}).indexOf(fromUser) !== -1
+      && user_id === fromUser) {
+          var sent_msg = {
+            'user_id': user_id,
+            'timestamp': time,
+            'content': content
+          };
+          // Push the message into the conversation box.
+          db.collection('messageboxes').updateOne({
+            _id: new ObjectID(box_msg_id)
+          }, {
+            $push: {list_of_messages_by_users_in_box: sent_msg}
+          }, (err, result) => {
+            db.collection('messageboxes').findOne({
+                _id: new ObjectID(box_msg_id)
+              }, (err, messageBox) => {
+                res.send(messageBox);
+              });
+          });
     }
     else {
       res.status(401).end();
     }
   });
 
-  // Handle getMessageBoxServer.
-  app.get('/messagebox/:box_msg_id', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var box_msg_id = parseInt(req.params.box_msg_id, 10);
-    var messageBox = readDocument('messageboxes', box_msg_id);
-    if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
-      res.send(messageBox);
-    }
-    else {
-      res.status(401).end();
-    }
-  });
+});
+
 
   // Handle getRecentMessageBoxes from client.
   app.get('/users/:userid/recentmsgboxes/:numberofboxes', function(req, res) {
     var userInToken = getUserIdFromToken(req.get('Authorization'));
-    var userId = parseInt(req.params.userid, 10);
+    var userId = req.params.userid;
     var numberOfBoxes = parseInt(req.params.numberofboxes, 10);
     if(userInToken === userId){
-      // Read the user from the database.
-      var user = readDocument('users', userId);
-      // Get the last numberOfBoxes in the messageboxes.
-      var reversedMsgBoxes = user.messageboxes;
-      var recentBoxIds = reversedMsgBoxes.reverse().slice(0, numberOfBoxes);
-      res.send(recentBoxIds);
+      db.collection('users').findOne({
+        _id: new ObjectID(userId)
+      }, (err, user) => {
+        // Get the last numberOfBoxes in the messageboxes.
+        var reversedMsgBoxes = user.messageboxes;
+        var recentBoxIds = reversedMsgBoxes.reverse().slice(0, numberOfBoxes);
+        // console.log(recentBoxIds);
+        res.send(recentBoxIds);
+      });
     }
     else {
       res.status(401).end();
@@ -641,7 +658,7 @@ function deleteFeed(userId,feedItemId,type,callback) {
   // Handle createMessageBox from client.
   app.put('/messagebox/create/:user_id', function(req, res) {
     var userInToken = getUserIdFromToken(req.get('Authorization'));
-    var userId = parseInt(req.params.user_id, 10);
+    var userId = req.params.user_id;
     if (userInToken === userId){
       // Get the current time.
       var time = new Date().getTime();
@@ -652,13 +669,17 @@ function deleteFeed(userId,feedItemId,type,callback) {
         'creation_timestamp': time
       }
       messageBox.list_of_users.push(userId);
-      messageBox = addDocument('messageboxes', messageBox);
-      var user = readDocument('users', userId);
-      // Add the creator into the list of users.
-      user.messageboxes.push(messageBox._id);
-      // Update users in database.
-      writeDocument('users', user);
-      res.send(messageBox);
+      db.collection('messageboxes').insertOne(messageBox, (err, result) => {
+        messageBox._id = result.insertedId;
+        db.collection('users').updateOne({
+          _id: new ObjectID(userId)
+        }, {
+          $push: {messageboxes: messageBox._id}
+        },(err, result) => {
+          // console.log(messageBox);
+          res.send(messageBox);
+        });
+      });
     }
     else {
       res.status(401).end();
@@ -669,26 +690,36 @@ function deleteFeed(userId,feedItemId,type,callback) {
   // Handle joinMessageBox from client.
   app.put('/messagebox/:box_msg_id/add/:user_id', function(req, res) {
     var userInToken = getUserIdFromToken(req.get('Authorization'));
-    var userId = parseInt(req.params.user_id, 10);
-    var box_msg_id = parseInt(req.params.box_msg_id,10);
-    var messageBox = readDocument('messageboxes', box_msg_id);
-    if (messageBox.list_of_users.indexOf(userInToken) !== -1) {
-      // When the invited user is not already in the list of participants, we add him or her in.
-      if (messageBox.list_of_users.indexOf(userId) === -1) {
-        // Add the user into the list.
-        messageBox.list_of_users.push(userId);
-        // Update messageBox.
-        writeDocument('messageboxes', messageBox);
-        var user = readDocument('users', userId);
-        user.messageboxes.push(box_msg_id);
-        // Update user.
-        writeDocument('users', user);
+    var userId = req.params.user_id;
+    var box_msg_id = req.params.box_msg_id;
+    db.collection('messageboxes').findOne({
+      _id: new ObjectID(box_msg_id)
+    }, (err, messageBox) => {
+      if (messageBox.list_of_users.indexOf(userInToken) !== -1) {
+        // When the invited user is not already in the list of participants, we add him or her in.
+        if (messageBox.list_of_users.indexOf(userId) === -1) {
+          db.collection('messageboxes').updateOne({
+            _id: new ObjectID(box_msg_id)
+          }, {
+            $push: {list_of_users: new ObjectID(userId)}
+          },(err, result) => {
+            db.collection('users').updateOne({
+              _id: new ObjectID(userId)
+            }, {
+              $push: {messageboxes: new ObjectID(box_msg_id)}
+            },(err, result) => {
+              res.send(messageBox);
+            });
+          });
+        }
+        else{
+          res.send(messageBox);
+        }
       }
-      res.send(messageBox);
-    }
-    else {
-      res.status(401).end();
-    }
+      else {
+        res.status(401).end();
+      }
+    });
   });
 
   //schedule part ------------
@@ -1001,6 +1032,49 @@ function deleteFeed(userId,feedItemId,type,callback) {
          res.status(401).end();
        }
      });
+
+  app.get('/user/:userid/requests',function(req,res) {
+     var fromUser = getUserIdFromToken(req.get('Authorization'));
+     var userId = req.params.userid;
+     if(fromUser === userId) {
+       db.collection('feedItems').find({"contents.author":new ObjectID(userId)}
+        ).toArray(function(err, feedItems) {
+         var size = feedItems.length;
+         var resolvedFeedItems = [];
+         feedItems.forEach((feedItem) => {
+           var userList = [feedItem.contents.author];
+           userList = userList.concat(feedItem.likeCounter);
+           resolveUserObjects(userList,function(err,userMap) {
+             if (err) {
+               res.status(500).send("Database error: "+err);
+             } else {
+               db.collection('servicetags').findOne({_id:new ObjectID(feedItem.tag)},
+               function(err,tag) {
+                 if (err) {
+                   res.status(500).send("Database error: "+err);
+                 } else {
+                   feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
+                   feedItem.contents.author = userMap[feedItem.contents.author];
+                   feedItem.tag = tag
+                   resolvedFeedItems.push(feedItem);
+                   if(resolvedFeedItems.length === size) {
+                     var finalFeed = {
+                       "_id":new ObjectID(userId),
+                       "list_of_feeditems":resolvedFeedItems
+                     }
+                     res.status(201).send(finalFeed);
+                   }
+                 }
+               });
+             }
+           });
+         });
+       });
+     } else {
+       res.status(401).end();
+     }
+  });
+
   /**
    * Translate JSON Schema Validation failures into error 400s.
   */
