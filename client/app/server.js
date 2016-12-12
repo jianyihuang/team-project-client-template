@@ -1,6 +1,33 @@
 var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9';
 
-var users = ['eyJpZCI6MX0=', 'eyJpZCI6Mn0=', 'eyJpZCI6M30=', 'eyJpZCI6NH0=', 'eyJpZCI6NX0=', 'eyJpZCI6Nn0='];
+var users = [
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMiJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMyJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNCJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNSJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNiJ9'];
+
+export function toLength24String(user_id) {
+  var id = "" + user_id;
+  var string24 = "";
+  for (var j = 24 - id.length; j > 0; j--) {
+    string24 += "0";
+  }
+  return (string24 + id);
+}
+
+export function tripOff0s(length24String) {
+  var id = "";
+  var i = 0;
+  for (; i < length24String.length; i++) {
+    if(length24String.charAt(i) !== '0') {
+      break;
+    }
+  }
+  console.log(i);
+  return length24String.slice(i, length24String.length);
+}
 
 export function changeToken(user_id){
   token = users[user_id - 1];

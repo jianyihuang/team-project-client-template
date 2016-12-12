@@ -1,13 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router';
 import SearchBar from './searchbar';
-import {resetDatabase, getUserData} from '../server';
+import {resetDatabase, getUserData, tripOff0s, toLength24String} from '../server';
 
 export default class Navbar extends React.Component {
 constructor(props) {
 	super(props);
 	this.state = {
-		text: String(props.current_user),
+		text: tripOff0s(String(props.current_user)),
 		user_id: props.current_user,
 		user_name: '',
 		profile_pic: ''
@@ -26,7 +26,7 @@ componentDidMount(){
 componentWillReceiveProps(newProps){
 	getUserData(newProps.current_user, (user_profile) => {
 		this.setState({
-		  text: newProps.current_user,
+		  text: tripOff0s(newProps.current_user),
 		  user_name: user_profile.username,
 		  profile_pic: user_profile.profilepic,
 		});
@@ -36,7 +36,7 @@ _userChanged(event) {
     event.preventDefault();
     this.setState({
     	text: event.target.value,
-        user_id: Number(event.target.value)
+        user_id: toLength24String(Number(event.target.value))
     });
 }
 changeUser(){

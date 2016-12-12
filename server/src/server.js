@@ -103,72 +103,6 @@ MongoClient.connect(url,function(err,db) {
       });
     });
   }
-// Handle getParticipantProfiles
-app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var box_msg_id = parseInt(req.params.box_msg_id, 10);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  var participantList = messageBox.list_of_users;
-  // The requesting user is in the participant list, which should be allowed.
-  if (participantList.indexOf(fromUser) !== -1) {
-    var participantProfiles = participantList.map(function(user_id) {
-      return getShortProfile(user_id);
-    });
-    res.send(participantProfiles);
-  }
-  else {
-    res.status(401).end();
-  }
-});
-
-// Handle getMessageBoxServer.
-app.get('/messagebox/:box_msg_id', function(req, res) {
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  var box_msg_id = parseInt(req.params.box_msg_id, 10);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
-    // Update recent msg box.
-    // Read the user from the database.
-    // var user = readDocument('users', fromUser);
-    // // Get the last numberOfBoxes in the messageboxes.
-    // var index_of_requested_box = user.messageboxes.indexOf(box_msg_id);
-    // if(index_of_requested_box !== -1) {
-    //   var sliced_out = user.messageboxes.slice(index_of_requested_box, index_of_requested_box + 1);
-    //   user.messageboxes.push(sliced_out);
-    //   writeDocument('users', user);
-    // }
-    res.send(messageBox);
-  }
-  else {
-    res.status(401).end();
-  }
-});
-
-// Handle sendMessageServer from client.
-app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
-  var fromUser = getUserIdFromToken(req.get('Authorization'));
-  // Get the current time.
-  var time = new Date().getTime();
-  var user_id = parseInt(req.params.user_id, 10);
-  var box_msg_id = parseInt(req.params.box_msg_id, 10);
-  var messageBox = readDocument('messageboxes', box_msg_id);
-  var content = req.body.content;
-  // Check if the user is already in the conversation.
-  if(messageBox.list_of_users.indexOf(fromUser) !== -1
-    && user_id === fromUser) {
-        // Push the message into the conversation box.
-        messageBox.list_of_messages_by_users_in_box.push({
-          'user_id': user_id,
-          'timestamp': time,
-          'content': content
-        });
-        writeDocument('messageboxes', messageBox);
-        res.send(messageBox);
-  }
-  else {
-    res.status(401).end();
-  }
-});
 
   function getFeedData(user,type,callback) {
     console.log("Get called");
@@ -588,6 +522,73 @@ function deleteFeed(userId,feedItemId,type,callback) {
           });
         }});
       });
+//------------------------------------------------------------
+// Handle getParticipantProfiles
+app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  var participantList = messageBox.list_of_users;
+  // The requesting user is in the participant list, which should be allowed.
+  if (participantList.indexOf(fromUser) !== -1) {
+    var participantProfiles = participantList.map(function(user_id) {
+      return getShortProfile(user_id);
+    });
+    res.send(participantProfiles);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+// Handle getMessageBoxServer.
+app.get('/messagebox/:box_msg_id', function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
+    // Update recent msg box.
+    // Read the user from the database.
+    // var user = readDocument('users', fromUser);
+    // // Get the last numberOfBoxes in the messageboxes.
+    // var index_of_requested_box = user.messageboxes.indexOf(box_msg_id);
+    // if(index_of_requested_box !== -1) {
+    //   var sliced_out = user.messageboxes.slice(index_of_requested_box, index_of_requested_box + 1);
+    //   user.messageboxes.push(sliced_out);
+    //   writeDocument('users', user);
+    // }
+    res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+});
+
+// Handle sendMessageServer from client.
+app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  // Get the current time.
+  var time = new Date().getTime();
+  var user_id = parseInt(req.params.user_id, 10);
+  var box_msg_id = parseInt(req.params.box_msg_id, 10);
+  var messageBox = readDocument('messageboxes', box_msg_id);
+  var content = req.body.content;
+  // Check if the user is already in the conversation.
+  if(messageBox.list_of_users.indexOf(fromUser) !== -1
+    && user_id === fromUser) {
+        // Push the message into the conversation box.
+        messageBox.list_of_messages_by_users_in_box.push({
+          'user_id': user_id,
+          'timestamp': time,
+          'content': content
+        });
+        writeDocument('messageboxes', messageBox);
+        res.send(messageBox);
+  }
+  else {
+    res.status(401).end();
+  }
+});
 
   // Handle getParticipantProfiles
   app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
@@ -601,19 +602,6 @@ function deleteFeed(userId,feedItemId,type,callback) {
         return getShortProfile(user_id);
       });
       res.send(participantProfiles);
-    }
-    else {
-      res.status(401).end();
-    }
-  });
-
-  // Handle getMessageBoxServer.
-  app.get('/messagebox/:box_msg_id', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var box_msg_id = parseInt(req.params.box_msg_id, 10);
-    var messageBox = readDocument('messageboxes', box_msg_id);
-    if(messageBox.list_of_users.indexOf(fromUser) !== -1) {
-      res.send(messageBox);
     }
     else {
       res.status(401).end();
