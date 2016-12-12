@@ -681,24 +681,44 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 
   //schedule part ------------
 
-  function addScheule(userId,user, time, subscriber,date,serviceContents) {
-    var newPost = {
+  function addScheule(userId,user, time, subscriber,date,serviceContents, callback) {
+    var newScheduleItem = {
       "completed": "COMPLETED",
       "contents": {
         "author": user,
         "time": time,
-        "subscriber": subscriber,
-        "date": date,
-        "serviceContents":serviceContents
+        "subscriber": serviceContents,
+        "date": subscriber,
+        "serviceContents":date
       }
     }
-    console.log(newPost);
-    newPost = addDocument('schedules',newPost);
-    var userData = readDocument('users', userId);
-    userData.schedules.push(newPost._id);
-    writeDocument('users', userData);
-    //writeDocument('academicfeeds', feedData);
-    return newPost;
+    //console.log(newPost);
+    db.collection('schedules').insertOne(newScheduleItem, function(err, result) {
+      if (err) {
+        return callback(err);
+      }
+      newScheduleItem._id = result.insertedId;
+        if (err) {
+          return callback(err);
+        }
+        db.collection('users').updateOne({ _id: userId },
+        {
+          $push: {
+            schedules: {
+              $each: [newScheduleItem._id],
+              $position: 0
+            }
+          }
+        },
+        function(err) {
+          if (err) {
+            return callback(err);
+          }
+          // Return the new status update to the application.
+          callback(null, newScheduleItem);
+        }
+      );
+    });
   }
 
   function resolveScheduleObject(scheduleList, callback) {
@@ -762,7 +782,7 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
             console.log("error1");
           } else {
           resolveScheduleObject(userData.schedules,function(err, scheduleData){
-            console.log(scheduleData);
+          //  console.log(scheduleData);
             res.send(scheduleData);
           })
           }
@@ -776,18 +796,31 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
     console.log("Get post scheduleItem");
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var body = req.body;
-    console.log('Server receives POST schedule :: ' + JSON.stringify(body));
+   console.log('Server receives POST schedule :: ' + JSON.stringify(body));
     //console.log(fromUser);
   //  console.log(body.author);
-    var user = readDocument('users', fromUser);
-    console.log((body.author) == (user.first_name));
-    if((body.author) === (user.first_name)) {
-      var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
-      res.status(201);
-      res.send(newPost);
-    }else {
-      res.status(401).end();
-    }
+    db.collection('users').findOne({ _id: new ObjectID(fromUser)},function(error, userObject){
+      if (err){
+        console.log(err);
+      }
+      console.log((body.author) == (userObject.first_name));
+      if((body.author) === (userObject.first_name)) {
+         addScheule(new ObjectID(fromUser),body.author,body.time,body.subscriber,
+         body.date,body.serviceContents, function(err, newUpdate){
+           if (err) {
+             // A database error happened.
+             // 500: Internal error.
+             res.status(500).send("A database error occurred: " + err);
+           } else {
+             console.log(newUpdate);
+             res.status(201);
+             res.send(newUpdate);
+           }
+         });
+      }else {
+        res.status(401).end();
+      }
+    })
   });
 
   app.delete('/schedule/:userid/:scheduleid',function(req,res) {
