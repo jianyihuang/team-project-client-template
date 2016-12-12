@@ -3,10 +3,11 @@ import {Link} from 'react-router';
 export default class CategoryBox extends React.Component {
   render() {
     return(
-      <div classNameName = "container">
+      <div className = "container">
+
         <ul className="caption-style-4">
           <li>
-            
+
             <Link to ="/acedemicdetail"><img src="img/resized/english_400x300.jpg" alt=""/>
               <div className="caption">
                 <div className="blur"></div>
@@ -15,6 +16,7 @@ export default class CategoryBox extends React.Component {
                   <p>Enter for Help </p>
                 </div>
               </div></Link>
+
           </li>
           <li>
 
@@ -38,8 +40,12 @@ export default class CategoryBox extends React.Component {
               </div>
             </div></Link>
           </li>
-          <li>
 
+          {/* </ul> */}
+
+        {/* <ul className="caption-style-4"> */}
+          {/* <div className="row"> */}
+          <li>
             <img src="img/resized/music_400x300.jpg" alt=""/>
             <Link to ="/acedemicdetail"><div className="caption">
               <div className="blur"></div>
@@ -70,8 +76,10 @@ export default class CategoryBox extends React.Component {
                 <p>Enter for Help </p>
               </div>
             </div></Link>
-                      </li>
-                    </ul>
+          </li>
+          {/* </div> */}
+          </ul>
+
                   </div>
                   );
                   }
