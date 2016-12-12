@@ -9,7 +9,7 @@
 }
 
 .msgbox-heading {
-  color: #FFFFFF !important;
+  /*color: #FFFFFF !important;*/
   background-color: #3F51B5 !important; 
 }
 .msgbox-body {
@@ -65,7 +65,7 @@ body {
 
 /*left most two pill in the navigation bar*/
 .nav .nav-pills {
-  color: #FFFFFF !important;
+  /*color: #FFFFFF !important;*/
   padding-top: 5px;
 }
 

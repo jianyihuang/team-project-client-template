@@ -3,7 +3,7 @@ import {MessageBox} from './message_components/message_box';
 import {Message} from './message_components/message';
 import {MessageEditor} from './message_components/message_editor';
 import {sendMessageServer, getMessageBoxServer, getRecentMessageBoxes, getParticipantProfiles, createMessageBox, joinMessageBox} from '../server';
-import {resetDatabase} from '../server';
+import {resetDatabase, toLength24String} from '../server';
 
 const n_recent_msgbox = 10;
 
@@ -81,7 +81,7 @@ export default class MessagePanel extends React.Component {
                 });
     }
     addNewParticipant(){
-        var invitedUserId = Number(this.refs.invitedUser.value);
+        var invitedUserId = toLength24String(Number(this.refs.invitedUser.value));
         joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {
             this.refreshMessageBox(updatedMsgBox, () => {
                 getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
