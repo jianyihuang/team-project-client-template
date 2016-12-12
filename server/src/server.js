@@ -105,7 +105,7 @@ MongoClient.connect(url,function(err,db) {
   }
 
   function getFeedData(user,type,callback) {
-    console.log("Get called");
+    // console.log("Get called");
     db.collection('users').findOne({_id: user},function(err,userData) {
       // console.log(userData);
       if (err) {
@@ -118,19 +118,18 @@ MongoClient.connect(url,function(err,db) {
         db.collection('academicfeeds').findOne({_id:userData.Academic_feed},
         function (err,feedData) {
           if (err) {
-            console.log("Error getting feed");
+            // console.log("Error getting feed");
               callback(err)
           } else if (feedData === null){
-            console.log("Empty feed");
+            // console.log("Empty feed");
               callback(null,null);
           }
-          console.log(feedData.list_of_feeditems);
+          // console.log(feedData.list_of_feeditems);
           processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
             if (err) {
                callback(err);
             } else {
               feedData.list_of_feeditems = resolvedContents;
-              // console.log(feedData);
                callback(null,feedData);
             }
           });
@@ -186,7 +185,7 @@ MongoClient.connect(url,function(err,db) {
 
   function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
     var time = new Date().getTime();
-    console.log(tag);
+    // console.log(tag);
     var newPost = {
       "view_count": 0,
       "likeCounter": [],
@@ -292,6 +291,7 @@ function resolveUserObjects(userList, callback) {
         } else if (feedData === null) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
+          console.log(feedData);
           res.status(201).send(feedData);
         }
       })
@@ -1022,6 +1022,49 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
          res.status(401).end();
        }
      });
+
+  app.get('/user/:userid/requests',function(req,res) {
+     var fromUser = getUserIdFromToken(req.get('Authorization'));
+     var userId = req.params.userid;
+     if(fromUser === userId) {
+       db.collection('feedItems').find({"contents.author":new ObjectID(userId)}
+        ).toArray(function(err, feedItems) {
+         var size = feedItems.length;
+         var resolvedFeedItems = [];
+         feedItems.forEach((feedItem) => {
+           var userList = [feedItem.contents.author];
+           userList = userList.concat(feedItem.likeCounter);
+           resolveUserObjects(userList,function(err,userMap) {
+             if (err) {
+               res.status(500).send("Database error: "+err);
+             } else {
+               db.collection('servicetags').findOne({_id:new ObjectID(feedItem.tag)},
+               function(err,tag) {
+                 if (err) {
+                   res.status(500).send("Database error: "+err);
+                 } else {
+                   feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
+                   feedItem.contents.author = userMap[feedItem.contents.author];
+                   feedItem.tag = tag
+                   resolvedFeedItems.push(feedItem);
+                   if(resolvedFeedItems.length === size) {
+                     var finalFeed = {
+                       "_id":new ObjectID(userId),
+                       "list_of_feeditems":resolvedFeedItems
+                     }
+                     res.status(201).send(finalFeed);
+                   }
+                 }
+               });
+             }
+           });
+         });
+       });
+     } else {
+       res.status(401).end();
+     }
+  });
+
   /**
    * Translate JSON Schema Validation failures into error 400s.
   */
