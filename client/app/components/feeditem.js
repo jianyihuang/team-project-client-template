@@ -29,7 +29,7 @@ export default class FeedItem extends React.Component {
     getUserData(this.state.current_user, (user_data) => {
       this.setState({
         "user_img": user_data.profilepic
-      });      
+      });
     });
   }
   handleLikeClick(clickEvent) {

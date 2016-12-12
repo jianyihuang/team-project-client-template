@@ -7,7 +7,7 @@ import {postStatusUpdate} from "../server";
 export default class Feed extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Current user in Feed:' + props.current_user);
+    // console.log('Current user in Feed:' + props.current_user);
     this.state = {
       current_user: this.props.current_user,
       list_of_feeditems:[]
@@ -15,7 +15,7 @@ export default class Feed extends React.Component {
     this.refresh = this.refresh.bind(this);
   }
   componentWillReceiveProps(newProps) {
-    console.log('Feed receives new user id: ' + newProps.current_user);
+    // console.log('Feed receives new user id: ' + newProps.current_user);
     this.setState({
       current_user: newProps.current_user
     });
