@@ -9,7 +9,7 @@ render(){
 
         <li>
 
-          <Link to ="/acedemicdetail"><img src="img/resized/carpool_400x300.png" alt=""/>
+          <Link to ="/servicedetail"><img src="img/resized/carpool_400x300.png" alt=""/>
             <div className="caption">
               <div className="blur"></div>
               <div className="caption-text">
@@ -21,7 +21,7 @@ render(){
         <li>
 
           <img src="img/resized/cat_400x300.jpeg" alt=""/>
-          <Link to ="/acedemicdetail">  <div className="caption">
+          <Link to ="/servicedetail">  <div className="caption">
             <div className="blur"></div>
             <div className="caption-text">
               <h1>Pet Care </h1>
@@ -32,7 +32,7 @@ render(){
         <li>
 
           <img src="img/resized/home_1_400x300.jpeg" alt=""/>
-          <Link to ="/acedemicdetail"><div className="caption">
+          <Link to ="/servicedetail"><div className="caption">
             <div className="blur"></div>
             <div className="caption-text">
               <h1>Home Improvement</h1>
@@ -47,7 +47,7 @@ render(){
         <li>
 
           <img src="img/resized/travel_400x300.jpeg" alt=""/>
-          <Link to ="/acedemicdetail"><div className="caption">
+          <Link to ="/servicedetail"><div className="caption">
             <div className="blur"></div>
             <div className="caption-text">
               <h1>Travel</h1>
@@ -58,7 +58,7 @@ render(){
         <li>
 
           <img src="img/resized/yard_400x300.jpg" alt=""/>
-          <Link to ="/acedemicdetail"><div className="caption">
+          <Link to ="/servicedetail"><div className="caption">
             <div className="blur"></div>
             <div className="caption-text">
               <h1>Yard Work</h1>
@@ -69,7 +69,7 @@ render(){
         <li>
 
           <img src="img/resized/Mr-Plumber-Logo1_400x300.png" alt=""/>
-          <Link to ="/acedemicdetail"><div className="caption">
+          <Link to ="/servicedetail"><div className="caption">
             <div className="blur"></div>
             <div className="caption-text">
               <h1>Plumbing</h1>
@@ -77,7 +77,7 @@ render(){
             </div>
           </div></Link>
         </li>
-        
+
         </ul>
 
       </div>
