@@ -15,7 +15,7 @@ import ErrorBanner from './components/errorbanner';
 import { IndexRoute,Router,Route,hashHistory } from 'react-router';
 
 // Temporarily used until we learn proper way to authenticate.
-import {changeToken} from './server';
+import {changeToken, toLength24String} from './server';
 
 /**
  * Search results page.
@@ -110,27 +110,17 @@ class SearchResults extends React.Component {
 class App extends React.Component {
   constructor(props){
     super(props);
-    var initial_user = '000000000000000000000001';
+    var initial_user = toLength24String(1);
     this.state = {
-      current_user: initial_user,
-      isOnDetailPage: true
+      current_user: initial_user
     }
     this.handleChangeUserNavbar = this.handleChangeUserNavbar.bind(this);
-    this.onDetailPage = this.onDetailPage.bind(this);
-  }
-  onDetailPage(){
-    changeToken(1);
-    this.setState({
-      current_user: '000000000000000000000001',
-      isOnDetailPage: true
-    });
   }
   handleChangeUserNavbar(user_id) {
     // Change token.
     changeToken(user_id);
     this.setState({
-      current_user: user_id,
-      isOnDetailPage: false
+      current_user: toLength24String(user_id)
     });
   }
   render() {
@@ -242,7 +232,7 @@ class ServiceDetailPage extends React.Component {
     return(
       <div>
         <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <DetailPage type={2} current_user={this.state.current_user}/>
+        <DetailPage type={2} current_user={this.state.current_user} isRequestPage={false}/>
       </div>
     );
   }
@@ -351,6 +341,30 @@ class ConfigPage extends React.Component {
   }
 }
 
+class MyRequestPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillMount(){
+    // this.props.forceNavChange();
+  }
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
+  render() {
+    return(
+      <div>
+        <link href="css/detail_page.css" rel="stylesheet"/>
+        <DetailPage type={1} current_user={this.state.current_user} isRequestPage={true}/>
+      </div>
+    );
+  }
+}
 
 ReactDOM.render((
   <Router history={hashHistory}>
@@ -367,6 +381,7 @@ ReactDOM.render((
       <Route path="/categorybox" component={CategoryBoxPage} />
       <Route path="/servicehome" component={ServiceHomePage} />
       <Route path="/search" component={SearchResultsPage} />
+      <Route path="/myrequest" component={MyRequestPage} />
     </Route>
   </Router>
   ),document.getElementById('App')

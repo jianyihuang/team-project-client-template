@@ -19,21 +19,21 @@ export class MessageBox extends React.Component {
 	}
 	componentWillReceiveProps(newProps) {
 		// console.log("New props:" + JSON.stringify(newProps));
-		getParticipantProfiles(newProps.boxId, (profiles) => {
-            // console.log(JSON.stringify(profiles));
-            this.setState({
-                participant_profiles: profiles
-            });
-        });
+		// getParticipantProfiles(newProps.boxId, (profiles) => {
+  //           // console.log(JSON.stringify(profiles));
+  //           this.setState({
+  //               participant_profiles: profiles
+  //           });
+  //       });
 	}
 	clicked() {
 		this.props.onRecentBoxMsgClicked(this.props.boxId);
 	}
 	render() {
 		return (
-				<li className="list-group-item active recent-conv" onClick={this.clicked}>
+				<li className="list-group-item recent-conv" onClick={this.clicked}>
 					<small>Message Box ID {this.props.boxId} <br/> {this.state.participant_profiles.map((profile, i) => {
-                                                                return <img src={profile.profilepic} key={i}  className="img-circle" width="15px" height="15px"/>
+                                                                return <img src={profile.profilepic} key={i}  className="img-circle" width="25px" height="25px"/>
                                                             })}</small>
 					<br/>
 				</li>

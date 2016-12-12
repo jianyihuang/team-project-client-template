@@ -3,11 +3,9 @@ import {MessageBox} from './message_components/message_box';
 import {Message} from './message_components/message';
 import {MessageEditor} from './message_components/message_editor';
 import {sendMessageServer, getMessageBoxServer, getRecentMessageBoxes, getParticipantProfiles, createMessageBox, joinMessageBox} from '../server';
-import {resetDatabase} from '../server';
+import {resetDatabase, toLength24String} from '../server';
 
 const n_recent_msgbox = 10;
-
-
 
 export default class MessagePanel extends React.Component {
     constructor(props) {
@@ -31,10 +29,10 @@ export default class MessagePanel extends React.Component {
         // Get recent message boxes.
         getRecentMessageBoxes(user_id, n_recent_msgbox, (recent_msg_boxes) => {
             // Get the most recent message box.
-            this.loadMessageBox(recent_msg_boxes[0]);
-            this.setState({
-                recent_msgBoxes: recent_msg_boxes
-            })
+            this.loadMessageBox(recent_msg_boxes[0]);   
+                this.setState({
+                    recent_msgBoxes: recent_msg_boxes
+                }) ;
         });
     }
     sendMessage(entered_text) {
@@ -48,9 +46,10 @@ export default class MessagePanel extends React.Component {
         });
     }
     createNewConversation() {
-        createMessageBox(this.state.user_id, (msg_box) => {
+        var zep = this.state.user_id;
+        createMessageBox(zep, (msg_box) => {
             this.refreshMessageBox(msg_box, ()=>{
-                getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+                getRecentMessageBoxes(zep, n_recent_msgbox, (recent_msg_boxes) => {
                     this.setState({
                         recent_msgBoxes: recent_msg_boxes
                     });
@@ -59,6 +58,7 @@ export default class MessagePanel extends React.Component {
         });
     }
     loadMessageBox(msg_box_id) {
+        // console.log(JSON.stringify(msg_box_id));
         getMessageBoxServer(msg_box_id, (msg_box) => {
                 getParticipantProfiles(msg_box._id, (profiles) => {
                     // console.log(JSON.stringify(profiles));
@@ -71,17 +71,17 @@ export default class MessagePanel extends React.Component {
             });
     }
     refreshMessageBox(updatedMsgBox, cb) {
-                getParticipantProfiles(updatedMsgBox._id, (profiles) => {
-                    this.setState({
-                        msg_box_id: updatedMsgBox._id,
-                        messages: updatedMsgBox.list_of_messages_by_users_in_box,
-                        participant_profiles: profiles
-                    });
-                    cb();
-                });
+        getParticipantProfiles(updatedMsgBox._id, (profiles) => {
+            this.setState({
+                msg_box_id: updatedMsgBox._id,
+                messages: updatedMsgBox.list_of_messages_by_users_in_box,
+                participant_profiles: profiles
+            });
+            cb();
+        });
     }
     addNewParticipant(){
-        var invitedUserId = Number(this.refs.invitedUser.value);
+        var invitedUserId = toLength24String(Number(this.refs.invitedUser.value));
         joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {
             this.refreshMessageBox(updatedMsgBox, () => {
                 getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
@@ -109,14 +109,14 @@ export default class MessagePanel extends React.Component {
     						<div className="panel-heading">
     							<h4><span className="glyphicon glyphicon-book"></span> Recent Conversations</h4>
     						</div>
-    						<div className="panel-body recent-contact">
-    							<ul className="list-group">
+    						<div className="panel-body recent-contact recent-scrollable">                        
+                                <ul className="list-group">
                                     {
                                         this.state.recent_msgBoxes.map((boxId, i) => {
-                                            return <MessageBox key={i} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
+                                            return <MessageBox key={boxId} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
                                         })
                                     }
-    							</ul>
+                                </ul>
     						</div>
     					</div>
     				</div>
@@ -124,10 +124,10 @@ export default class MessagePanel extends React.Component {
 
     			<div className="col-xs-8">
     				<div className="panel panel-default">
-                                                    <div className="panel-heading">
+                                                    <div className="panel-heading msgbox-heading">
                                                         <h4><span className="glyphicon glyphicon-book"></span>Message Box {this.state.msg_box_id}
                                                             <br/>{this.state.participant_profiles.map((profile, o) => {
-                                                                return <img src={profile.profilepic} key={o}  className="img-circle" width="15px" height="15px"/>
+                                                                return <img src={profile.profilepic} key={o} className="img-circle" width="25px" height="25px"/>
                                                             })}</h4>
                                                         <div className="btn-group footer-btn">
                                                             <button className="btn btn-default" onClick={this.createNewConversation}><span className="glyphicon glyphicon-calendar"></span>New Conversation</button>
@@ -151,7 +151,7 @@ export default class MessagePanel extends React.Component {
                                                             </div>
                                                         </div>
                                                     </div>
-    					<div className="panel-body custom-scrollable">
+    					<div className="panel-body custom-scrollable msgbox-body">
     						<ul className="media-list chat-box">
                                                                         {
                                                                             this.state.messages.map((message, i) => {
@@ -171,7 +171,7 @@ export default class MessagePanel extends React.Component {
                                                                         }
     						</ul>
     					</div>
-    					<div className="panel-footer">
+    					<div className="panel-footer msgbox-footer">
                                                             <MessageEditor onMessageSend={this.sendMessage}/>
     					</div>
     				</div>

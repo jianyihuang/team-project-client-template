@@ -594,6 +594,7 @@ app.get('/messagebox/:box_msg_id', function(req, res) {
   });
 });
 
+
 // Handle sendMessageServer from client.
 app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}), function(req, res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));

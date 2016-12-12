@@ -4,8 +4,9 @@ export default class ServiceHome extends React.Component{
 
 render(){
   return(
-    <div classNameName = "container">
+    <div className = "container">
       <ul className="caption-style-4">
+
         <li>
 
           <Link to ="/acedemicdetail"><img src="img/resized/carpool_400x300.png" alt=""/>
@@ -39,6 +40,10 @@ render(){
             </div>
           </div></Link>
         </li>
+
+
+
+
         <li>
 
           <img src="img/resized/travel_400x300.jpeg" alt=""/>
@@ -72,8 +77,10 @@ render(){
             </div>
           </div></Link>
         </li>
-      </ul>
-    </div>
+        
+        </ul>
+
+      </div>
 );
 }
 }
