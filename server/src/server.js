@@ -990,7 +990,7 @@ function deleteFeed(userId,feedItemId,type,callback) {
                  } else if (feedItem === null) {
                    res.status(400).send("Could not find feed item: "+feedItemId);
                  } else {
-                   res.status(500).send("Database error: "+err);
+                   res.status(201).send(feedItem.list_of_comments);
                  }
                })
              }
