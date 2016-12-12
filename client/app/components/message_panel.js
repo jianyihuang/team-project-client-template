@@ -109,14 +109,14 @@ export default class MessagePanel extends React.Component {
     						<div className="panel-heading">
     							<h4><span className="glyphicon glyphicon-book"></span> Recent Conversations</h4>
     						</div>
-    						<div className="panel-body recent-contact">
-    							<ul className="list-group">
+    						<div className="panel-body recent-contact recent-scrollable">                        
+                                <ul className="list-group">
                                     {
                                         this.state.recent_msgBoxes.map((boxId, i) => {
                                             return <MessageBox key={i} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
                                         })
                                     }
-    							</ul>
+                                </ul>
     						</div>
     					</div>
     				</div>
@@ -124,10 +124,10 @@ export default class MessagePanel extends React.Component {
 
     			<div className="col-xs-8">
     				<div className="panel panel-default">
-                                                    <div className="panel-heading">
+                                                    <div className="panel-heading msgbox-heading">
                                                         <h4><span className="glyphicon glyphicon-book"></span>Message Box {this.state.msg_box_id}
                                                             <br/>{this.state.participant_profiles.map((profile, o) => {
-                                                                return <img src={profile.profilepic} key={o}  className="img-circle" width="15px" height="15px"/>
+                                                                return <img src={profile.profilepic} key={o}  className="img-circle" width="25px" height="25px"/>
                                                             })}</h4>
                                                         <div className="btn-group footer-btn">
                                                             <button className="btn btn-default" onClick={this.createNewConversation}><span className="glyphicon glyphicon-calendar"></span>New Conversation</button>
@@ -151,7 +151,7 @@ export default class MessagePanel extends React.Component {
                                                             </div>
                                                         </div>
                                                     </div>
-    					<div className="panel-body custom-scrollable">
+    					<div className="panel-body custom-scrollable msgbox-body">
     						<ul className="media-list chat-box">
                                                                         {
                                                                             this.state.messages.map((message, i) => {
@@ -171,7 +171,7 @@ export default class MessagePanel extends React.Component {
                                                                         }
     						</ul>
     					</div>
-    					<div className="panel-footer">
+    					<div className="panel-footer msgbox-footer">
                                                             <MessageEditor onMessageSend={this.sendMessage}/>
     					</div>
     				</div>

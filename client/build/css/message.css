@@ -1,10 +1,28 @@
 .chat-box > .media img {
 	width: 50px;
 	height: 50px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 6px 0 rgba(0, 0, 0, 0.19);    
 }
 
+.img-circle {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 6px 0 rgba(0, 0, 0, 0.19);  
+}
+
+.msgbox-heading {
+  color: #FFFFFF !important;
+  background-color: #3F51B5 !important; 
+}
+.msgbox-body {
+  background-color: #FFFFFF !important;
+}
+.msgbox-footer {
+  background-color: #FFFFFF !important;
+}
 
 .recent-conv {
+  /*width: 250px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;*/
   cursor: pointer;
 }
 
@@ -12,14 +30,19 @@ textarea {
 	width: 100%;
 }
 
+.recent-scrollable {
+  height: 400px;
+  /*overflow: scroll;*/
+}
+
 .custom-scrollable {
   height: 400px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 body {
-  padding-top: 80px;
-  background-color:#EEEEEE;
+  padding-top: 70px;
+  background-color:#FFFFFF;
 }
 
 .exSer-search {
@@ -28,7 +51,7 @@ body {
 }
 /* navigation bar background color*/
 .navbar {
-  background-color: #E0E0E0;
+  background-color: #303F9F;
   border-bottom: none;
   box-shadow: 0px 0px 15px #90A4AE;
 }
@@ -42,12 +65,13 @@ body {
 
 /*left most two pill in the navigation bar*/
 .nav .nav-pills {
+  color: #FFFFFF !important;
   padding-top: 5px;
 }
 
 /*text inside the pills of navigation bar*/
 .nav .nav-pills > li > a {
-  color: black;
+  color: #FFFFFF;
 }
 
 /*badge of notification*/
@@ -88,6 +112,7 @@ body {
   -webkit-box-shadow: 0px 8px 5px 0px #BDBDBD;
   -moz-box-shadow: 0px 8px 5px 0px #BDBDBD;
   box-shadow: 0px 8px 5px 0px #BDBDBD;
+  color: #212121;
 }
 
 .input-group-addon {
