@@ -19,12 +19,12 @@ export class MessageBox extends React.Component {
 	}
 	componentWillReceiveProps(newProps) {
 		// console.log("New props:" + JSON.stringify(newProps));
-		getParticipantProfiles(newProps.boxId, (profiles) => {
-            // console.log(JSON.stringify(profiles));
-            this.setState({
-                participant_profiles: profiles
-            });
-        });
+		// getParticipantProfiles(newProps.boxId, (profiles) => {
+  //           // console.log(JSON.stringify(profiles));
+  //           this.setState({
+  //               participant_profiles: profiles
+  //           });
+  //       });
 	}
 	clicked() {
 		this.props.onRecentBoxMsgClicked(this.props.boxId);

@@ -123,16 +123,17 @@ MongoClient.connect(url,function(err,db) {
           } else if (feedData === null){
             // console.log("Empty feed");
               callback(null,null);
+          } else {            
+            // console.log(feedData.list_of_feeditems);
+            processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
+              if (err) {
+                 callback(err);
+              } else {
+                feedData.list_of_feeditems = resolvedContents;
+                 callback(null,feedData);
+              }
+            });
           }
-          // console.log(feedData.list_of_feeditems);
-          processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
-            if (err) {
-               callback(err);
-            } else {
-              feedData.list_of_feeditems = resolvedContents;
-               callback(null,feedData);
-            }
-          });
         });
        } else {
         db.collection('servicefeeds').findOne({_id:userData.Service_feed},
@@ -548,9 +549,15 @@ function deleteFeed(userId,feedItemId,type,callback) {
 app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var box_msg_id = req.params.box_msg_id;
+  console.log(box_msg_id);
   db.collection('messageboxes').findOne({
     _id: new ObjectID(box_msg_id)
   }, (err, messageBox) => {
+    if(err) {
+      res.status(500).end();
+    }
+    // console.log('getParticipantProfiles');
+    // console.log(messageBox);
     var participantList = messageBox.list_of_users.map((id) => {return id.toString();});
     // The requesting user is in the participant list, which should be allowed.
     if (participantList.indexOf(fromUser) !== -1) {
@@ -575,11 +582,14 @@ app.get('/messagebox/:box_msg_id', function(req, res) {
     if(err) {
       res.status(500).end();
     }
-    if(messageBox.list_of_users.map((user)=>{return user.toString();}).indexOf(fromUser) !== -1) {
-      res.send(messageBox);
-    }
     else {
-      res.status(401).end();
+      // console.log(messageBox);
+      if(messageBox.list_of_users.map((user)=>{return user.toString();}).indexOf(fromUser) !== -1) {
+        res.send(messageBox);
+      }
+      else {
+        res.status(401).end();
+      }
     }
   });
 });
@@ -666,7 +676,7 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
         }, {
           $push: {messageboxes: messageBox._id}
         },(err, result) => {
-          console.log(messageBox);
+          // console.log(messageBox);
           res.send(messageBox);
         });
       });

@@ -53,13 +53,13 @@ var initialData = {
         new ObjectID("000000000000000000000001"),
         new ObjectID("000000000000000000000002"),
         new ObjectID("000000000000000000000003")],
-      "education_level": "Junior",
+      "education_level": "Senior",
       "academic_institution": "Umass Amherst",
       //start of references
-      "Academic_feed": new ObjectID("000000000000000000000002"),
-      "Service_feed": new ObjectID("000000000000000000000002"),
+      "Academic_feed": new ObjectID("000000000000000000000001"),
+      "Service_feed": new ObjectID("000000000000000000000001"),
       "schedules": [new ObjectID("000000000000000000000002")],
-      "messageboxes":[new ObjectID("000000000000000000000002")],
+      "messageboxes":[new ObjectID("000000000000000000000001")],
       "Academic_savedlists": new ObjectID("000000000000000000000002"),
       "Service_savedlists": new ObjectID("000000000000000000000002")
     },
@@ -68,8 +68,8 @@ var initialData = {
       "_id":new ObjectID("000000000000000000000003"),
       "first_name": "Timothy",
       "last_name":"Addai",
-      "profilepic": 'img/cat.jpeg',
-      "username": "Tim",
+      "profilepic": 'img/pug.jpg',
+      "username": "Timothy",
       "password": "Timtimpass",
       "email": "taddai@umass.edu",
       "favorite_quote": "I have a dream.",
@@ -82,10 +82,10 @@ var initialData = {
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
-      "Academic_feed": new ObjectID("000000000000000000000003"),
-      "Service_feed": new ObjectID("000000000000000000000003"),
+      "Academic_feed": new ObjectID("000000000000000000000001"),
+      "Service_feed": new ObjectID("000000000000000000000001"),
       "schedules": [new ObjectID("000000000000000000000003")],
-      "messageboxes":[new ObjectID("000000000000000000000003")],
+      "messageboxes":[new ObjectID("000000000000000000000001")],
       "Academic_savedlists": new ObjectID("000000000000000000000003"),
       "Service_savedlists": new ObjectID("000000000000000000000003")
     },
@@ -94,7 +94,7 @@ var initialData = {
       "_id":new ObjectID("000000000000000000000004"),
       "first_name": "Jucong",
       "last_name":"He",
-      "profilepic": 'img/pug.jpg',
+      "profilepic": 'img/question_img.jpeg',
       "username": "Jucong",
       "password": "123abc",
       "email": "juconghe@umass.edu",
@@ -108,10 +108,10 @@ var initialData = {
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
-      "Academic_feed": new ObjectID("000000000000000000000004"),
-      "Service_feed": new ObjectID("000000000000000000000004"),
+      "Academic_feed": new ObjectID("000000000000000000000001"),
+      "Service_feed": new ObjectID("000000000000000000000001"),
       "schedules": [new ObjectID("000000000000000000000004")],
-      "messageboxes":[new ObjectID("000000000000000000000004")],
+      "messageboxes":[new ObjectID("000000000000000000000001")],
       "Academic_savedlists": new ObjectID("000000000000000000000004"),
       "Service_savedlists": new ObjectID("000000000000000000000004")
     },
@@ -120,7 +120,7 @@ var initialData = {
       "_id":new ObjectID("000000000000000000000005"),
       "first_name": "Xin",
       "last_name":"Liu",
-      "profilepic": 'img/cat.jpeg',
+      "profilepic": 'img/dog.jpg',
       "username": "Xin",
       "password": "XinPass",
       "email": "xliu0@umass.edu",
@@ -134,10 +134,10 @@ var initialData = {
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
-      "Academic_feed": new ObjectID("000000000000000000000005"),
-      "Service_feed": new ObjectID("000000000000000000000005"),
+      "Academic_feed": new ObjectID("000000000000000000000001"),
+      "Service_feed": new ObjectID("000000000000000000000001"),
       "schedules": [new ObjectID("000000000000000000000005")],
-      "messageboxes":[new ObjectID("000000000000000000000005")],
+      "messageboxes":[new ObjectID("000000000000000000000001")],
       "Academic_savedlists": new ObjectID("000000000000000000000005"),
       "Service_savedlists": new ObjectID("000000000000000000000005")
     },
@@ -146,7 +146,7 @@ var initialData = {
       "_id":new ObjectID("000000000000000000000006"),
       "first_name": "Jianyi",
       "last_name":"Huang",
-      "profilepic": 'img/pug.jpg',
+      "profilepic": 'img/student.jpg',
       "username": "JianYi",
       "password": "HuangJianyi!@#",
       "email": "jianyihuang@umass.edu",
@@ -160,10 +160,10 @@ var initialData = {
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
-      "Academic_feed": new ObjectID("000000000000000000000006"),
-      "Service_feed": new ObjectID("000000000000000000000006"),
+      "Academic_feed": new ObjectID("000000000000000000000001"),
+      "Service_feed": new ObjectID("000000000000000000000001"),
       "schedules": [new ObjectID("000000000000000000000006")],
-      "messageboxes":[new ObjectID("000000000000000000000006")],
+      "messageboxes":[new ObjectID("000000000000000000000001")],
       "Academic_savedlists": new ObjectID("000000000000000000000006"),
       "Service_savedlists": new ObjectID("000000000000000000000006")
       }
@@ -312,7 +312,7 @@ var initialData = {
           user_id: new ObjectID("000000000000000000000005"), timestamp: 1479148390962, content: 'If possible, can you guys all implement the floating effect ? It\'s very straight forward'
           },
           {
-          user_id: new ObjectID("000000000000000000000006"), timestamp: 1479148390962, content: 'I changed the config if you are satisfied with that I will add the css'
+          user_id: new ObjectID("000000000000000000000001"), timestamp: 1479148390962, content: 'I changed the config if you are satisfied with that I will add the css'
           },
           {
           user_id: new ObjectID("000000000000000000000002"), timestamp: 1479148390962, content: 'I thought someone else is doing that one. I can do that too.'
