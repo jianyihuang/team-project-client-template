@@ -175,26 +175,29 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
     db.collection('users').findOne({_id: user},function(err,userData) {
       // console.log(userData);
       if (err) {
-        return callback(err);
+         callback(err);
       } else if(userData === null) {
-        return callback(null,null);
+         callback(null,null);
       }
 
       if (type === 1) {
         db.collection('academicfeeds').findOne({_id:userData.Academic_feed},
         function (err,feedData) {
           if (err) {
-            return callback(err)
+            console.log("Error getting feed");
+              callback(err)
           } else if (feedData === null){
-            return callback(null,null);
+            console.log("Empty feed");
+              callback(null,null);
           }
+          console.log(feedData.list_of_feeditems);
           processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
             if (err) {
-              callback(err);
+               callback(err);
             } else {
               feedData.list_of_feeditems = resolvedContents;
               // console.log(feedData);
-              callback(null,feedData);
+               callback(null,feedData);
             }
           });
         });
@@ -209,11 +212,11 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
           }
           processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
             if (err) {
-              callback(err);
+              return callback(err);
             } else {
               feedData.list_of_feeditems = resolvedContents;
               // console.log(feedData);
-              callback(null,feedData);
+              return callback(null,feedData);
             }
           });
         });
@@ -223,24 +226,28 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 
     function processNextFeedItem(i,feedItems,resolvedContents,callback) {
       // Asynchronously resolve a feed item.
-      getFeedItem(feedItems[i], function(err, feedItem) {
-        if (err) {
-          // Pass an error to the callback.
-          callback(err);
-        } else {
-          // Success!
-          // console.log(feedItem);
-          resolvedContents.push(feedItem);
-          if (resolvedContents.length === feedItems.length) {
-            // I am the final feed item; all others are resolved.
-            // Pass the resolved feed document back to the callback.
-            callback(null,resolvedContents);
+      if (feedItems.length === 0) {
+        callback(null,[]);
+      } else {
+        getFeedItem(feedItems[i], function(err, feedItem) {
+          if (err) {
+            // Pass an error to the callback.
+            callback(err);
           } else {
-            // Process the next feed item.
-            processNextFeedItem(i + 1,feedItems,resolvedContents,callback);
+            // Success!
+            // console.log(feedItem);
+            resolvedContents.push(feedItem);
+            if (resolvedContents.length === feedItems.length) {
+              // I am the final feed item; all others are resolved.
+              // Pass the resolved feed document back to the callback.
+              callback(null,resolvedContents);
+            } else {
+              // Process the next feed item.
+              processNextFeedItem(i + 1,feedItems,resolvedContents,callback);
+            }
           }
-        }
-      });
+        });
+      }
     }
 
   function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
@@ -351,9 +358,7 @@ function resolveUserObjects(userList, callback) {
         } else if (feedData === null) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
-          res.status(201);
-          console.log(feedData);
-          res.send(feedData);
+          res.status(201).send(feedData);
         }
       })
     }
@@ -463,13 +468,14 @@ function resolveUserObjects(userList, callback) {
   });
 
 function deleteFeed(userId,feedItemId,type,callback) {
+  console.log(feedItemId);
   db.collection('feedItems').findOne(
     {_id:feedItemId},
     function(err, feedItem) {
       if (err) {
         callback(err);
       } else if(feedItem == null){
-        callback(null,null)
+        callback(null,null);
       } else {
         // console.log(feedItem.contents.author);
         // console.log(userId);
@@ -527,7 +533,7 @@ function deleteFeed(userId,feedItemId,type,callback) {
               console.log("result is null");
               res.status(400).send("Could not find feed: "+result);
             } else {
-              console.log(result);
+              console.log("Sending result back");
               res.status(201).send(result);
             }
           });
