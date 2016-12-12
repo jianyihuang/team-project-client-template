@@ -242,7 +242,7 @@ class ServiceDetailPage extends React.Component {
     return(
       <div>
         <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <DetailPage type={2} current_user={this.state.current_user}/>
+        <DetailPage type={2} current_user={this.state.current_user} isRequestPage={false}/>
       </div>
     );
   }
@@ -351,6 +351,30 @@ class ConfigPage extends React.Component {
   }
 }
 
+class MyRequestPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillMount(){
+    // this.props.forceNavChange();
+  }
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
+  render() {
+    return(
+      <div>
+        <link href="css/detail_page.css" rel="stylesheet"/>
+        <DetailPage type={1} current_user={this.state.current_user} isRequestPage={true}/>
+      </div>
+    );
+  }
+}
 
 ReactDOM.render((
   <Router history={hashHistory}>
@@ -367,6 +391,7 @@ ReactDOM.render((
       <Route path="/categorybox" component={CategoryBoxPage} />
       <Route path="/servicehome" component={ServiceHomePage} />
       <Route path="/search" component={SearchResultsPage} />
+      <Route path="/myrequest" component={MyRequestPage} />
     </Route>
   </Router>
   ),document.getElementById('App')

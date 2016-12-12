@@ -288,3 +288,10 @@ export function getCommentData(commentId,userId,cb) {
    cb(JSON.parse(xhr.responseText));
     })
   }
+
+  export function getRequstFeeds(user,cb) {
+    console.log("getting feed for request page");
+    sendXHR('GET','/user/'+user+'/requests',undefined,(xhr) => {
+      cb(JSON.parse(xhr.responseText));
+    })
+  }

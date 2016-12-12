@@ -87,8 +87,8 @@ render() {
 											<li><Link to="/profile"><span className="glyphicon glyphicon-user"></span>
 											Profile</Link>
 											</li>
-											<li><a href="#"><span className="glyphicon glyphicon-pencil"></span>
-											My Request</a>
+											<li><Link to="/myrequest"><span className="glyphicon glyphicon-pencil"></span>
+											My Request</Link>
 											</li>
 											<li><Link to="/schedule"><span className="glyphicon glyphicon-calendar"></span>
 											My schedule</Link>

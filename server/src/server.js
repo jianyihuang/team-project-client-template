@@ -171,30 +171,32 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 });
 
   function getFeedData(user,type,callback) {
-    console.log("Get called");
+    // console.log("Get called");
     db.collection('users').findOne({_id: user},function(err,userData) {
       // console.log(userData);
       if (err) {
-        return callback(err);
+         callback(err);
       } else if(userData === null) {
-        return callback(null,null);
+         callback(null,null);
       }
 
       if (type === 1) {
         db.collection('academicfeeds').findOne({_id:userData.Academic_feed},
         function (err,feedData) {
           if (err) {
-            return callback(err)
+            // console.log("Error getting feed");
+              callback(err)
           } else if (feedData === null){
-            return callback(null,null);
+            // console.log("Empty feed");
+              callback(null,null);
           }
+          // console.log(feedData.list_of_feeditems);
           processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
             if (err) {
-              callback(err);
+               callback(err);
             } else {
               feedData.list_of_feeditems = resolvedContents;
-              // console.log(feedData);
-              callback(null,feedData);
+               callback(null,feedData);
             }
           });
         });
@@ -209,11 +211,11 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
           }
           processNextFeedItem(0,feedData.list_of_feeditems,[],function(err,resolvedContents) {
             if (err) {
-              callback(err);
+              return callback(err);
             } else {
               feedData.list_of_feeditems = resolvedContents;
               // console.log(feedData);
-              callback(null,feedData);
+              return callback(null,feedData);
             }
           });
         });
@@ -223,29 +225,33 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 
     function processNextFeedItem(i,feedItems,resolvedContents,callback) {
       // Asynchronously resolve a feed item.
-      getFeedItem(feedItems[i], function(err, feedItem) {
-        if (err) {
-          // Pass an error to the callback.
-          callback(err);
-        } else {
-          // Success!
-          // console.log(feedItem);
-          resolvedContents.push(feedItem);
-          if (resolvedContents.length === feedItems.length) {
-            // I am the final feed item; all others are resolved.
-            // Pass the resolved feed document back to the callback.
-            callback(null,resolvedContents);
+      if (feedItems.length === 0) {
+        callback(null,[]);
+      } else {
+        getFeedItem(feedItems[i], function(err, feedItem) {
+          if (err) {
+            // Pass an error to the callback.
+            callback(err);
           } else {
-            // Process the next feed item.
-            processNextFeedItem(i + 1,feedItems,resolvedContents,callback);
+            // Success!
+            // console.log(feedItem);
+            resolvedContents.push(feedItem);
+            if (resolvedContents.length === feedItems.length) {
+              // I am the final feed item; all others are resolved.
+              // Pass the resolved feed document back to the callback.
+              callback(null,resolvedContents);
+            } else {
+              // Process the next feed item.
+              processNextFeedItem(i + 1,feedItems,resolvedContents,callback);
+            }
           }
-        }
-      });
+        });
+      }
     }
 
   function postStatusUpdate(user,tag,contents,imgUrl,request,type,callback) {
     var time = new Date().getTime();
-    console.log(tag);
+    // console.log(tag);
     var newPost = {
       "view_count": 0,
       "likeCounter": [],
@@ -351,9 +357,8 @@ function resolveUserObjects(userList, callback) {
         } else if (feedData === null) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
-          res.status(201);
           console.log(feedData);
-          res.send(feedData);
+          res.status(201).send(feedData);
         }
       })
     }
@@ -463,13 +468,14 @@ function resolveUserObjects(userList, callback) {
   });
 
 function deleteFeed(userId,feedItemId,type,callback) {
+  console.log(feedItemId);
   db.collection('feedItems').findOne(
     {_id:feedItemId},
     function(err, feedItem) {
       if (err) {
         callback(err);
       } else if(feedItem == null){
-        callback(null,null)
+        callback(null,null);
       } else {
         // console.log(feedItem.contents.author);
         // console.log(userId);
@@ -527,7 +533,7 @@ function deleteFeed(userId,feedItemId,type,callback) {
               console.log("result is null");
               res.status(400).send("Could not find feed: "+result);
             } else {
-              console.log(result);
+              console.log("Sending result back");
               res.status(201).send(result);
             }
           });
@@ -687,55 +693,112 @@ function deleteFeed(userId,feedItemId,type,callback) {
 
   //schedule part ------------
 
-  function addScheule(userId,user, time, subscriber,date,serviceContents) {
-    var newPost = {
+  function addScheule(userId,user, time, subscriber,date,serviceContents, callback) {
+    var newScheduleItem = {
       "completed": "COMPLETED",
       "contents": {
         "author": user,
         "time": time,
-        "subscriber": subscriber,
-        "date": date,
-        "serviceContents":serviceContents
+        "subscriber": serviceContents,
+        "date": subscriber,
+        "serviceContents":date
       }
     }
-    console.log(newPost);
-    newPost = addDocument('schedules',newPost);
-    var userData = readDocument('users', userId);
-    userData.schedules.push(newPost._id);
-    writeDocument('users', userData);
-    //writeDocument('academicfeeds', feedData);
-    return newPost;
+    //console.log(newPost);
+    db.collection('schedules').insertOne(newScheduleItem, function(err, result) {
+      if (err) {
+        return callback(err);
+      }
+      newScheduleItem._id = result.insertedId;
+        if (err) {
+          return callback(err);
+        }
+        db.collection('users').updateOne({ _id: userId },
+        {
+          $push: {
+            schedules: {
+              $each: [newScheduleItem._id],
+              $position: 0
+            }
+          }
+        },
+        function(err) {
+          if (err) {
+            return callback(err);
+          }
+          // Return the new status update to the application.
+          callback(null, newScheduleItem);
+        }
+      );
+    });
   }
 
-  function getScheduleItem(scheduleId) {
-    var schedules = readDocument('schedules', scheduleId);
-    var scheduleData = {
-      //console.log(indexSchedule);
-       _id: scheduleId,
-       completed: schedules.completed,
-       contents: {
-        // ID of the user that the appointment is with
-        author:schedules.contents.author,
-        subscriber : schedules.contents.subscriber,
-        date : schedules.contents.date,
-        time:schedules.contents.time,
-        serviceContents: schedules.contents.serviceContents
-      }
-    };
-    return scheduleData;
+  function resolveScheduleObject(scheduleList, callback) {
+    // Special case: userList is empty.
+    // It would be invalid to query the database with a logical OR
+    // query with an empty array.
+    if (scheduleList.length === 0) {
+      callback(null, {});
+    } else {
+      // Build up a MongoDB "OR" query to resolve all of the user objects
+      // in the userList.
+      var query = {
+        $or: scheduleList.map((id) => { return {_id: id } })
+      };
+      // Resolve 'like' counter
+      db.collection('schedules').find(query).toArray(function(err, schedules) {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, schedules);
+      });
+    }
+  }
+
+  function getScheduleItem(scheduleId, cb) {
+     db.collection('schedules').findOne({
+        _id: new ObjectID (scheduleId)
+      }, function(err, schedules) {
+        if (err) {
+          // An error occurred.
+          console.log(err);
+        } else{
+          var scheduleData = {
+            //console.log(indexSchedule);
+             _id: new ObjectID(scheduleId),
+             completed: schedules.completed,
+             contents: {
+              // ID of the user that the appointment is with
+              author:schedules.contents.author,
+              subscriber : schedules.contents.subscriber,
+              date : schedules.contents.date,
+              time:schedules.contents.time,
+              serviceContents: schedules.contents.serviceContents
+            }
+          };
+          cb(scheduleData);
+        }
+      });
   }
 
   app.get('/schedule/:userid', function(req, res) {
-    var userId = parseInt(req.params.userid, 10);
+    var userId = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     if(fromUser === userId) {
       // send response
       // Get the User object with the id "user".
-      var userData = readDocument('users', userId);
-      var scheduleData = userData.schedules.map(function(scheduleId){
-        return getScheduleItem(scheduleId);
-      });
-      res.send(scheduleData);
+       db.collection('users').findOne({
+          _id: new ObjectID(userId)
+        }, function(err, userData){
+          if (err) {
+            console.log("error1");
+          } else {
+          resolveScheduleObject(userData.schedules,function(err, scheduleData){
+          //  console.log(scheduleData);
+            res.send(scheduleData);
+          })
+          }
+        });
     } else {
       res.status(401).end();
     }
@@ -745,18 +808,31 @@ function deleteFeed(userId,feedItemId,type,callback) {
     console.log("Get post scheduleItem");
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var body = req.body;
-    console.log('Server receives POST schedule :: ' + JSON.stringify(body));
+   console.log('Server receives POST schedule :: ' + JSON.stringify(body));
     //console.log(fromUser);
   //  console.log(body.author);
-    var user = readDocument('users', fromUser);
-    console.log((body.author) == (user.first_name));
-    if((body.author) === (user.first_name)) {
-      var newPost = addScheule(fromUser,body.author,body.time,body.subscriber,body.date,body.serviceContents);
-      res.status(201);
-      res.send(newPost);
-    }else {
-      res.status(401).end();
-    }
+    db.collection('users').findOne({ _id: new ObjectID(fromUser)},function(error, userObject){
+      if (err){
+        console.log(err);
+      }
+      console.log((body.author) == (userObject.first_name));
+      if((body.author) === (userObject.first_name)) {
+         addScheule(new ObjectID(fromUser),body.author,body.time,body.subscriber,
+         body.date,body.serviceContents, function(err, newUpdate){
+           if (err) {
+             // A database error happened.
+             // 500: Internal error.
+             res.status(500).send("A database error occurred: " + err);
+           } else {
+             console.log(newUpdate);
+             res.status(201);
+             res.send(newUpdate);
+           }
+         });
+      }else {
+        res.status(401).end();
+      }
+    })
   });
 
   app.delete('/schedule/:userid/:scheduleid',function(req,res) {
@@ -925,6 +1001,49 @@ function deleteFeed(userId,feedItemId,type,callback) {
          res.status(401).end();
        }
      });
+
+  app.get('/user/:userid/requests',function(req,res) {
+     var fromUser = getUserIdFromToken(req.get('Authorization'));
+     var userId = req.params.userid;
+     if(fromUser === userId) {
+       db.collection('feedItems').find({"contents.author":new ObjectID(userId)}
+        ).toArray(function(err, feedItems) {
+         var size = feedItems.length;
+         var resolvedFeedItems = [];
+         feedItems.forEach((feedItem) => {
+           var userList = [feedItem.contents.author];
+           userList = userList.concat(feedItem.likeCounter);
+           resolveUserObjects(userList,function(err,userMap) {
+             if (err) {
+               res.status(500).send("Database error: "+err);
+             } else {
+               db.collection('servicetags').findOne({_id:new ObjectID(feedItem.tag)},
+               function(err,tag) {
+                 if (err) {
+                   res.status(500).send("Database error: "+err);
+                 } else {
+                   feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
+                   feedItem.contents.author = userMap[feedItem.contents.author];
+                   feedItem.tag = tag
+                   resolvedFeedItems.push(feedItem);
+                   if(resolvedFeedItems.length === size) {
+                     var finalFeed = {
+                       "_id":new ObjectID(userId),
+                       "list_of_feeditems":resolvedFeedItems
+                     }
+                     res.status(201).send(finalFeed);
+                   }
+                 }
+               });
+             }
+           });
+         });
+       });
+     } else {
+       res.status(401).end();
+     }
+  });
+
   /**
    * Translate JSON Schema Validation failures into error 400s.
   */
