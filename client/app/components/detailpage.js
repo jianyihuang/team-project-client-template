@@ -26,7 +26,8 @@ export default class DetailPage extends React.Component {
                 Newest Requests
               </div>
             </div>
-            <Feed current_user={this.state.current_user} type={this.props.type}/>
+            <Feed current_user={this.state.current_user} type={this.props.type}
+              isRequestPage = {this.props.isRequestPage}/>
           </div>
           <div className="col-md-1" />
         </div>
