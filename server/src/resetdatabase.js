@@ -15,7 +15,7 @@ var initialData = {
       "email": "kzheung@umass.edu",
       "favorite_quote": "Meow meow",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["Math132", "CS121", "JAP497", "CS250", "CS220"],
+      "classes_taken":["MATH132", "CS121", "JAP497", "CS250", "CS220"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references

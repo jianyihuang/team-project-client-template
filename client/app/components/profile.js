@@ -17,7 +17,8 @@ export default class Profile extends React.Component{
             classes_taken: [],
             education_level: '',
             academic_institution: '',
-            classToAdd : [],
+            selectedClasses: [],
+            classToRemove: [],
 
           }
 
@@ -29,6 +30,8 @@ export default class Profile extends React.Component{
           this.changeUser = this.changeUser.bind(this);
           this.handleAddClasses = this.handleAddClasses.bind(this);
           this.handleClassSelect = this.handleClassSelect.bind(this);
+          this.handleClassDeselect = this.handleClassDeselect.bind(this);
+          this.handleRemoveClasses = this.handleRemoveClasses.bind(this);
           this.refresh = this.refresh.bind(this);
       }
 
@@ -114,13 +117,13 @@ export default class Profile extends React.Component{
   //called when user hits add classes in modal box
 handleClassSelect(e, cb, idx, aclass) {
   event.preventDefault();
-  console.log(aclass);
-  console.log(cb.item(idx).checked);
+  //console.log(aclass);
+  //console.log(cb.item(idx).checked);
   if(cb.item(idx).checked){
     if(this.state.selectedClasses.indexOf(aclass) === -1){
       if(this.state.classes_taken.indexOf(aclass) === -1){
       this.state.selectedClasses.push(aclass);
-      console.log(this.state.selectedClasses);
+      //console.log(this.state.selectedClasses);
       }
     }
   } else {
@@ -136,20 +139,44 @@ handleAddClasses(event) {
   this.setState({
     editing: true,
     classes_taken: this.state.classes_taken.concat(this.state.selectedClasses),
-    selectedClasses: [],
   });
-  console.log(this.state.classes_taken);
+  //console.log(this.state.classes_taken);
+this.state.selectedClasses = [];
+}
 
+handleClassDeselect(e, cb, idx, aclass) {
+  event.preventDefault();
+  console.log(aclass);
+  console.log(cb.item(idx).checked);
+  if(cb.item(idx).checked){
+    if(this.state.classToRemove.indexOf(aclass) === -1){
+      this.state.classToRemove.push(aclass);
+
+      }
+    }
+   else {
+    var classIdx = this.state.classToRemove.indexOf(aclass);
+    if(classIdx !== -1)
+      this.state.classToRemove.splice(classIdx, 1);
+  }
+//  console.log(this.state.classToRemove);
 }
 
 handleRemoveClasses(event) {
   event.preventDefault();
+  for(var i = 0; i < this.state.classToRemove.length; i++){
+    var removeIdx = this.state.classes_taken.indexOf(this.state.classToRemove[i]);
+    if(removeIdx !== -1){
+      this.state.classes_taken.splice(removeIdx, 1);
+    }
+  }
   this.setState({
     editing: true,
-    classes_taken: this.state.classes_taken.concat(this.state.selectedClasses),
-    selectedClasses: [],
+    classes_taken: this.state.classes_taken,
   });
-  console.log(this.state.classes_taken);
+
+  this.state.classToRemove = [];
+  //console.log(this.state.classes_taken);
 }
 
 
@@ -297,14 +324,14 @@ handleRemoveClasses(event) {
 
                                       {this.state.classes_taken.map((aclass, i)=> (
                                         <label key={i} className="checkbox-inline">
-                                          <input type="checkbox" id="aclassBox" onClick={(e)=>{this.handleClassSelect(e, aclassBox, i, aclass)}}/>{aclass}
+                                          <input type="checkbox" id="aRemoveBox" onClick={(e)=>{this.handleClassDeselect(e, aRemoveBox, i, aclass)}}/>{aclass}
                                         </label>
                                       ))
                                     }
 
                                     </div>
                                     <div className="modal-footer text-center">
-                                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleAddClasses} >Add classes</button>
+                                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleRemoveClasses} >Remove classes</button>
                                     </div>
                                 </div>
                             </div>
