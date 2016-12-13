@@ -434,7 +434,7 @@ else {
 	});
 
 function deleteFeed(userId,feedItemId,type,callback) {
-  console.log(feedItemId);
+  // console.log(feedItemId);
   db.collection('feedItems').findOne(
     {_id:feedItemId},
     function(err, feedItem) {
@@ -580,7 +580,7 @@ function deleteFeed(userId,feedItemId,type,callback) {
 app.get('/messagebox/:box_msg_id/participantlist', function(req, res) {
   var fromUser = getUserIdFromToken(req.get('Authorization'));
   var box_msg_id = req.params.box_msg_id;
-  console.log(box_msg_id);
+  // console.log(box_msg_id);
   db.collection('messageboxes').findOne({
     _id: new ObjectID(box_msg_id)
   }, (err, messageBox) => {
