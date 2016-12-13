@@ -189,7 +189,7 @@ export default class MessagePanel extends React.Component {
     			<div className="col-xs-4">
     				<div className="row">
     					<div className="panel panel-default">
-    						<div className="panel-heading">
+    						<div className="panel-heading msgbox-heading">
     							<h4><span className="glyphicon glyphicon-book"></span> Recent Conversations</h4>
     						</div>
     						<div className="panel-body recent-contact recent-scrollable">                        
