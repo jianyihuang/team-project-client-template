@@ -66,6 +66,7 @@ class SearchResults extends React.Component {
     if (searchTerm !== "") {
       // Search on behalf of user 4.
       searchForFeedItems(4, searchTerm, (feedItems) => {
+        console.log(feedItems);
         this.setState({
           loaded: true,
           results: feedItems
@@ -83,6 +84,7 @@ class SearchResults extends React.Component {
   }
 
   render() {
+    console.log(this.state.results);
     return (
       <div>
         <link href="css/detail_page.css" rel="stylesheet"/>
@@ -96,7 +98,6 @@ class SearchResults extends React.Component {
         {
           this.state.results.map((feedItem) => {
             return (
-
               <FeedItem key={feedItem._id} data={feedItem} onClick={() => this.handleDeleteFeed(feedItem._id)} />
             )
           })
