@@ -19,24 +19,24 @@ componentDidMount(){
 	getUserData(this.state.user_id, (user_profile) => {
 		this.setState({
 			user_name: user_profile.username,
-			profile_pic: user_profile.profilepic,
+			profile_pic: user_profile.profilepic
 		});
 	});
 }
 componentWillReceiveProps(newProps){
 	getUserData(newProps.current_user, (user_profile) => {
 		this.setState({
-		  text: tripOff0s(newProps.current_user),
-		  user_name: user_profile.username,
-		  profile_pic: user_profile.profilepic,
+		text: tripOff0s(newProps.current_user),
+		user_name: user_profile.username,
+		profile_pic: user_profile.profilepic
 		});
 	});
 }
 _userChanged(event) {
     event.preventDefault();
     this.setState({
-    	text: event.target.value,
-        user_id: toLength24String(Number(event.target.value))
+    text: event.target.value,
+    user_id: toLength24String(Number(event.target.value))
     });
 }
 changeUser(){
@@ -60,9 +60,6 @@ render() {
 											Service
 										</Link>
 									</li>
-									<li><button type='button' onClick={resetDatabase}> Reset Database</button></li>
-                                    <li>UserID: <input type='text' size='3' maxLength='1' value={this.state.text} onChange={this._userChanged}/></li>
-                                    <li><button type='button' onClick={this.changeUser}>Change User</button></li>
 								</ul>
 							</div>
 							<div className="nav navbar-nav navbar-right">

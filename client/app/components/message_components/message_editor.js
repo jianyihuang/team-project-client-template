@@ -6,11 +6,11 @@ export class MessageEditor extends React.Component {
 		super(props);
 		this.state = {
 			entered_text: '',
-	        author: "",
-	        subscriber : "",
-	        date : "",
-	        time: "",
-	        serviceContents: ""
+	  	author: "",
+	    subscriber : "",
+	    date : "",
+	    time: "",
+	    serviceContents: ""
 		};
 		this.handleMessageSend = this.handleMessageSend.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -20,7 +20,7 @@ export class MessageEditor extends React.Component {
 		this.handleSubscriberChange = this.handleSubscriberChange.bind(this);
 		this.handleDateChange = this.handleDateChange.bind(this);
 		this.handleTimeChange = this.handleTimeChange.bind(this);
-    	this.handleServiceContentsChange = this.handleServiceContentsChange.bind(this);
+    this.handleServiceContentsChange = this.handleServiceContentsChange.bind(this);
 
 	}
 	handleMessageSend(event) {
@@ -187,7 +187,7 @@ export class MessageEditor extends React.Component {
                                     </div>
                                 </div>
 						</span>
-						
+
 					</div>
 				</div>
 			</div>
