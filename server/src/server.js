@@ -875,27 +875,30 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
 
   app.delete('/schedule/:userid/:scheduleid',function(req,res) {
     var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var scheduleId = parseInt(req.params.scheduleid);
-    var userId = parseInt(req.params.userid);
-    //var userId = parseInt(req.params.userid,10);
-    var user = readDocument('users',fromUser);
+    var scheduleId = new ObjectID(req.params.scheduleid);
+    var userId = req.params.userid;
     if(fromUser === userId) {
-      var scheduleItem = readDocument('schedules', scheduleId);
-      console.log(scheduleItem);
-      var scheduleIndex = user.schedules.indexOf(scheduleId);
-      // -1 means the user is *not* in the likeCounter,
-      // so we can simply avoid updating
-      // anything if that is the case: the user already
-      // doesn't like the item.
-      if (scheduleIndex !== -1) {
-        // 'splice' removes items from an array. This
-        // removes 1 element starting from userIndex.
-        user.schedules.splice(scheduleIndex, 1);
-        writeDocument('users', user);
-      }
-      res.status(201).end();
-    }else {
-      res.status(401).end();
+      db.collection('users').updateMany({_id : new ObjectID(fromUser)}, {
+          $pull: {
+          schedules: scheduleId
+            }
+          }, function(err) {
+            if (err) {
+              //return sendDatabaseError(res, err);
+              console.log(err);
+            }
+
+            db.collection('schedules').deleteOne({
+              _id: scheduleId
+            },function(err){
+              if(err){
+              //return sendDatabaseError(res, err);
+              console.log(err);
+            }
+              res.send();
+          });
+        }
+      );
     }
   });
 
