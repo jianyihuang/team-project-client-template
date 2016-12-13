@@ -387,10 +387,9 @@ app.post('/search', function(req, res) {
   var fromUser = new ObjectID(getUserIdFromToken(req.get('Authorization')));
   var queryText = req.body;
   console.log(queryText);
-  console.log("Search called");
   if (typeof(req.body) === 'string') {
     db.collection('feedItems').find({$or:[{"contents.request":queryText},
-    {"contents.contents":queryText}]}).toArray(
+    {"contents.contents":queryText}] }).toArray(
       function(err,feedItems) {
         if (err) {
           console.log("error occurred");
@@ -398,6 +397,8 @@ app.post('/search', function(req, res) {
           var size = feedItems.length;
           var resolvedFeedItems = [];
           feedItems.forEach((feedItem) => {
+            console.log("logging feeditem");
+            console.log("logging feeditem:"+feedItem);
             var userList = [feedItem.contents.author];
             userList = userList.concat(feedItem.likeCounter);
             resolveUserObjects(userList,function(err,userMap) {
