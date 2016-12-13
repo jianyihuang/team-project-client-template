@@ -10,16 +10,34 @@ const n_recent_msgbox = 10;
 export default class MessagePanel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {user_id: this.props.current_user, messages: [], recent_msgBoxes: [], participant_profiles: []};
+        this.state = {user_id: this.props.current_user, messages: [], recent_msgBoxes: [], participant_profiles: [], msgboxRecentArray: []};
         this.sendMessage = this.sendMessage.bind(this);
         this.refreshMessageBox = this.refreshMessageBox.bind(this);
         this.refresh = this.refresh.bind(this);
         this.createNewConversation = this.createNewConversation.bind(this);
         this.addNewParticipant = this.addNewParticipant.bind(this);
         this.loadMessageBox = this.loadMessageBox.bind(this);
+        this.getAllBoxesProfiles = this.getAllBoxesProfiles.bind(this);
     }
     componentDidMount() {
-        this.refresh(this.state.user_id);
+        // Get recent message boxes.
+        getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+            // Get the most recent message box.
+            getMessageBoxServer(recent_msg_boxes[0], (msg_box) => {
+                getParticipantProfiles(msg_box._id, (profiles) => {
+                    // console.log(JSON.stringify(profiles));
+                    this.setState({
+                        msg_box_id: msg_box._id,
+                        messages: msg_box.list_of_messages_by_users_in_box,
+                        participant_profiles: profiles,
+                        recent_msgBoxes: recent_msg_boxes
+                    });                    
+                    this.getAllBoxesProfiles(this.state.recent_msgBoxes, [], (allProfiles)=>{
+                    	this.setState({msgboxRecentArray: allProfiles});
+                    });
+                });
+            });
+        });
         // this.timer = setInterval(() => this.loadMessageBox(this.state.msg_box_id), 200);
     }
     componentWillUnmount(){
@@ -29,10 +47,17 @@ export default class MessagePanel extends React.Component {
         // Get recent message boxes.
         getRecentMessageBoxes(user_id, n_recent_msgbox, (recent_msg_boxes) => {
             // Get the most recent message box.
-            this.loadMessageBox(recent_msg_boxes[0]);   
-                this.setState({
-                    recent_msgBoxes: recent_msg_boxes
-                }) ;
+            getMessageBoxServer(recent_msg_boxes[0], (msg_box) => {
+                getParticipantProfiles(msg_box._id, (profiles) => {
+                    // console.log(JSON.stringify(profiles));
+                    this.setState({
+                        msg_box_id: msg_box._id,
+                        messages: msg_box.list_of_messages_by_users_in_box,
+                        participant_profiles: profiles,
+                        recent_msgBoxes: recent_msg_boxes
+                    });
+                });
+            });
         });
     }
     sendMessage(entered_text) {
@@ -45,21 +70,37 @@ export default class MessagePanel extends React.Component {
             });
         });
     }
+    // getAllBoxesProfiles(this.state.recent_msgBoxes, [], (boxes_profiles) => {
+    //     boxes_profiles.forEach((box_profiles) => {
+    //         console.log(JSON.stringify(box_profiles));
+    //     });
+    // })
     createNewConversation() {
-        var zep = this.state.user_id;
-        createMessageBox(zep, (msg_box) => {
-            this.refreshMessageBox(msg_box, ()=>{
-                getRecentMessageBoxes(zep, n_recent_msgbox, (recent_msg_boxes) => {
+    	// console.log('createNewConversation');
+    	// console.log("this.state.user_id=" + this.state.user_id);
+        createMessageBox(this.state.user_id, (updatedMsgBox) => {
+        	// console.log(JSON.stringify(updatedMsgBox));
+        	getParticipantProfiles(updatedMsgBox._id, (profiles) => {
+        		// console.log(JSON.stringify(profiles));
+        		// console.log(this.state);
+                getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
                     this.setState({
+		                msg_box_id: updatedMsgBox._id,
+		                messages: updatedMsgBox.list_of_messages_by_users_in_box,
+		                participant_profiles: profiles,
                         recent_msgBoxes: recent_msg_boxes
+                    });                    
+                    this.getAllBoxesProfiles(this.state.recent_msgBoxes, [], (allProfiles)=>{
+                    	this.setState({msgboxRecentArray: allProfiles});
                     });
+        			// console.log(this.state);
+           //          console.log('---------------');
                 });
-            });
+	        });
         });
     }
-    loadMessageBox(msg_box_id) {
-        // console.log(JSON.stringify(msg_box_id));
-        getMessageBoxServer(msg_box_id, (msg_box) => {
+    loadMessageBox(box_id) {
+        getMessageBoxServer(box_id, (msg_box) => {
                 getParticipantProfiles(msg_box._id, (profiles) => {
                     // console.log(JSON.stringify(profiles));
                     this.setState({
@@ -77,29 +118,71 @@ export default class MessagePanel extends React.Component {
                 messages: updatedMsgBox.list_of_messages_by_users_in_box,
                 participant_profiles: profiles
             });
-            cb();
         });
     }
     addNewParticipant(){
+        // console.log('Participant added!');
         var invitedUserId = toLength24String(Number(this.refs.invitedUser.value));
+        // console.log('this.state.msg_box_id=' + this.state.msg_box_id);
+        // console.log('invitedUser='+invitedUserId);
         joinMessageBox(this.state.msg_box_id, invitedUserId, (updatedMsgBox) => {
-            this.refreshMessageBox(updatedMsgBox, () => {
+        	// console.log(JSON.stringify(updatedMsgBox));
+            getParticipantProfiles(updatedMsgBox._id, (profiles) => {
+            	// console.log(JSON.stringify(profiles));
+            	// console.log(this.state.user_id);
                 getRecentMessageBoxes(this.state.user_id, n_recent_msgbox, (recent_msg_boxes) => {
+                    // console.log(JSON.stringify(this.state.recent_msgBoxes));
+                    // console.log(JSON.stringify(recent_msg_boxes));
                     this.setState({
-                        recent_msgBoxes: recent_msg_boxes
-                    });
+                        recent_msgBoxes: recent_msg_boxes,
+                        msg_box_id: updatedMsgBox._id,
+                        messages: updatedMsgBox.list_of_messages_by_users_in_box,
+                        participant_profiles: profiles
+                    });                   
+                    this.getAllBoxesProfiles(this.state.recent_msgBoxes, [], (allProfiles)=>{
+                    	this.setState({msgboxRecentArray: allProfiles});
+                    });                    // console.log(JSON.stringify(this.state));
+                    // console.log('---------------');
                 });
             });
         });
     }
     componentWillReceiveProps(newProps){
+    	//this.setState = null;
         console.log('MessagePanel receives new user id:' + newProps.current_user);
-        this.setState({
-            user_id: newProps.current_user
+        // Get recent message boxes.
+        getRecentMessageBoxes(newProps.current_user, n_recent_msgbox, (recent_msg_boxes) => {
+            // Get the most recent message box.
+            getMessageBoxServer(recent_msg_boxes[0], (msg_box) => {
+                getParticipantProfiles(msg_box._id, (profiles) => {
+                    // console.log(JSON.stringify(profiles));
+                    this.setState({
+                        msg_box_id: msg_box._id,
+                        messages: msg_box.list_of_messages_by_users_in_box,
+                        participant_profiles: profiles,
+                        recent_msgBoxes: recent_msg_boxes,
+            			user_id: newProps.current_user
+                    });                   
+                    this.getAllBoxesProfiles(this.state.recent_msgBoxes, [], (allProfiles)=>{
+                    	this.setState({msgboxRecentArray: allProfiles});
+                    });
+                });
+            });
         });
-        this.refresh(newProps.current_user);
+    }  
+    getAllBoxesProfiles(listMsgBoxes, boxes_profiles, cb) {
+        var msg_box_id = listMsgBoxes.pop();
+        getParticipantProfiles(msg_box_id, (profiles)=> {
+            boxes_profiles.push({box_id: msg_box_id, profiles: profiles});
+            if(listMsgBoxes.length === 0) {
+                cb(boxes_profiles);
+            } else {
+                this.getAllBoxesProfiles(listMsgBoxes, boxes_profiles, cb);
+            }
+        })
     }
   render() {
+  	console.log(JSON.stringify(this.state.msgboxRecentArray));
     return(
       <div className="container content">
     		<div className="row">
@@ -112,9 +195,10 @@ export default class MessagePanel extends React.Component {
     						<div className="panel-body recent-contact recent-scrollable">                        
                                 <ul className="list-group">
                                     {
-                                        this.state.recent_msgBoxes.map((boxId, i) => {
-                                            return <MessageBox key={boxId} boxId={boxId} onRecentBoxMsgClicked={this.loadMessageBox}/>;
-                                        })
+                                    	// For each of the recent message boxes,
+                                    	this.state.msgboxRecentArray.map((msg_box, i) => {
+                                    		return <MessageBox profiles={msg_box.profiles} key={i} boxId={msg_box.box_id} onRecentBoxMsgClicked={this.loadMessageBox}/>;
+                                    	})
                                     }
                                 </ul>
     						</div>

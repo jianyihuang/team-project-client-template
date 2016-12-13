@@ -709,7 +709,11 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
             }, {
               $push: {messageboxes: new ObjectID(box_msg_id)}
             },(err, result) => {
-              res.send(messageBox);
+              db.collection('messageboxes').findOne({
+                _id: new ObjectID(box_msg_id)
+              }, (err, messageBox) => {
+                res.send(messageBox);
+              });
             });
           });
         }
