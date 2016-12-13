@@ -742,6 +742,7 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
         return callback(err);
       }
       newScheduleItem._id = result.insertedId;
+    //  console.log(newScheduleItem._id);
         if (err) {
           return callback(err);
         }
