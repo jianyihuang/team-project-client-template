@@ -245,7 +245,7 @@ handleAddClasses(event) {
 
 
 
-                    <button className="btn btn-default" data-toggle="modal" data-target="#myClasses"><span className="glyphicon glyphicon-option-horizontal"></span>Add More</button>
+                    <button className="btn btn-default" data-toggle="modal" data-target="#myClasses">Add More</button>
                       <div id="myClasses" className="modal fade" role="dialog">
                           <div className="modal-dialog">
                               <div className="modal-content">

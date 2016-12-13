@@ -944,11 +944,10 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
     var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var userData = req.body;
-    console.log(userid);
-    console.log(fromUser);
+    var newUser = new ObjectID(userid);
     if(fromUser === userid) {
         db.collection('users').updateOne(
-          {_id: userid},
+          {_id: newUser},
         {
           $set: {
             academic_institution: userData.academic_institution,
@@ -960,13 +959,8 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
           if (err) {
             res.status(500).send("Database error: " +err);
           } else {
-            getUserData(userid, function(err, userInfo) {
-              if (err) {
-                res.status(500).send("Database error: " + err);
-              } else {
-                res.status(201).send(userInfo);
-              }
-            });
+            res.status(201);
+            res.send(newUser);
           }
         });
     } else {
