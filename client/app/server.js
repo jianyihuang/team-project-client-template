@@ -25,7 +25,6 @@ export function tripOff0s(length24String) {
       break;
     }
   }
-  console.log(i);
   return length24String.slice(i, length24String.length);
 }
 

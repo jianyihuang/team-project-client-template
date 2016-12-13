@@ -1,33 +1,38 @@
 import React from 'react';
-import {getMessageBoxServer, getParticipantProfiles} from '../../server.js';
+import {getMessageBoxServer, getParticipantProfiles, changeToken} from '../../server.js';
 
 export class MessageBox extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			participant_profiles: []
+			boxId: props.boxId,
+			participant_profiles: props.profiles
 		};
 		this.clicked = this.clicked.bind(this);
+		// console.log('MessageBox created.');
+		// console.log(props);
 	}
 	componentDidMount(){
-        getParticipantProfiles(this.props.boxId, (profiles) => {
-            // console.log(JSON.stringify(profiles));
-            this.setState({
-                participant_profiles: profiles
-            });
-        });
+        // getParticipantProfiles(this.props.boxId, (profiles) => {
+        //     // console.log(JSON.stringify(profiles));
+        //     this.setState({
+        //         participant_profiles: profiles
+        //     });
+        //     console.log('MessageBox mounted');
+        // });
 	}
 	componentWillReceiveProps(newProps) {
 		// console.log("New props:" + JSON.stringify(newProps));
 		// getParticipantProfiles(newProps.boxId, (profiles) => {
   //           // console.log(JSON.stringify(profiles));
-  //           this.setState({
-  //               participant_profiles: profiles
-  //           });
+            this.setState({
+            	boxId: newProps.boxId,
+                participant_profiles: newProps.profiles
+            });
   //       });
 	}
 	clicked() {
-		this.props.onRecentBoxMsgClicked(this.props.boxId);
+		this.props.onRecentBoxMsgClicked(this.state.boxId);
 	}
 	render() {
 		return (
