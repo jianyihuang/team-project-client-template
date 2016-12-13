@@ -131,7 +131,7 @@ class App extends React.Component {
         {React.cloneElement(this.props.children, {current_user: this.state.current_user})}
         <div className="row">
           <div className="col-md-12">
-            <ErrorBanner />
+            {/* <ErrorBanner /> */}
           </div>
         </div>
       </div>

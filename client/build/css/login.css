@@ -1,10 +1,19 @@
 body
 {
-    background: url('http://farm3.staticflickr.com/2832/12303719364_c25cecdc28_b.jpg') fixed;
+    background: url('../img/intro-bg.jpg') ;
     background-size: cover;
     padding: 0;
     margin: 0;
+    text-align: left;;
+        color: #f8f8f8;
+
+        background-size: cover;
 }
+.intro-divider{
+        width: 800px;
+        align:left;
+        margin-left:0;
+    }
 .navbar {
 visibility: hidden;
   /*background-color: #90CAF9;
@@ -188,4 +197,33 @@ form.login a:hover
 /* Prevent an HTML element from displaying at all. */
 .hidden {
   display: 'none';
+}
+.intro-header {
+    padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 50px;
+    text-align: left;
+    color: #f8f8f8;
+  
+}
+
+.intro-message {
+    position: relative;
+    padding-top: 20%;
+    padding-bottom: 20%;
+}
+
+.intro-message > h1 {
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 5em;
+}
+
+.intro-divider {
+    width: 400px;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.intro-message > h3 {
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
 }

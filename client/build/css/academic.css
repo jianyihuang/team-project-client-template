@@ -2,11 +2,12 @@ body{
 		/*height: 10000px;*/
 		/*font-family: 'Raleway', sans-serif;*/
 		/*background-color: #2980b9;*/
-    background-image: url('../img/background.jpg');
-		background-size:cover;;;
+    background-image: url('../img/booksback.jpg');
+		background-size:cover;
     padding-top: 100px;
-    padding-left: 100px;
+    padding-left: 250px;
     padding-right: 30px;
+		padding-bottom: 100px;
     /*width:100%;*/
     /*padding:20px 30px 70px 70px;*/
 
@@ -38,7 +39,7 @@ body{
 
 /*text inside the pills of navigation bar*/
 .nav .nav-pills > li > a {
-  color: black;
+  color: white;
 }
 
 /*badge of notification*/
@@ -57,7 +58,7 @@ body{
 .nav-pills >li > a:focus,
 .list-group > a:hover,
 .dropdown-menu > li > a:hover {
-  background-color: azure;
+  background-color: transparent;
 }
 
 /*Name of the website*/
@@ -92,7 +93,7 @@ body{
 	}
 
 	.caption-style-4 li{
-		float: left;
+		float:left;
 		padding: 0px;
 		position: relative;
 		overflow: hidden;
