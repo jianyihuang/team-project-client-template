@@ -15,7 +15,7 @@ var initialData = {
       "email": "kzheung@umass.edu",
       "favorite_quote": "Anything I say.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":[1, 2, 3],
+      "classes_taken":["CS311", "MATH132", "CS250", "CS220", "ENGLISH112", "CS121"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
@@ -37,7 +37,7 @@ var initialData = {
       "email": "tddinh@umass.edu",
       "favorite_quote": "You become what you think about.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":[1, 2, 3],
+      "classes_taken":["CS311", "MATH132", "CS250"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
@@ -59,7 +59,7 @@ var initialData = {
       "email": "taddai@umass.edu",
       "favorite_quote": "I have a dream.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":[1, 2, 3],
+      "classes_taken":["CS311", "MATH132", "CS250"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
@@ -81,7 +81,7 @@ var initialData = {
       "email": "juconghe@umass.edu",
       "favorite_quote": "CSS Expert has nothing to say.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":[1, 2, 3],
+      "classes_taken":["CS311", "MATH132", "CS250"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
@@ -103,7 +103,7 @@ var initialData = {
       "email": "xliu0@umass.edu",
       "favorite_quote": "Scheduling like a boss.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":[1, 2, 3],
+      "classes_taken":["CS311", "MATH132", "CS250"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references
@@ -125,7 +125,7 @@ var initialData = {
       "email": "jianyihuang@umass.edu",
       "favorite_quote": "You only live once.",
       "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":[1, 2, 3],
+      "classes_taken":["CS311", "MATH132", "CS250"],
       "education_level": "Junior",
       "academic_institution": "Umass Amherst",
       //start of references

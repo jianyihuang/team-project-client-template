@@ -32,7 +32,7 @@
     "classes_taken": {
       "type": "array",
       "items": {
-        "type": "number"
+        "type": "string"
       },
       "id": "classes_taken"
     },

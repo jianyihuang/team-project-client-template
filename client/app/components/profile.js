@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserData, saveUserData, getClassData} from '../server';
+import {getUserData, saveUserData} from '../server';
 import {resetDatabase} from '../database';
 
 
@@ -17,13 +17,18 @@ export default class Profile extends React.Component{
             classes_taken: [],
             education_level: '',
             academic_institution: '',
+            classToAdd : [],
+
           }
+
           this.handleSave = this.handleSave.bind(this);
           this.handleCancel = this.handleCancel.bind(this);
           this.handleSchool = this.handleSchool.bind(this);
           this.handleYear = this.handleYear.bind(this);
           this.handleQuote = this.handleQuote.bind(this);
           this.changeUser = this.changeUser.bind(this);
+          this.handleAddClasses = this.handleAddClasses.bind(this);
+          this.handleClassSelect = this.handleClassSelect.bind(this);
           this.refresh = this.refresh.bind(this);
       }
 
@@ -72,6 +77,7 @@ export default class Profile extends React.Component{
             classes_taken: user_data.classes_taken,
             education_level: user_data.education_level,
             academic_institution: user_data.academic_institution,
+            classToAdd: [],
           });
         });
       }
@@ -105,6 +111,39 @@ export default class Profile extends React.Component{
     });
   }
 
+  //called when user hits add classes in modal box
+handleClassSelect(e, cb, idx, aclass) {
+  event.preventDefault();
+  console.log(aclass);
+  console.log(cb.item(idx).checked);
+  if(cb.item(idx).checked){
+    if(this.state.classToAdd.indexOf(aclass)==-1){
+      this.state.classToAdd.push(aclass);
+      console.log(this.state.classToAdd);
+    }
+  } else {
+    var classIdx = this.state.classToAdd.indexOf(aclass);
+    if(classIdx !== -1)
+      this.state.classToAdd.splice(classIdx, 1);
+  }
+}
+
+//called when user hits add classes button in modal box
+handleAddClasses(event) {
+  event.preventDefault();
+  this.setState({
+    editing: true,
+    classes_taken: this.state.classes_taken.concat(this.state.classToAdd),
+  });
+  console.log(this.state.classes_taken);
+
+}
+
+
+
+
+
+
 // When user hits Enter, information will be saved.
   // handleKeyUp(event) {
   //   if(event.key === "Enter"){
@@ -130,6 +169,7 @@ export default class Profile extends React.Component{
 
   render() {
     // return (<div>None</div>);
+    var classList = ["CS311", "CS326", "MATH132", "PHYSICS151", "ENGLISH112", "MATH411"];
     return (
       <div className = "container">
         <div className="row">
@@ -187,9 +227,6 @@ export default class Profile extends React.Component{
                     value = {this.state.favorite_quote} onChange={this.handleQuote}/>
                 </div>
               </div>
-
-
-
               <div className="form-group">
                 <label className="col-md-3 control-label"> Areas of Interest</label>
                   <div className="col-md-7">
@@ -198,37 +235,46 @@ export default class Profile extends React.Component{
                 </div>
               <div className="form-group">
                 <label className="col-md-3 control-label">Classes Taken</label>
-                <div className="col-md-7">
+                  <div className="col-md-7">
+                    <ul>
+                      {this.state.classes_taken.map((aclass, i) => (
+                        <li key={i}>{aclass}</li>
+                      ))
+                    }
+                  </ul>
 
-                  {this.state.classes_taken.map((classItem, i) => {
-                    return <classesTaken key={i} courseid={classItem.course_id} courseTitle={classItem.course_title} />;
-                  })}
+
+
+                    <button className="btn btn-default" data-toggle="modal" data-target="#myClasses"><span className="glyphicon glyphicon-option-horizontal"></span>Add More</button>
+                      <div id="myClasses" className="modal fade" role="dialog">
+                          <div className="modal-dialog">
+                              <div className="modal-content">
+                                  <div className="modal-header">
+                                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                      <font size="5">Add classes</font>
+                                  </div>
+                                  <div className="modal-body">
+
+                                    {classList.map((aclass, i)=> (
+                                      <label key={i} className="checkbox-inline">
+                                        <input type="checkbox" id="aclassBox" onClick={(e)=>{this.handleClassSelect(e, aclassBox, i, aclass)}}/>{aclass}
+                                      </label>
+                                    ))
+                                  }
+
+                                  </div>
+                                  <div className="modal-footer text-center">
+                                      <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleAddClasses} >Add classes</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+
+                  </div>
                 </div>
-                <div className="col-md-7">
-                    <div className="form-group">
-                        <label className="checkbox-inline">
-                          <input type="checkbox" value=""/>Math
-                        </label>
-                        <label className="checkbox-inline">
-                          <input type="checkbox" value=""/>Music
-                        </label>
-                        <label className="checkbox-inline">
-                          <input type="checkbox" value=""/>Biology
-                        </label>
-                    </div>
-                    <select id="selClass" multiple="multiple">
-                      <option id="CS311">CS311</option>
-                      <option id="CS250">CS250</option>
-                      <option id="MATH132">MATH132</option>
-                      <option id="CS326">CS326</option>
-                      <option id="MATH411">MATH411</option>
-                    </select>
-                    <button type = "button" onClick={this.handleClasses}>Submit</button>
+              </form>
 
-
-                </div>
-              </div>
-            </form>
 
             <div className="col-md-12 text-center editBtns" id="editBtns">
               <span className={this.hideElement(!this.state.editing)}>
