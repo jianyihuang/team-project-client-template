@@ -49,6 +49,8 @@ export default class Schedule extends React.Component {
       postSchedule(this.state,(userInfo)=>{
         // console.log(JSON.stringify(userInfo));
       });
+      console.log("Press the button");
+      console.log(this.state);
       this.refresh(this.state.user_id);
     }
 

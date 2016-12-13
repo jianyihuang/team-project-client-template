@@ -15,7 +15,7 @@ import ErrorBanner from './components/errorbanner';
 import { IndexRoute,Router,Route,hashHistory } from 'react-router';
 
 // Temporarily used until we learn proper way to authenticate.
-import {changeToken} from './server';
+import {changeToken, toLength24String} from './server';
 
 /**
  * Search results page.
@@ -110,10 +110,9 @@ class SearchResults extends React.Component {
 class App extends React.Component {
   constructor(props){
     super(props);
-    var initial_user = 1;
+    var initial_user = toLength24String(1);
     this.state = {
-      current_user: initial_user,
-      isOnDetailPage: true
+      current_user: initial_user
     }
     this.handleChangeUserNavbar = this.handleChangeUserNavbar.bind(this);
   }
@@ -121,8 +120,7 @@ class App extends React.Component {
     // Change token.
     changeToken(user_id);
     this.setState({
-      current_user: user_id,
-      isOnDetailPage: false
+      current_user: toLength24String(user_id)
     });
   }
   render() {
@@ -157,6 +155,7 @@ class CategoryBoxPage extends React.Component {
     return (
       <div>
         <link rel="stylesheet" href="css/academic.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet"/>
         <CategoryBox current_user={this.state.current_user}/>
       </div>
     );
@@ -169,6 +168,9 @@ class AcademicDetailPage extends React.Component {
     this.state = {
       current_user: this.props.current_user
     }
+  }
+  componentWillMount(){
+    // this.props.forceNavChange();
   }
   componentWillReceiveProps(newProps) {
     console.log('AcademicDetailPage receives new user id: ' + newProps.current_user);
@@ -203,6 +205,7 @@ class ServiceHomePage extends React.Component{
     return(
       <div>
         <link href="css/service.css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400" rel="stylesheet"/>
         <ServiceHome current_user={this.state.current_user}/>
       </div>
       )
@@ -216,6 +219,9 @@ class ServiceDetailPage extends React.Component {
       current_user: this.props.current_user
     }
   }
+  componentWillMount(){
+    // this.props.forceNavChange();
+  }
   componentWillReceiveProps(newProps) {
     console.log('ServiceDetailPage receives new user id: ' + newProps.current_user);
     this.setState({
@@ -226,7 +232,7 @@ class ServiceDetailPage extends React.Component {
     return(
       <div>
         <link href="css/service_detail_page.css" rel="stylesheet"/>
-        <DetailPage type={2} current_user={this.state.current_user}/>
+        <DetailPage type={2} current_user={this.state.current_user} isRequestPage={false}/>
       </div>
     );
   }
@@ -335,6 +341,30 @@ class ConfigPage extends React.Component {
   }
 }
 
+class MyRequestPage extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      current_user: this.props.current_user
+    }
+  }
+  componentWillMount(){
+    // this.props.forceNavChange();
+  }
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      current_user: newProps.current_user
+    });
+  }
+  render() {
+    return(
+      <div>
+        <link href="css/detail_page.css" rel="stylesheet"/>
+        <DetailPage type={1} current_user={this.state.current_user} isRequestPage={true}/>
+      </div>
+    );
+  }
+}
 
 ReactDOM.render((
   <Router history={hashHistory}>
@@ -351,6 +381,7 @@ ReactDOM.render((
       <Route path="/categorybox" component={CategoryBoxPage} />
       <Route path="/servicehome" component={ServiceHomePage} />
       <Route path="/search" component={SearchResultsPage} />
+      <Route path="/myrequest" component={MyRequestPage} />
     </Route>
   </Router>
   ),document.getElementById('App')

@@ -1,8 +1,32 @@
-import {readDocument, writeDocument, addDocument} from './database.js';
+var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9';
 
-var token = 'eyJpZCI6MX0=';
+var users = [
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMiJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMyJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNCJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNSJ9',
+'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNiJ9'];
 
-var users = ['eyJpZCI6MX0=', 'eyJpZCI6Mn0=', 'eyJpZCI6M30=', 'eyJpZCI6NH0=', 'eyJpZCI6NX0=', 'eyJpZCI6Nn0='];
+export function toLength24String(user_id) {
+  var id = "" + user_id;
+  var string24 = "";
+  for (var j = 24 - id.length; j > 0; j--) {
+    string24 += "0";
+  }
+  return (string24 + id);
+}
+
+export function tripOff0s(length24String) {
+  var id = "";
+  var i = 0;
+  for (; i < length24String.length; i++) {
+    if(length24String.charAt(i) !== '0') {
+      break;
+    }
+  }
+  return length24String.slice(i, length24String.length);
+}
 
 export function changeToken(user_id){
   token = users[user_id - 1];
@@ -55,13 +79,10 @@ function sendXHR(verb, resource, body, cb) {
 
     switch (typeof(body)) {
       case 'undefined':
-        // No body to send.
-        // console.log("body is undefined");
         xhr.send();
         break;
       case 'string':
         // Tell the server we are sending text.
-        console.log("body is a string");
         xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         xhr.send(body);
         break;
@@ -75,25 +96,14 @@ function sendXHR(verb, resource, body, cb) {
         throw new Error('Unknown body type: ' + typeof(body));
     }
   }
-/**
- * Emulates how a REST call is *asynchronous* -- it calls your function back
- * some time in the future with data.
- */
-function emulateServerReturn(data, cb) {
-  setTimeout(() => {
-    cb(data);
-  }, 4);
-}
 
 export function getFeedData(user,type, cb) {
-  // console.log('getFeedData is called with ' + user + ', ' + type);
   sendXHR('GET','/user/'+user+'/feed/'+type,undefined,(xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
 
 export function postStatusUpdate(user, contents,type, cb) {
-  // console.log(contents);
   sendXHR('POST','/feeditem/'+type,{
     "author": user,
     "request": contents.title,
@@ -197,7 +207,7 @@ export function saveUserData(info, cb) {
   "areas_of_interest" : info.areas_of_interest,
   "classes_taken" : info.classes_taken,
   "education_level" : info.education_level,
-  "academic_institution" : info.academic_institution,
+  "academic_institution" : info.academic_institution
   }, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
@@ -302,5 +312,12 @@ export function getCommentData(commentId,userId,cb) {
  export function postComment(feedItemId,content,userId,cb) {
    sendXHR('POST','/feed/'+feedItemId+'/comment/'+userId,content,(xhr)=>{
    cb(JSON.parse(xhr.responseText));
+    })
+  }
+
+  export function getRequstFeeds(user,cb) {
+    console.log("getting feed for request page");
+    sendXHR('GET','/user/'+user+'/requests',undefined,(xhr) => {
+      cb(JSON.parse(xhr.responseText));
     })
   }

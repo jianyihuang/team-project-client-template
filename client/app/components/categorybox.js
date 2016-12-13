@@ -4,65 +4,83 @@ export default class CategoryBox extends React.Component {
   render() {
     return(
       <div className = "container">
-        <div className="row">
-          <div className="col-md-4">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h5 className="text-center">Computer Science</h5>
-                <Link to="/acedemicdetail"><img src="img/cmpSci.jpeg" className="img-responsive" width="325px"
-                  height ="200px"/></Link>
+
+        <ul className="caption-style-4">
+          <li>
+
+            <Link to ="/acedemicdetail"><img src="img/resized/english_400x300.jpg" alt=""/>
+              <div className="caption">
+                <div className="blur"></div>
+                <div className="caption-text">
+                  <h1>English</h1>
+                  <p>Enter for Help </p>
+                </div>
+              </div></Link>
+
+          </li>
+          <li>
+
+            <img src="img/resized/cmpSci_400x300.jpeg" alt=""/>
+            <Link to ="/acedemicdetail">  <div className="caption">
+              <div className="blur"></div>
+              <div className="caption-text">
+                <h1>Computer Science </h1>
+                <p>Enter for Help </p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h5 className="text-center">Math</h5>
-                <Link to="/acedemicdetail"><img src="img/math.jpg" className="img-responsive"  width="325px"
-                  height ="200px"/></Link>
+            </div></Link>
+          </li>
+          <li>
+
+            <img src="img/resized/history_400x300.jpg" alt=""/>
+            <Link to ="/acedemicdetail"><div className="caption">
+              <div className="blur"></div>
+              <div className="caption-text">
+                <h1>History</h1>
+                <p>Enter for Help </p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h5 className="text-center">Physics</h5>
-                <Link to="/acedemicdetail"><img src="img/physics.jpeg" className="img-responsive" width="325px"
-                  height ="200px"/></Link>
+            </div></Link>
+          </li>
+
+          {/* </ul> */}
+
+        {/* <ul className="caption-style-4"> */}
+          {/* <div className="row"> */}
+          <li>
+            <img src="img/resized/music_400x300.jpg" alt=""/>
+            <Link to ="/acedemicdetail"><div className="caption">
+              <div className="blur"></div>
+              <div className="caption-text">
+                <h1>Music</h1>
+                <p>Enter for Help </p>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-4">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h5 className="text-center">Music</h5>
-                <Link to="/acedemicdetail"><img src="img/music.jpg" className="img-responsive" width="325px"
-                  height ="200px"/></Link>
+            </div></Link>
+          </li>
+          <li>
+
+            <img src="img/resized/physics_400x300.jpeg" alt=""/>
+            <Link to ="/acedemicdetail"><div className="caption">
+              <div className="blur"></div>
+              <div className="caption-text">
+                <h1>Physics</h1>
+                <p>Enter for Help </p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h5 className="text-center">History</h5>
-                <Link to="/acedemicdetail"><img src="img/history.jpg" className="img-responsive" width="325px"
-                  height ="200px"/></Link>
+            </div></Link>
+          </li>
+          <li>
+
+            <img src="img/resized/math_1_400x300.jpg" alt=""/>
+            <Link to ="/acedemicdetail"><div className="caption">
+              <div className="blur"></div>
+              <div className="caption-text">
+                <h1>Mathematics</h1>
+                <p>Enter for Help </p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="panel panel-default">
-              <div className="panel-body">
-                <h5 className="text-center">English</h5>
-                <Link to="/acedemicdetail"><img src="img/english.jpg" className="img-responsive" width="325px"
-                  height ="200px"/></Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+            </div></Link>
+          </li>
+          {/* </div> */}
+          </ul>
+
+                  </div>
+                  );
+                  }
+                  }
