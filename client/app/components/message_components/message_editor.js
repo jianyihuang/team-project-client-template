@@ -123,7 +123,7 @@ export class MessageEditor extends React.Component {
 										              <div className="panel-body">
 										                <div className="row">
 										                  <div className= "col-xs-3">
-										                    <strong>Your First Name (Upper case with first letter)</strong>
+										                    <strong>Your First Name</strong>
 										                  </div>
 										                  <div className= "col-xs-5">
 										                    <div className="input-style">
@@ -134,7 +134,7 @@ export class MessageEditor extends React.Component {
 										                <hr />
 										                <div className="row">
 										                  <div className= "col-xs-3">
-										                    <strong>Date(e.g. 10/6/2016)</strong>
+										                    <strong>Date</strong>
 										                  </div>
 										                  <div className= "col-xs-5">
 										                    <div className="input-style">
@@ -145,7 +145,7 @@ export class MessageEditor extends React.Component {
 										                <hr />
 										                <div className="row">
 										                  <div className= "col-xs-3">
-										                    <strong>Service(e.g. CS121)</strong>
+										                    <strong>Service</strong>
 										                  </div>
 										                  <div className= "col-xs-5">
 										                    <div className="input-style">
@@ -156,7 +156,7 @@ export class MessageEditor extends React.Component {
 										                <hr />
 										              <div className="row">
 										                    <div className= "col-xs-3">
-										                      <strong>Time(e.g. 9AM-12AM)</strong>
+										                      <strong>Time</strong>
 										                    </div>
 										                    <div className= "col-xs-5">
 										                      <div className="input-style">
@@ -180,7 +180,7 @@ export class MessageEditor extends React.Component {
 										            </div>
 										          </div>
                                             </div>
-                                            <div className="modal-footer text-center">
+                                            <div className="modal-footer">
                                                 <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleAddSchedule}>Add to Schedule</button>
                                             </div>
                                         </div>

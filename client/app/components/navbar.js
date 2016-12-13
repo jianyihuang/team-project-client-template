@@ -60,9 +60,18 @@ render() {
 											Service
 										</Link>
 									</li>
-									<li><button type='button' onClick={resetDatabase}> Reset Database</button></li>
- -                                    <li>UserID: <input type='text' size='3' maxLength='1' value={this.state.text} onChange={this._userChanged}/></li>
- -                                    <li><button type='button' onClick={this.changeUser}>Change User</button></li>
+									<li>
+										<div className="dropdown">
+										  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										    <span className="glyphicon glyphicon-console"></span>
+										  </button>
+										  <ul className="dropdown-menu" aria-labelledby="dLabel">	                                            	
+											<li><button type='button' onClick={resetDatabase}>Reset DB</button></li>
+			                                <li>ID:<input type='text' size='1' maxLength='1' value={this.state.text} onChange={this._userChanged}/></li>
+											<li><button type='button' onClick={this.changeUser}>Change</button></li>														
+										  </ul>
+										</div>
+									</li>
 								</ul>
 							</div>
 							<div className="nav navbar-nav navbar-right">
