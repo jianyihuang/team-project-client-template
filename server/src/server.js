@@ -902,24 +902,75 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
     }
   });
 
+  function getUserData(user, callback) {
+    //console.log("Get called");
+    db.collection('users').findOne({_id: user}, function(err, userData) {
+      if(err) {
+        callback(err);
+      } else if (userData === null) {
+        //user not found
+        callback(null, null);
+      } else {
+        callback(null, userData);
+      }
+    });
+  }
+
+
   //display user profile for particular user
   app.get('/user/:userid/profile', function(req, res) {
     var userid = req.params.userid;
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     if(fromUser === userid) {
-      // send response
-      db.collection('users').findOne({_id:new ObjectID(userid)},function(err,userData) {
-        if (err) {
-          res.status(500).send("Database error: "+err);
-        } else if (userData === null){
-          res.status(400).send("Could not find User: "+userid);
+      getUserData(new ObjectID(userid), function(err, userData) {
+        if(err){
+          //database error
+          res.status(500).send("Database error: " + err);
+        } else if (userData === null) {
+          //couldn't find user
+          res.status(400).send("Could not look up info for user " + userid);
         } else {
-          // console.log(userData);
-          res.status(201);
           res.send(userData);
         }
-      });
+      })
     } else {
+      // Unauthorized request
+      res.status(401).end();
+    }
+  });
+
+  //update user profile
+  app.put('/user/:userid/profile', validate({body: UserProfileSchema}), function(req,res) {
+    var userid = req.params.userid;
+    var fromUser = getUserIdFromToken(req.get('Authorization'));
+    var userData = req.body;
+    console.log(userid);
+    console.log(fromUser);
+    if(fromUser === userid) {
+        db.collection('users').updateOne(
+          {_id: userid},
+        {
+          $set: {
+            academic_institution: userData.academic_institution,
+            education_level: userData.education_level,
+            favorite_quote: userData.favorite_quote,
+            classes_taken: userData.classes_taken
+          }
+        }, function(err) {
+          if (err) {
+            res.status(500).send("Database error: " +err);
+          } else {
+            getUserData(userid, function(err, userInfo) {
+              if (err) {
+                res.status(500).send("Database error: " + err);
+              } else {
+                res.status(201).send(userInfo);
+              }
+            });
+          }
+        });
+    } else {
+      // Unauthorized request
       res.status(401).end();
     }
   });

@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "user_id" : {
-      "type": "int",
+      "type": "string",
       "id": "user_id"
     },
     "first_name": {
