@@ -842,10 +842,10 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
   });
 
   app.post('/schedule',validate({body:scheduleSchema}),function(req,res) {
-    console.log("Get post scheduleItem");
+  //  console.log("Get post scheduleItem");
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var body = req.body;
-   console.log('Server receives POST schedule :: ' + JSON.stringify(body));
+  // console.log('Server receives POST schedule :: ' + JSON.stringify(body));
     //console.log(fromUser);
   //  console.log(body.author);
     db.collection('users').findOne({ _id: new ObjectID(fromUser)},function(error, userObject){
@@ -861,9 +861,10 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
              // 500: Internal error.
              res.status(500).send("A database error occurred: " + err);
            } else {
-             console.log(newUpdate);
              res.status(201);
              res.send(newUpdate);
+             console.log(newUpdate);
+             //console.log(JSON.stringify(db.collection('schedules')));
            }
          });
       }else {
