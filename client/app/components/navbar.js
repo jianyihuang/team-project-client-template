@@ -60,6 +60,9 @@ render() {
 											Service
 										</Link>
 									</li>
+									<li><button type='button' onClick={resetDatabase}> Reset Database</button></li>
+ -                                    <li>UserID: <input type='text' size='3' maxLength='1' value={this.state.text} onChange={this._userChanged}/></li>
+ -                                    <li><button type='button' onClick={this.changeUser}>Change User</button></li>
 								</ul>
 							</div>
 							<div className="nav navbar-nav navbar-right">
