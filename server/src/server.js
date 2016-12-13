@@ -292,7 +292,6 @@ function resolveUserObjects(userList, callback) {
         } else if (feedData === null) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
-          console.log(feedData);
           res.status(201).send(feedData);
         }
       })
@@ -317,7 +316,7 @@ function resolveUserObjects(userList, callback) {
           } else {
             res.status(201);
             res.set('Location','/feeditem/'+newPost._id);
-            console.log(newPost);
+            // console.log(newPost);
             res.send(newPost);
           }
         });
@@ -384,23 +383,54 @@ function resolveUserObjects(userList, callback) {
       });
 
   // Search for feed item
-  app.post('/search', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var userData = readDocument('users', fromUser);
-    if (typeof(req.body) === 'string') {
-      var query = req.body.trim().toLowerCase();
-      var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
-      console.log("query: "+query);
-      console.log("feedData: "+feedData);
-    res.send(feedData.filter((feedItemId) => {
-      var feedItem = readDocument('feedItems',feedItemId);
-     return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
-    }).map(getFeedItemSync));
+app.post('/search', function(req, res) {
+  var fromUser = new ObjectID(getUserIdFromToken(req.get('Authorization')));
+  var queryText = req.body;
+  console.log(queryText);
+  console.log("Search called");
+  if (typeof(req.body) === 'string') {
+    db.collection('feedItems').find({$or:[{"contents.request":queryText},
+    {"contents.contents":queryText}]}).toArray(
+      function(err,feedItems) {
+        if (err) {
+          console.log("error occurred");
+        } else {
+          var size = feedItems.length;
+          var resolvedFeedItems = [];
+          feedItems.forEach((feedItem) => {
+            var userList = [feedItem.contents.author];
+            userList = userList.concat(feedItem.likeCounter);
+            resolveUserObjects(userList,function(err,userMap) {
+              if (err) {
+                res.status(500).send("Database error: "+err);
+              } else {
+                db.collection('servicetags').findOne({_id:new ObjectID(feedItem.tag)},
+                function(err,tag) {
+                  if (err) {
+                    res.status(500).send("Database error: "+err);
+                  } else {
+                    feedItem.likeCounter = feedItem.likeCounter.map((id) => userMap[id]);
+                    feedItem.contents.author = userMap[feedItem.contents.author];
+                    feedItem.tag = tag
+                    resolvedFeedItems.push(feedItem);
+                    if(resolvedFeedItems.length === size) {
+                      console.log(resolvedFeedItems);
+                      res.status(201).send(resolvedFeedItems);
+                    }
+                  }
+                });
+              }
+            });
+          });
+        }
+      }
+    )
   }
-  else{
-  res.status(400).end();
+else {
+		// 400: Bad Request.
+		res.status(400).end();
   }
-  });
+	});
 
 function deleteFeed(userId,feedItemId,type,callback) {
   console.log(feedItemId);
