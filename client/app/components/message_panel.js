@@ -3,7 +3,7 @@ import {MessageBox} from './message_components/message_box';
 import {Message} from './message_components/message';
 import {MessageEditor} from './message_components/message_editor';
 import {sendMessageServer, getMessageBoxServer, getRecentMessageBoxes, getParticipantProfiles, createMessageBox, joinMessageBox} from '../server';
-import {resetDatabase, toLength24String} from '../server';
+import {resetDatabase, toLength24String, postSchedule} from '../server';
 
 const n_recent_msgbox = 10;
 
@@ -18,6 +18,12 @@ export default class MessagePanel extends React.Component {
         this.addNewParticipant = this.addNewParticipant.bind(this);
         this.loadMessageBox = this.loadMessageBox.bind(this);
         this.getAllBoxesProfiles = this.getAllBoxesProfiles.bind(this);
+        this.handleAddSchedule = this.handleAddSchedule.bind(this);
+        this.handleAuthorChange = this.handleAuthorChange.bind(this);
+        this.handleSubscriberChange = this.handleSubscriberChange.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleTimeChange = this.handleTimeChange.bind(this);
+        this.handleServiceContentsChange = this.handleServiceContentsChange.bind(this);
     }
     componentDidMount() {
         // Get recent message boxes.
@@ -181,6 +187,56 @@ export default class MessagePanel extends React.Component {
             }
         })
     }
+    // Handle add schedule.
+    handleAddSchedule(){
+      postSchedule(this.state,(userInfo)=>{
+        // console.log(JSON.stringify(userInfo));
+      });
+    }
+     handleAuthorChange(event) {
+      event.preventDefault();
+      var newAuthor = event.target.value;
+      this.setState({
+        author: newAuthor
+      });
+    }
+
+    handleSubscriberChange(event) {
+      event.preventDefault();
+      var newSubscriber = event.target.value;
+      this.setState({
+        subscriber: newSubscriber
+      });
+    }
+
+    handleDateChange(event) {
+      event.preventDefault();
+      var newDate = event.target.value;
+      this.setState({
+        date: newDate
+      });
+    }
+
+    handleTimeChange(event) {
+      event.preventDefault();
+      var newTime = event.target.value;
+      this.setState({
+        time: newTime
+      });
+    }
+
+    handleServiceContentsChange(event) {
+      event.preventDefault();
+      var newServiceContents = event.target.value;
+      this.setState({
+        serviceContents: newServiceContents
+      });
+    }
+    handleDateTimeChanged(event) {
+        event.preventDefault();
+        var value = event.target.value;
+        console.log((new Date(value)).getTime());
+    }
   render() {
   	console.log(JSON.stringify(this.state.msgboxRecentArray));
     return(
@@ -229,6 +285,84 @@ export default class MessagePanel extends React.Component {
                                                                         </div>
                                                                         <div className="modal-footer">
                                                                             <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.addNewParticipant}>Add</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <button className="btn btn-default" data-toggle="modal" data-target="#mySchedule"><span className="glyphicon glyphicon-calendar"></span>Add Appointment</button>
+                                                            <div id="mySchedule" className="modal fade" role="dialog">
+                                                                <div className="modal-dialog">
+                                                                    <div className="modal-content">
+                                                                        <div className="modal-header">
+                                                                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                                                            <font size="5">Add an appointment </font>
+                                                                        </div>
+                                                                        <div className="modal-body">
+                                                                            <div className="panel panel-default">
+                                                                                <div className= "panel-color">
+                                                                                  <div className="panel-body">
+                                                                                    <div className="row">
+                                                                                      <div className= "col-xs-3">
+                                                                                        <strong>Your First Name</strong>
+                                                                                      </div>
+                                                                                      <div className= "col-xs-5">
+                                                                                        <div className="input-style">
+                                                                                          <input type="text" className="form-control" value={this.state.author} onChange={this.handleAuthorChange}/>
+                                                                                        </div>
+                                                                                      </div>
+                                                                                    </div>
+                                                                                    <hr />
+                                                                                    <div className="row">
+                                                                                      <div className= "col-xs-3">
+                                                                                        <strong>Date</strong>
+                                                                                      </div>
+                                                                                      <div className= "col-xs-5">
+                                                                                        <div className="input-style">
+                                                                                          <input type="text" className="form-control" value={this.state.subscriber} onChange={this.handleSubscriberChange} />
+                                                                                        </div>
+                                                                                      </div>
+                                                                                    </div>
+                                                                                    <hr />
+                                                                                    <div className="row">
+                                                                                      <div className= "col-xs-3">
+                                                                                        <strong>Service</strong>
+                                                                                      </div>
+                                                                                      <div className= "col-xs-5">
+                                                                                        <div className="input-style">
+                                                                                          <input type="text" className="form-control" value={this.state.date} onChange={this.handleDateChange} />
+                                                                                        </div>
+                                                                                      </div>
+                                                                                    </div>
+                                                                                    <hr />
+                                                                                  <div className="row">
+                                                                                        <div className= "col-xs-3">
+                                                                                          <strong>Time</strong>
+                                                                                        </div>
+                                                                                        <div className= "col-xs-5">
+                                                                                          <div className="input-style">
+                                                                                            <input type="text" className="form-control" value={this.state.time} onChange={this.handleTimeChange} />
+                                                                                          </div>
+                                                                                        </div>
+                                                                                      </div>
+                                                                                      <hr />
+                                                                                      <div className="row">
+                                                                                  <div className= "col-xs-3">
+                                                                                  <strong>Subscriber</strong>
+                                                                                    </div>
+                                                                                  <div className= "col-xs-5">
+                                                                                <div className="input-style">
+                                                                                    <input type="text" className="form-control" value={this.state.serviceContents} onChange={this.handleServiceContentsChange} />
+                                                                                </div>
+                                                                                  </div>
+                                                                                </div>
+                                                                              <hr />
+                                                                                  </div>
+                                                                                </div>
+                                                                              </div>
+                                                                        </div>
+                                                                        <div className="modal-footer">
+                                                                            <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleAddSchedule}>Add to Schedule</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
