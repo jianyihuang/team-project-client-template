@@ -293,6 +293,8 @@ function resolveUserObjects(userList, callback) {
           res.status(400).send("Could not look up feed for user " + userid);
         } else {
           console.log(feedData);
+
+
           res.status(201).send(feedData);
         }
       })
@@ -384,23 +386,66 @@ function resolveUserObjects(userList, callback) {
       });
 
   // Search for feed item
-  app.post('/search', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    var userData = readDocument('users', fromUser);
-    if (typeof(req.body) === 'string') {
-      var query = req.body.trim().toLowerCase();
-      var feedData = readDocument('academicfeeds', userData.Academic_feed).list_of_feeditems;
-      console.log("query: "+query);
-      console.log("feedData: "+feedData);
-    res.send(feedData.filter((feedItemId) => {
-      var feedItem = readDocument('feedItems',feedItemId);
-     return feedItem.contents.contents.toLowerCase().indexOf(query)!==-1 ||feedItem.contents.request.toLowerCase().indexOf(query)!==-1;
-    }).map(getFeedItemSync));
+app.post('/search', function(req, res) {
+  var fromUser = new ObjectID(getUserIdFromToken(req.get('Authorization')));
+  var queryText = req.body.trim().toLowerCase();
+  if (typeof(req.body) === 'string') {
+  db.collection('users').findOne({ _id: fromUser}, function(err, userData) {
+	if (err) {
+        res.status(500).send("Database error: "+err);
+      } else if (userData === null) {
+        // User not found.
+        // 400: Bad request.
+        res.status(400).end();
+      }
+  // Get the user's feed.
+      db.collection('academicfeeds').findOne({ _id:userData.Academic_feed }, function(err, feedData) { //consider adding list_of_feeditems
+        if (err) {
+            console.log("*******************************ERRROR HERE ********************");
+        return res.status(500).send("Database error: "+err);
+        }
+        //var data = getFeedData(fromUser,1,);
+        console.log(feedData);
+    db.collection('feedItems').find({
+          $or: feedData.list_of_feeditems.map((feedItemId) => { return { _id:feedItemId  }}),
+          $text: {
+            $search: queryText
+          }
+
+
+      }).toArray(function(err, items) {
+          if (err) {
+          return res.status(500).send("Database error: "+err);
+          }
+          console.log("items here:");
+          console.log(items);
+	var resolvedItems = [];
+        var errored = false;
+          function onResolve(err, feedItem) {
+            if (errored) {
+              return;
+            } else if (err) {
+              errored = true;
+              res.status(500).send("Database error: "+err);
+            } else {
+              resolvedItems.push(feedItem);
+
+              if (resolvedItems.length === items.length) {
+                // Send resolved items to the client!
+                res.send(resolvedItems);
+              }
+            }
+          }	  for (var i = 0; i < items.length; i++) {
+								getFeedItem(items[i]._id, onResolve);
+		}  if (items.length === 0) {
+				res.send([]);  }
+			});  });
+		});  }
+else {
+		// 400: Bad Request.
+		res.status(400).end();
   }
-  else{
-  res.status(400).end();
-  }
-  });
+	});
 
 function deleteFeed(userId,feedItemId,type,callback) {
   console.log(feedItemId);
