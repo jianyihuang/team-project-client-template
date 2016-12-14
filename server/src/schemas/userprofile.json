@@ -15,7 +15,7 @@
       "id": "last_name"
     },
     "profilepic": {
-      "type": "string",
+      "type": ["string", "null"],
       "id": "profilepic"
     },
     "favorite_quote": {

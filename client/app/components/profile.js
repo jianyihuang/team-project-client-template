@@ -11,7 +11,7 @@ export default class Profile extends React.Component{
             editing: false,
             first_name: '',
             last_name: '',
-            profilepic: '',
+            profilepic: null,
             favorite_quote: '',
             areas_of_interest: [],
             classes_taken: [],
@@ -32,6 +32,7 @@ export default class Profile extends React.Component{
           this.handleClassSelect = this.handleClassSelect.bind(this);
           this.handleClassDeselect = this.handleClassDeselect.bind(this);
           this.handleRemoveClasses = this.handleRemoveClasses.bind(this);
+          this.triggerImageUpload = this.triggerImageUpload.bind(this);
           this.refresh = this.refresh.bind(this);
       }
 
@@ -199,13 +200,52 @@ handleRemoveClasses(event) {
   // }
 
     changeUser(event){
-        var user = event.target.value;
+//        var user = event.target.value;
         if(user !== '') {
           this.setState({
               user_id: Number(user)
           });
         }
     }
+
+
+    /**
+ * Called when the user selects a file to upload.
+ */
+uploadImage(e) {
+  e.preventDefault();
+
+  // Read the first file that the user selected (if the user selected multiple
+  // files, we ignore the others).
+  var reader = new FileReader();
+  var file = e.target.files[0];
+
+  // Called once the browser finishes loading the image.
+  reader.onload = (upload) => {
+    this.setState({
+      editing: true,
+      profilepic: upload.target.result
+    });
+  };
+
+  // Tell the brower to read the image in as a data URL!
+  reader.readAsDataURL(file);
+}
+
+/**
+ * Tells the browser to request a file from the user.
+ */
+triggerImageUpload(e) {
+  e.preventDefault();
+  // Click the input HTML element to trigger a file selection dialog.
+  this.refs.file.click();
+  this.setState({
+    editing: true,
+
+  });
+}
+
+
 
   render() {
     // return (<div>None</div>);
@@ -224,9 +264,10 @@ handleRemoveClasses(event) {
                   <div className="col-md-6">
                     <div className="additionalPadding">
                       <div className="profile-pic">
-                        <img src={this.state.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"/>
-
-                      <span className="glyphicon glyphicon-camera"></span>Edit Picture
+                        <img src={this.state.profilepic} alt="profile-pic" className="img-thumbnail img-responsive profile-pic-size"
+                                    onClick={(e) => this.triggerImageUpload(e)}/>
+                          <input ref="file" type="file" name="file" accept=".jpg,.jpeg,.png,.gif" onChange={(e) => this.uploadImage(e)}/>
+                          <span className="glyphicon glyphicon-camera"></span>
                       </div>
                     </div>
                   </div>

@@ -984,7 +984,8 @@ app.post('/messagebox/:box_msg_id/send/:user_id', validate({body: MessageSchema}
             academic_institution: userData.academic_institution,
             education_level: userData.education_level,
             favorite_quote: userData.favorite_quote,
-            classes_taken: userData.classes_taken
+            classes_taken: userData.classes_taken,
+            profilepic: userData.profilepic
           }
         }, function(err) {
           if (err) {
