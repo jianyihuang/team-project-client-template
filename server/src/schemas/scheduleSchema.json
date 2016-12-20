@@ -1,39 +1,39 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
-    "completed": {
-      "type": "string",
-      "id": "completed"
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "completed": {
+            "type": "string",
+            "id": "completed"
+        },
+        "author": {
+            "type": "string",
+            "id": "author"
+        },
+        "subscriber": {
+            "type": "string",
+            "id": "subscriber"
+        },
+        "date": {
+            "type": "string",
+            "id": "date"
+        },
+        "time": {
+            "type": "string",
+            "id": "time"
+        },
+        "serviceContents": {
+            "type": "string",
+            "id": "serviceContents"
+        }
     },
-    "author": {
-      "type": "string",
-      "id": "author"
-    },
-    "subscriber": {
-      "type": "string",
-      "id": "subscriber"
-    },
-    "date": {
-      "type": "string",
-      "id": "date"
-    },
-    "time": {
-      "type": "string",
-      "id": "time"
-    },
-    "serviceContents": {
-      "type": "string",
-      "id": "serviceContents"
-    }
-  },
-  "id": "/",
-  "required": [
-    "completed",
-    "author",
-    "subscriber",
-    "date",
-    "time",
-    "serviceContents"
-  ]
+    "id": "/",
+    "required": [
+        "completed",
+        "author",
+        "subscriber",
+        "date",
+        "time",
+        "serviceContents"
+    ]
 }

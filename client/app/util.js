@@ -1,3 +1,3 @@
 export function unixTimeToString(time) {
-	return new Date(time).toLocaleString();
+    return new Date(time).toLocaleString();
 }

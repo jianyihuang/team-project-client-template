@@ -1,34 +1,34 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
-    "author": {
-      "type": "string",
-      "id": "author"
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "author": {
+            "type": "string",
+            "id": "author"
+        },
+        "request": {
+            "type": "string",
+            "id": "request"
+        },
+        "contents": {
+            "type": "string",
+            "id": "contents"
+        },
+        "imgUrl": {
+            "type": "string",
+            "id": "imgUrl"
+        },
+        "category": {
+            "type": "string",
+            "id": "category"
+        }
     },
-    "request": {
-      "type": "string",
-      "id": "request"
-    },
-    "contents": {
-      "type": "string",
-      "id": "contents"
-    },
-    "imgUrl": {
-      "type": "string",
-      "id": "imgUrl"
-    },
-    "category": {
-      "type": "string",
-      "id": "category"
-    }
-  },
-  "id": "/",
-  "required": [
-    "author",
-    "request",
-    "contents",
-    "imgUrl",
-    "category"
-  ]
+    "id": "/",
+    "required": [
+        "author",
+        "request",
+        "contents",
+        "imgUrl",
+        "category"
+    ]
 }

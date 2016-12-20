@@ -1,458 +1,466 @@
 // Your startup's initial mock objects go here
 var initialData = {
-  "users":{
-    "1":{
-      "_id":1,
-      "first_name": "Karen",
-      "last_name":"Zheung",
-      "profilepic": 'img/cat.jpeg',
-      "username": "Karen",
-      "password": "123abc",
-      "email": "kzheung@umass.edu",
-      "favorite_quote": "Meow meow",
-      "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["CS311", "MATH132", "CS250", "CS220", "ENGLISH112", "CS121"],
-      "education_level": "Junior",
-      "academic_institution": "Umass Amherst",
-      //start of references
-      "Academic_feed": 1,
-      "Service_feed": 1,
-      "schedules": [1,2,3,4,5,6,7],
-      "messageboxes":[1],
-      "Academic_savedlists": 1,
-      "Service_savedlists": 1
+    "users": {
+        "1": {
+            "_id": 1,
+            "first_name": "Karen",
+            "last_name": "Zheung",
+            "profilepic": 'img/cat.jpeg',
+            "username": "Karen",
+            "password": "123abc",
+            "email": "kzheung@umass.edu",
+            "favorite_quote": "Meow meow",
+            "areas_of_interest": ["Art", "Astronomy", "Technology"],
+            "classes_taken": ["CS311", "MATH132", "CS250", "CS220", "ENGLISH112", "CS121"],
+            "education_level": "Junior",
+            "academic_institution": "Umass Amherst",
+            //start of references
+            "Academic_feed": 1,
+            "Service_feed": 1,
+            "schedules": [1, 2, 3, 4, 5, 6, 7],
+            "messageboxes": [1],
+            "Academic_savedlists": 1,
+            "Service_savedlists": 1
+        },
+
+        "2": {
+            "_id": 2,
+            "first_name": "Thien",
+            "last_name": "Dinh",
+            "profilepic": 'img/kiwi.jpg',
+            "username": "Thien",
+            "password": "Thien'sPassword",
+            "email": "tddinh@umass.edu",
+            "favorite_quote": "You become what you think about.",
+            "areas_of_interest": ["Art", "Astronomy", "Technology"],
+            "classes_taken": ["CS311", "MATH132", "CS250"],
+            "education_level": "Junior",
+            "academic_institution": "Umass Amherst",
+            //start of references
+            "Academic_feed": 1,
+            "Service_feed": 1,
+            "schedules": [1],
+            "messageboxes": [1],
+            "Academic_savedlists": 1,
+            "Service_savedlists": 1
+        },
+
+        "3": {
+            "_id": 3,
+            "first_name": "Timothy",
+            "last_name": "Addai",
+            "profilepic": 'img/pug.jpg',
+            "username": "Tim",
+            "password": "Timtimpass",
+            "email": "taddai@umass.edu",
+            "favorite_quote": "I have a dream.",
+            "areas_of_interest": ["Art", "Astronomy", "Technology"],
+            "classes_taken": ["CS311", "MATH132", "CS250"],
+            "education_level": "Junior",
+            "academic_institution": "Umass Amherst",
+            //start of references
+            "Academic_feed": 1,
+            "Service_feed": 1,
+            "schedules": [1],
+            "messageboxes": [1],
+            "Academic_savedlists": 1,
+            "Service_savedlists": 1
+        },
+
+        "4": {
+            "_id": 4,
+            "first_name": "Jucong",
+            "last_name": "He",
+            "profilepic": 'img/question_img.jpeg',
+            "username": "Jucong",
+            "password": "123abc",
+            "email": "juconghe@umass.edu",
+            "favorite_quote": "CSS Expert has nothing to say.",
+            "areas_of_interest": ["Art", "Astronomy", "Technology"],
+            "classes_taken": ["CS311", "MATH132", "CS250"],
+            "education_level": "Junior",
+            "academic_institution": "Umass Amherst",
+            //start of references
+            "Academic_feed": 1,
+            "Service_feed": 1,
+            "schedules": [1],
+            "messageboxes": [1],
+            "Academic_savedlists": 1,
+            "Service_savedlists": 1
+        },
+
+        "5": {
+            "_id": 5,
+            "first_name": "Xin",
+            "last_name": "Liu",
+            "profilepic": 'img/dog.jpg',
+            "username": "Xin",
+            "password": "XinPass",
+            "email": "xliu0@umass.edu",
+            "favorite_quote": "Scheduling like a boss.",
+            "areas_of_interest": ["Art", "Astronomy", "Technology"],
+            "classes_taken": ["CS311", "MATH132", "CS250"],
+            "education_level": "Junior",
+            "academic_institution": "Umass Amherst",
+            //start of references
+            "Academic_feed": 1,
+            "Service_feed": 1,
+            "schedules": [1],
+            "messageboxes": [1],
+            "Academic_savedlists": 1,
+            "Service_savedlists": 1
+        },
+
+        "6": {
+            "_id": 6,
+            "first_name": "Jianyi",
+            "last_name": "Huang",
+            "profilepic": 'img/student.jpg',
+            "username": "JianYi",
+            "password": "HuangJianyi!@#",
+            "email": "jianyihuang@umass.edu",
+            "favorite_quote": "You only live once.",
+            "areas_of_interest": ["Art", "Astronomy", "Technology"],
+            "classes_taken": ["CS311", "MATH132", "CS250"],
+            "education_level": "Junior",
+            "academic_institution": "Umass Amherst",
+            //start of references
+            "Academic_feed": 1,
+            "Service_feed": 1,
+            "schedules": [1],
+            "messageboxes": [1],
+            "Academic_savedlists": 1,
+            "Service_savedlists": 1
+        }
     },
 
-    "2":{
-      "_id":2,
-      "first_name": "Thien",
-      "last_name":"Dinh",
-      "profilepic": 'img/kiwi.jpg',
-      "username": "Thien",
-      "password": "Thien'sPassword",
-      "email": "tddinh@umass.edu",
-      "favorite_quote": "You become what you think about.",
-      "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["CS311", "MATH132", "CS250"],
-      "education_level": "Junior",
-      "academic_institution": "Umass Amherst",
-      //start of references
-      "Academic_feed": 1,
-      "Service_feed": 1,
-      "schedules": [1],
-      "messageboxes":[1],
-      "Academic_savedlists": 1,
-      "Service_savedlists": 1
+    "tasks": {
+        "1": {
+            "_id": 1,
+            "completed": false,
+            "contents": {
+                //ID of the user that the appointment is with
+                "party": 3,
+                "date": "10/6/2016",
+                "timestamp_start": "8:00 am",
+                "timestamp_end": "12:00 pm",
+                "contents": "MATH411"
+            }
+        },
+        "2": {
+            "_id": 2,
+            "completed": false,
+            "contents": {
+                // ID of the user that the appointment is with
+                "party": 2,
+                "date": "10/6/2016",
+                "timestamp_start": "8:00 am",
+                "timestamp_end": "12:00 pm",
+                "contents": "CS 250"
+            }
+        }
     },
 
-    "3":{
-      "_id":3,
-      "first_name": "Timothy",
-      "last_name":"Addai",
-      "profilepic": 'img/pug.jpg',
-      "username": "Tim",
-      "password": "Timtimpass",
-      "email": "taddai@umass.edu",
-      "favorite_quote": "I have a dream.",
-      "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["CS311", "MATH132", "CS250"],
-      "education_level": "Junior",
-      "academic_institution": "Umass Amherst",
-      //start of references
-      "Academic_feed": 1,
-      "Service_feed": 1,
-      "schedules": [1],
-      "messageboxes":[1],
-      "Academic_savedlists": 1,
-      "Service_savedlists": 1
+    "schedules": {
+        "1": {
+            "_id": 1,
+            "completed": "COMPLETED",
+            "contents": {
+                "author": "Tim",
+                "subscriber": "Karen",
+                "date": "5/12/2015",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 250"
+            }
+        },
+        "2": {
+            "_id": 2,
+            "completed": "COMPLETED",
+            "contents": {
+                // ID of the user that the appointment is with
+                "author": "Jucong",
+                "subscriber": "Richards",
+                "date": "2/6/2011",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 250"
+            }
+        },
+        "3": {
+            "_id": 3,
+            "completed": "COMPLETED",
+            "contents": {
+                // ID of the user that the appointment is with
+                "author": "Karen",
+                "subscriber": "JianYi",
+                "date": "12/16/2006",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 311"
+            }
+        },
+        "4": {
+            "_id": 4,
+            "completed": "COMPLETED",
+            "contents": {
+                "author": "Karen",
+                "subscriber": "Xin",
+                "date": "09/6/2016",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 121"
+            }
+        },
+        "5": {
+            "_id": 5,
+            "completed": "COMPLETED",
+            "contents": {
+                "author": "Xin",
+                "subscriber": "Jucong",
+                "date": "10/6/2016",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 121"
+            }
+        },
+        "6": {
+            "_id": 6,
+            "completed": "COMPLETED",
+            "contents": {
+                "author": "Karen",
+                "subscriber": "Thien",
+                "date": "11/6/2013",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 121"
+            }
+        },
+        "7": {
+            "_id": 7,
+            "completed": "COMPLETED",
+            "contents": {
+                "author": "Thien",
+                "subscriber": "Jucong",
+                "date": "10/6/1996",
+                "time": "8:00 am - 12am",
+                "serviceContents": "CS 220"
+            }
+        }
     },
 
-    "4":{
-      "_id":4,
-      "first_name": "Jucong",
-      "last_name":"He",
-      "profilepic": 'img/question_img.jpeg',
-      "username": "Jucong",
-      "password": "123abc",
-      "email": "juconghe@umass.edu",
-      "favorite_quote": "CSS Expert has nothing to say.",
-      "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["CS311", "MATH132", "CS250"],
-      "education_level": "Junior",
-      "academic_institution": "Umass Amherst",
-      //start of references
-      "Academic_feed": 1,
-      "Service_feed": 1,
-      "schedules": [1],
-      "messageboxes":[1],
-      "Academic_savedlists": 1,
-      "Service_savedlists": 1
+    "messageboxes": {
+        "1": {
+            "_id": 1,
+            "list_of_users": [6, 3, 5, 4, 1, 2],
+            "list_of_messages_by_users_in_box": [{
+                user_id: 6,
+                timestamp: 1479148390962,
+                content: 'the current homepage we have wont count as a page. It would make sense that after the user logs in they are directed to the academic or academic subject page but someone is doing those pages already'
+            }, {
+                user_id: 3,
+                timestamp: 1479148390962,
+                content: 'is the academic page the one with the grids. I know but I gotta study for interview,so im trynna get basic in then improve upon it'
+            }, {
+                user_id: 5,
+                timestamp: 1479148390962,
+                content: 'how are you guys doing I am considering adding some material design concept in UI'
+            }, {
+                user_id: 4,
+                timestamp: 1479148390962,
+                content: 'good job, Jucong. You may create a writeup document for the team if you want.'
+            }, {
+                user_id: 5,
+                timestamp: 1479148390962,
+                content: 'I only have time after 5 tmr'
+            }, {
+                user_id: 4,
+                timestamp: 1479148390962,
+                content: 'ok ok ok guys, it\'s fine. We\'ll figure this out.'
+            }, {
+                user_id: 5,
+                timestamp: 1479148390962,
+                content: 'If possible, can you guys all implement the floating effect ? It\'s very straight forward'
+            }, {
+                user_id: 1,
+                timestamp: 1479148390962,
+                content: 'I changed the config if you are satisfied with that I will add the css'
+            }, {
+                user_id: 2,
+                timestamp: 1479148390962,
+                content: 'I thought someone else is doing that one. I can do that too.'
+            }],
+            "creation_timestamp": 1479148390962
+        }
     },
 
-    "5":{
-      "_id":5,
-      "first_name": "Xin",
-      "last_name":"Liu",
-      "profilepic": 'img/dog.jpg',
-      "username": "Xin",
-      "password": "XinPass",
-      "email": "xliu0@umass.edu",
-      "favorite_quote": "Scheduling like a boss.",
-      "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["CS311", "MATH132", "CS250"],
-      "education_level": "Junior",
-      "academic_institution": "Umass Amherst",
-      //start of references
-      "Academic_feed": 1,
-      "Service_feed": 1,
-      "schedules": [1],
-      "messageboxes":[1],
-      "Academic_savedlists": 1,
-      "Service_savedlists": 1
+    "classes": {
+        "1": {
+            "_id": 1,
+            "course_id": "CS311",
+            "course_title": "Introduction to Algorithms"
+        },
+        "2": {
+            "_id": 2,
+            "course_id": "CS250",
+            "course_title": "Introduction to Computation"
+        },
+        "3": {
+            "_id": 3,
+            "course_id": "MATH132",
+            "course_title": "Calculus 2"
+        }
     },
 
-    "6":{
-      "_id":6,
-      "first_name": "Jianyi",
-      "last_name":"Huang",
-      "profilepic": 'img/student.jpg',
-      "username": "JianYi",
-      "password": "HuangJianyi!@#",
-      "email": "jianyihuang@umass.edu",
-      "favorite_quote": "You only live once.",
-      "areas_of_interest":["Art", "Astronomy", "Technology"],
-      "classes_taken":["CS311", "MATH132", "CS250"],
-      "education_level": "Junior",
-      "academic_institution": "Umass Amherst",
-      //start of references
-      "Academic_feed": 1,
-      "Service_feed": 1,
-      "schedules": [1],
-      "messageboxes":[1],
-      "Academic_savedlists": 1,
-      "Service_savedlists": 1
-      }
+    "Academic_savedlists": {
+        "1": {
+            "_id": 1,
+            "list_of_feeditems": [1]
+        }
     },
 
-  "tasks":{
-    "1":{
-    "_id": 1,
-    "completed": false,
-    "contents": {
-      //ID of the user that the appointment is with
-      "party" : 3,
-      "date" : "10/6/2016",
-      "timestamp_start": "8:00 am",
-      "timestamp_end": "12:00 pm",
-      "contents": "MATH411"
+    "Service_savedlists": {
+        "1": {
+            "_id": 1,
+            "list_of_posts": [1]
+        }
+    },
+
+    "feedItems": {
+        "1": {
+            "_id": 1,
+            // references post item for content
+            "view_count": 25,
+            "likeCounter": [1],
+            // Taggs are by course_id
+            "tag": 1,
+            "list_of_comments": [1, 2],
+            "contents": {
+                "author": 1,
+                "timestamp": 1453668480000,
+                "request": "Oh god! CS311 homework is too hard! PlZZZ help",
+                "contents": "sending hugs your way",
+                "imgUrl": "img/question_img.jpeg"
+            }
+        },
+        "2": {
+            "_id": 2,
+            // references post item for content
+            "view_count": 2,
+            "likeCounter": [1],
+            // Taggs are by course_id
+            "tag": 1,
+            "list_of_comments": [1, 2],
+            "contents": {
+                "author": 1,
+                "timestamp": 1453668480000,
+                "request": "Oh god! Chinese homework is too hard! PlZZZ help",
+                "contents": "呵呵呵呵呵呵呵呵呵呵",
+                "imgUrl": "img/history.jpg"
+            }
+        },
+        "3": {
+            "_id": 3,
+            // references post item for content
+            "view_count": 0,
+            "likeCounter": [1],
+            // Taggs are by course_id
+            "tag": 1,
+            "list_of_comments": [1, 2],
+            "contents": {
+                "author": 1,
+                "timestamp": 1453668480000,
+                "request": "Oh god! My toilet was stucked! PlZZZ help",
+                "contents": "呵呵呵呵呵呵呵呵呵呵",
+                "imgUrl": "img/toilet_stuck.jpg"
+            }
+        }
+    },
+
+    "comments": {
+        "1": {
+            "_id": 1,
+            "author": 1,
+            "timestamp": 1453668480000,
+            "contents": "I can help!"
+        },
+        "2": {
+            "_id": 2,
+            "author": 1,
+            "timestamp": 1453668480000,
+            "contents": "I can help!"
+        }
+    },
+
+    "servicefeeds": {
+        // service feed for user 1, Karen
+        "1": {
+            "_id": 1,
+            // references to the ids of the post(s) in feed 1
+            "list_of_feeditems": [3]
+        }
+    },
+
+    "academicfeeds": {
+        // academic feed for karen
+        "1": {
+            "_id": 1,
+            "list_of_feeditems": [1, 2]
+        }
+    },
+
+    "servicetags": {
+        "1": {
+            "_id": 1,
+            "type_of_service": "Computer Science"
+        },
+        "2": {
+            "_id": 2,
+            "type_of_service": "Math"
+        },
+        "3": {
+            "_id": 3,
+            "type_of_service": "Music"
+        },
+        "4": {
+            "_id": 4,
+            "type_of_service": "History"
+        },
+        "5": {
+            "_id": 5,
+            "type_of_service": "Physics"
+        },
+        "6": {
+            "_id": 6,
+            "type_of_service": "English"
+        },
+        "7": {
+            "_id": 7,
+            "type_of_service": "Pet Related"
+        },
+        "8": {
+            "_id": 8,
+            "type_of_service": "Home Improvement"
+        },
+        "9": {
+            "_id": 9,
+            "type_of_service": "Travel"
+        },
+        "10": {
+            "_id": 10,
+            "type_of_service": "Yard"
+        },
+        "11": {
+            "_id": 11,
+            "type_of_service": "Plumer"
+        },
+        "12": {
+            "_id": 12,
+            "type_of_service": "Car Pool"
+        }
+    },
+
+
+    "likelists": {
+        "1": {
+            "_id": 1,
+            "list_of_users": [1, 2]
+        }
     }
-  },
-    "2":{
-      "_id": 2,
-      "completed": false,
-      "contents": {
-        // ID of the user that the appointment is with
-        "party" : 2,
-        "date" : "10/6/2016",
-        "timestamp_start": "8:00 am",
-        "timestamp_end": "12:00 pm",
-        "contents": "CS 250"
-      }
-    }
-  },
-
-  "schedules":{
-    "1":{
-      "_id": 1,
-      "completed": "COMPLETED",
-      "contents": {
-        "author": "Tim",
-        "subscriber" : "Karen",
-        "date" : "5/12/2015",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 250"
-      }
-    },
-    "2":{
-      "_id": 2,
-      "completed": "COMPLETED",
-      "contents": {
-        // ID of the user that the appointment is with
-        "author": "Jucong",
-        "subscriber" : "Richards",
-        "date" : "2/6/2011",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 250"
-      }
-    },
-    "3":{
-      "_id": 3,
-      "completed": "COMPLETED",
-      "contents": {
-        // ID of the user that the appointment is with
-        "author": "Karen",
-        "subscriber" : "JianYi",
-        "date" : "12/16/2006",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 311"
-      }
-    },
-    "4":{
-      "_id": 4,
-      "completed": "COMPLETED",
-      "contents": {
-        "author": "Karen",
-        "subscriber" : "Xin",
-        "date" : "09/6/2016",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 121"
-      }
-    },
-    "5":{
-      "_id": 5,
-      "completed": "COMPLETED",
-      "contents": {
-        "author": "Xin",
-        "subscriber" : "Jucong",
-        "date" : "10/6/2016",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 121"
-      }
-    },
-    "6":{
-      "_id": 6,
-      "completed": "COMPLETED",
-      "contents": {
-        "author": "Karen",
-        "subscriber" : "Thien",
-        "date" : "11/6/2013",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 121"
-      }
-    },
-    "7":{
-      "_id": 7,
-      "completed": "COMPLETED",
-      "contents": {
-        "author": "Thien",
-        "subscriber" : "Jucong",
-        "date" : "10/6/1996",
-        "time": "8:00 am - 12am",
-        "serviceContents": "CS 220"
-      }
-    }
-  },
-
-  "messageboxes":{
-    "1":{
-      "_id": 1,
-      "list_of_users":[6, 3, 5, 4, 1, 2],
-      "list_of_messages_by_users_in_box":[
-          {
-          user_id: 6, timestamp: 1479148390962, content: 'the current homepage we have wont count as a page. It would make sense that after the user logs in they are directed to the academic or academic subject page but someone is doing those pages already'
-          },
-          {
-          user_id: 3, timestamp: 1479148390962, content: 'is the academic page the one with the grids. I know but I gotta study for interview,so im trynna get basic in then improve upon it'
-          },
-          {
-          user_id: 5, timestamp: 1479148390962, content: 'how are you guys doing I am considering adding some material design concept in UI'
-          },
-          {
-          user_id: 4, timestamp: 1479148390962, content: 'good job, Jucong. You may create a writeup document for the team if you want.'
-          },
-          {
-          user_id: 5, timestamp: 1479148390962, content: 'I only have time after 5 tmr'
-          },
-          {
-          user_id: 4, timestamp: 1479148390962, content: 'ok ok ok guys, it\'s fine. We\'ll figure this out.'
-          },
-          {
-          user_id: 5, timestamp: 1479148390962, content: 'If possible, can you guys all implement the floating effect ? It\'s very straight forward'
-          },
-          {
-          user_id: 1, timestamp: 1479148390962, content: 'I changed the config if you are satisfied with that I will add the css'
-          },
-          {
-          user_id: 2, timestamp: 1479148390962, content: 'I thought someone else is doing that one. I can do that too.'
-          }
-        ],
-        "creation_timestamp": 1479148390962
-    }
-  },
-
-  "classes":{
-    "1":{
-      "_id": 1,
-      "course_id": "CS311",
-      "course_title": "Introduction to Algorithms"
-    },
-    "2":{
-      "_id": 2,
-      "course_id": "CS250",
-      "course_title": "Introduction to Computation"
-    },
-    "3":{
-      "_id": 3,
-      "course_id": "MATH132",
-      "course_title": "Calculus 2"
-    }
-  },
-
-  "Academic_savedlists":{
-    "1":{
-      "_id": 1,
-      "list_of_feeditems":[1]
-    }
-  },
-
-  "Service_savedlists":{
-    "1":{
-      "_id": 1,
-      "list_of_posts":[1]
-    }
-  },
-
-  "feedItems":{
-    "1":{
-      "_id": 1,
-      // references post item for content
-      "view_count": 25,
-      "likeCounter": [1],
-      // Taggs are by course_id
-      "tag": 1,
-      "list_of_comments":[1,2],
-      "contents": {
-        "author": 1,
-        "timestamp": 1453668480000,
-        "request": "Oh god! CS311 homework is too hard! PlZZZ help",
-        "contents": "sending hugs your way",
-        "imgUrl":"img/question_img.jpeg"
-      }
-    },
-    "2":{
-      "_id": 2,
-      // references post item for content
-      "view_count": 2,
-      "likeCounter": [1],
-      // Taggs are by course_id
-      "tag": 1,
-      "list_of_comments":[1,2],
-      "contents": {
-        "author": 1,
-        "timestamp": 1453668480000,
-        "request": "Oh god! Chinese homework is too hard! PlZZZ help",
-        "contents": "呵呵呵呵呵呵呵呵呵呵",
-        "imgUrl":"img/history.jpg"
-      }
-    },
-    "3":{
-      "_id": 3,
-      // references post item for content
-      "view_count": 0,
-      "likeCounter": [1],
-      // Taggs are by course_id
-      "tag": 1,
-      "list_of_comments":[1,2],
-      "contents": {
-        "author": 1,
-        "timestamp": 1453668480000,
-        "request": "Oh god! My toilet was stucked! PlZZZ help",
-        "contents": "呵呵呵呵呵呵呵呵呵呵",
-        "imgUrl":"img/toilet_stuck.jpg"
-      }
-    }
-  },
-
-  "comments":{
-    "1":{
-      "_id": 1,
-      "author": 1,
-      "timestamp": 1453668480000,
-      "contents": "I can help!"
-    },
-    "2":{
-      "_id": 2,
-      "author": 1,
-      "timestamp": 1453668480000,
-      "contents": "I can help!"
-    }
-  },
-
-  "servicefeeds":{
-    // service feed for user 1, Karen
-    "1":{
-      "_id": 1,
-      // references to the ids of the post(s) in feed 1
-      "list_of_feeditems":[3]
-    }
-  },
-
-  "academicfeeds":{
-    // academic feed for karen
-    "1":{
-      "_id": 1,
-      "list_of_feeditems":[1,2]
-    }
-  },
-
-  "servicetags":{
-    "1":{
-      "_id": 1,
-      "type_of_service": "Computer Science"
-    },
-    "2":{
-      "_id": 2,
-      "type_of_service": "Math"
-    },
-    "3":{
-      "_id": 3,
-      "type_of_service": "Music"
-    },
-    "4":{
-      "_id": 4,
-      "type_of_service": "History"
-    },
-    "5":{
-      "_id": 5,
-      "type_of_service": "Physics"
-    },
-    "6":{
-      "_id": 6,
-      "type_of_service": "English"
-    },
-    "7":{
-      "_id": 7,
-      "type_of_service": "Pet Related"
-    },
-    "8":{
-      "_id": 8,
-      "type_of_service": "Home Improvement"
-    },
-    "9":{
-      "_id": 9,
-      "type_of_service": "Travel"
-    },
-    "10":{
-      "_id": 10,
-      "type_of_service": "Yard"
-    },
-    "11":{
-      "_id": 11,
-      "type_of_service": "Plumer"
-    },
-    "12":{
-      "_id": 12,
-      "type_of_service": "Car Pool"
-    }
-  },
-
-
-  "likelists":{
-    "1":{
-      "_id": 1,
-      "list_of_users":[1, 2]
-    }
-  }
 
 };
 
@@ -462,18 +470,18 @@ var data;
 var updated = false;
 // Pull in Node's file system and path modules.
 var fs = require('fs'),
-  path = require('path');
+    path = require('path');
 
 try {
-  // ./database.json may be missing. The comment below prevents ESLint from
-  // complaining about it.
-  // Read more about configuration comments at the following URL:
-  // http://eslint.org/docs/user-guide/configuring#configuring-rules
-  /* eslint "node/no-missing-require": "off" */
-  data = require('./database.json');
+    // ./database.json may be missing. The comment below prevents ESLint from
+    // complaining about it.
+    // Read more about configuration comments at the following URL:
+    // http://eslint.org/docs/user-guide/configuring#configuring-rules
+    /* eslint "node/no-missing-require": "off" */
+    data = require('./database.json');
 } catch (e) {
-  // ./database.json is missing. Use the seed data defined above
-  data = JSONClone(initialData);
+    // ./database.json is missing. Use the seed data defined above
+    data = JSONClone(initialData);
 }
 
 /**
@@ -481,7 +489,7 @@ try {
  * deserializes it.
  */
 function JSONClone(obj) {
-  return JSON.parse(JSON.stringify(obj));
+    return JSON.parse(JSON.stringify(obj));
 }
 
 /**
@@ -490,17 +498,17 @@ function JSONClone(obj) {
  * half of the course. :)
  */
 function readDocument(collection, id) {
-  // Clone the data. We do this to model a database, where you receive a
-  // *copy* of an object and not the object itself.
-  var collectionObj = data[collection];
-  if (!collectionObj) {
-    throw new Error(`Object collection ${collection} does not exist in the database!`);
-  }
-  var obj = collectionObj[id];
-  if (obj === undefined) {
-    throw new Error(`Object ${id} does not exist in object collection ${collection} in the database!`);
-  }
-  return JSONClone(data[collection][id]);
+    // Clone the data. We do this to model a database, where you receive a
+    // *copy* of an object and not the object itself.
+    var collectionObj = data[collection];
+    if (!collectionObj) {
+        throw new Error(`Object collection ${collection} does not exist in the database!`);
+    }
+    var obj = collectionObj[id];
+    if (obj === undefined) {
+        throw new Error(`Object ${id} does not exist in object collection ${collection} in the database!`);
+    }
+    return JSONClone(data[collection][id]);
 }
 module.exports.readDocument = readDocument;
 
@@ -508,14 +516,14 @@ module.exports.readDocument = readDocument;
  * Emulates writing a "document" to a NoSQL database.
  */
 function writeDocument(collection, changedDocument) {
-  var id = changedDocument._id;
-  if (id === undefined) {
-    throw new Error(`You cannot write a document to the database without an _id! Use AddDocument if this is a new object.`);
-  }
-  // Store a copy of the object into the database. Models a database's behavior.
-  data[collection][id] = JSONClone(changedDocument);
-  // Update our 'database'.
-  updated = true;
+    var id = changedDocument._id;
+    if (id === undefined) {
+        throw new Error(`You cannot write a document to the database without an _id! Use AddDocument if this is a new object.`);
+    }
+    // Store a copy of the object into the database. Models a database's behavior.
+    data[collection][id] = JSONClone(changedDocument);
+    // Update our 'database'.
+    updated = true;
 }
 module.exports.writeDocument = writeDocument;
 
@@ -523,17 +531,17 @@ module.exports.writeDocument = writeDocument;
  * Adds a new document to the NoSQL database.
  */
 function addDocument(collectionName, newDoc) {
-  var collection = data[collectionName];
-  var nextId = Object.keys(collection).length;
-  if (newDoc.hasOwnProperty('_id')) {
-    throw new Error(`You cannot add a document that already has an _id. addDocument is for new documents that do not have an ID yet.`);
-  }
-  while (collection[nextId]) {
-    nextId++;
-  }
-  newDoc._id = nextId;
-  writeDocument(collectionName, newDoc);
-  return newDoc;
+    var collection = data[collectionName];
+    var nextId = Object.keys(collection).length;
+    if (newDoc.hasOwnProperty('_id')) {
+        throw new Error(`You cannot add a document that already has an _id. addDocument is for new documents that do not have an ID yet.`);
+    }
+    while (collection[nextId]) {
+        nextId++;
+    }
+    newDoc._id = nextId;
+    writeDocument(collectionName, newDoc);
+    return newDoc;
 }
 module.exports.addDocument = addDocument;
 
@@ -541,12 +549,12 @@ module.exports.addDocument = addDocument;
  * Deletes a document from an object collection.
  */
 function deleteDocument(collectionName, id) {
-  var collection = data[collectionName];
-  if (!collection[id]) {
-    throw new Error(`Collection ${collectionName} lacks an item with id ${id}!`);
-  }
-  delete collection[id];
-  updated = true;
+    var collection = data[collectionName];
+    if (!collection[id]) {
+        throw new Error(`Collection ${collectionName} lacks an item with id ${id}!`);
+    }
+    delete collection[id];
+    updated = true;
 }
 module.exports.deleteDocument = deleteDocument;
 
@@ -554,7 +562,7 @@ module.exports.deleteDocument = deleteDocument;
  * Returns an entire object collection.
  */
 function getCollection(collectionName) {
-  return JSONClone(data[collectionName]);
+    return JSONClone(data[collectionName]);
 }
 module.exports.getCollection = getCollection;
 
@@ -562,16 +570,18 @@ module.exports.getCollection = getCollection;
  * Reset the database.
  */
 function resetDatabase() {
-  data = JSONClone(initialData);
-  updated = true;
+    data = JSONClone(initialData);
+    updated = true;
 }
 module.exports.resetDatabase = resetDatabase;
 
 // Periodically updates the database on the hard drive
 // when changed.
 setInterval(function() {
-  if (updated) {
-    fs.writeFileSync(path.join(__dirname, 'database.json'), JSON.stringify(data), { encoding: 'utf8' });
-    updated = false;
-  }
+    if (updated) {
+        fs.writeFileSync(path.join(__dirname, 'database.json'), JSON.stringify(data), {
+            encoding: 'utf8'
+        });
+        updated = false;
+    }
 }, 200);

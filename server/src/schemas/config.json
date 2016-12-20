@@ -1,24 +1,24 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
-    "userId": {
-      "type": "string"
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "userId": {
+            "type": "string"
+        },
+        "username": {
+            "type": "string"
+        },
+        "password": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        }
     },
-    "username": {
-      "type": "string"
-    },
-    "password": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string"
-    }
-  },
-  "required": [
-    "userId",
-    "username",
-    "password",
-    "email"
-  ]
+    "required": [
+        "userId",
+        "username",
+        "password",
+        "email"
+    ]
 }

@@ -1,15 +1,15 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
-    "content": {
-      "type": "string",
-      "id": "content"
-    }
-  },
-  "id": "/",
-  "additionalProperties": false,
-  "required": [
-    "content"
-  ]
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "content": {
+            "type": "string",
+            "id": "content"
+        }
+    },
+    "id": "/",
+    "additionalProperties": false,
+    "required": [
+        "content"
+    ]
 }
